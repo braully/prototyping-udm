@@ -1,0 +1,6 @@
+[submodule "external-module/SB-Admin-BS4-Angular-2"]
+	path = external-module/SB-Admin-BS4-Angular-2
+	url = https://github.com/start-angular/SB-Admin-BS4-Angular-2
+[submodule "external-module/sb-admin-angular"]
+	path = external-module/sb-admin-angular
+	url = https://github.com/start-angular/sb-admin-angular
