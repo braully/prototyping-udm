@@ -88,12 +88,12 @@
                                 <exclude>index.html</exclude>
                             </excludes>
                         </resource>
-                        <resource>
+<!--                        <resource>
                             <directory>${directory.template.base}</directory>                            
                             <excludes>
                                 <exclude>index.html</exclude>
                             </excludes>
-                        </resource>                        
+                        </resource>                        -->
                     </webResources>
                 </configuration>
             </plugin>
