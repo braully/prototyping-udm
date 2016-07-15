@@ -1,3 +1,15 @@
 {
-    
+    "BLANK": "Em Branco",
+    "TOGGLE_NAVIGATION": "Alternar Navegação",
+    "ALL_MESSAGES": "Ler Todas Mensagens",
+    "ALL_TASKS": "Ver Todas as Tarefas",
+    "ALL_ALERTS": "Ver Todos os Alertas",
+    "USER_PROFILE": "Minha Conta",
+    "SETTINGS": "Configurações",
+    "LOGOUT": "Sair",
+    "COMPLETE": "Completo",
+    "SIGN_IN": "Informações de Acesso",
+    "REMEMBER_ME": "Lembrar",
+    "LOGIN": "Entrar",
+    "PASSWORD": "Senha"
 }

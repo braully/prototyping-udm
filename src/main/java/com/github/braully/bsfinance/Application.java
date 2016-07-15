@@ -7,8 +7,9 @@ package com.github.braully.bsfinance;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
             "com.github.braully.domain"
         }
 )
-public class Application {
+public class Application extends SpringBootServletInitializer {
 
 //    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
 //        "classpath:/META-INF/resources/", "classpath:/resources/",
@@ -29,6 +30,10 @@ public class Application {
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/**").addResourceLocations("file:/path/to/my/dropbox/");
 //    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
