@@ -1,0 +1,16 @@
+{
+    "BLANK": "Blank",
+    "TOGGLE_NAVIGATION": "Toggle navigation",
+    "ALL_MESSAGES": "Read All Messages",
+    "ALL_TASKS": "See All Tasks",
+    "ALL_ALERTS": "See All Alerts",
+    "USER_PROFILE": "User Profile",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout",
+    "COMPLETE": "Complete",
+    "SIGN_IN": "Please Sign In",
+    "REMEMBER_ME": "Remember Me",
+    "LOGIN": "Login",
+    "PASSWORD": "Password"
+
+}
