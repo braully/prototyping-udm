@@ -7,12 +7,10 @@
  *
  * Main module of the application.
  */
-var app = angular.module('baseSimpleFinanceApp', [
-    'oc.lazyLoad',
-    'ui.router',
-    'ui.bootstrap',
-    'angular-loading-bar',
-    'pascalprecht.translate']).config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$translateProvider',
+var app = angular.module('baseSimpleFinanceApp',
+        ['oc.lazyLoad', 'ui.router', 'ui.bootstrap',
+            'angular-loading-bar', 'pascalprecht.translate']
+        ).config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$translateProvider',
     function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider) {
         $ocLazyLoadProvider.config({
             debug: false,
@@ -78,13 +76,11 @@ var app = angular.module('baseSimpleFinanceApp', [
                             })
                 }
             }
+        }).state('views.blank', {
+            templateUrl: 'views/blank.html',
+            url: '/blank'
+        }).state('login', {
+            templateUrl: 'views/login.html',
+            url: '/login'
         })
-                .state('views.blank', {
-                    templateUrl: 'views/blank.html',
-                    url: '/blank'
-                })
-                .state('login', {
-                    templateUrl: 'views/login.html',
-                    url: '/login'
-                })
     }]);

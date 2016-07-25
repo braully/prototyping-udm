@@ -23,7 +23,8 @@
     "angular-dynforms": "^0.0.4",
     "bootstrap": "^3.3.6",
     "angular-translate-loader-static-files": "^2.11.0",
-    "angular-translate": "^2.11.0"
+    "angular-translate": "^2.11.0",
+    "angular-schema-form": "^0.8.13"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

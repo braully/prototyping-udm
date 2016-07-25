@@ -9,8 +9,12 @@ angular.module('baseSimpleFinanceApp').directive('sidebar', ['$location', '$http
             scope: {
             },
             controller:
-                    function ($scope) {
-                        $scope.menu = {};
+                    function ($scope, $http) {
+                        $scope.menus = {};
+                        $http.get('app/user/menu')
+                                .success(function (data) {
+                                    $scope.menus = data;
+                                });
                         $scope.selectedMenu = 'dashboard';
                         $scope.collapseVar = 0;
                         $scope.multiCollapseVar = 0;

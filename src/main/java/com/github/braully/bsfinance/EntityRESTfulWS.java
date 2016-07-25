@@ -29,9 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author strike
  */
 @RestController
-//@RestController(value = "/rest")
-//@RequestMapping("/rest")
-public class EntityRESTfulWS {//extends PagingAndSortingRepository {
+public class EntityRESTfulWS {
 
     private static final Logger log = Logger.getLogger(EntityRESTfulWS.class);
 
