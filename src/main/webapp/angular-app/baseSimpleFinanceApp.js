@@ -9,7 +9,7 @@
  */
 var app = angular.module('baseSimpleFinanceApp',
         ['oc.lazyLoad', 'ui.router', 'ui.bootstrap',
-            'angular-loading-bar', 'pascalprecht.translate']
+            'angular-loading-bar', 'pascalprecht.translate', 'metawidget']
         ).config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$translateProvider',
     function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider) {
         $ocLazyLoadProvider.config({

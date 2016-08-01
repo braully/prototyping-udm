@@ -11,6 +11,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import static j2html.TagCreator.*;
+import j2html.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -30,5 +33,15 @@ public class AngularJSWS {
         m.setLink("/sale");
         ret.add(m);
         return ret;
+    }
+
+    @RequestMapping(value = {"/app/component/form/{classe}"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponent(@PathVariable("classe") String classe) {
+        Tag form = form();
+
+        
+        
+        return form.render();
     }
 }
