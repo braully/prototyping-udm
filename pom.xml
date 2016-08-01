@@ -38,6 +38,25 @@
             <version>0.7</version>
         </dependency>
         <dependency>
+            <groupId>org.metawidget.modules</groupId>
+            <artifactId>metawidget-all</artifactId>
+            <version>4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.metawidget.modules</groupId>
+            <artifactId>metawidget-jpa</artifactId>
+            <version>4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.metawidget.modules.hibernate</groupId>
+            <artifactId>metawidget-hibernate</artifactId>
+            <version>4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate4</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>

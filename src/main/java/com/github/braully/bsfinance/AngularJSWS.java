@@ -6,13 +6,16 @@
 package com.github.braully.bsfinance;
 
 import com.github.braully.domain.Menu;
+import com.github.braully.domain.Partner;
+import com.github.braully.web.GeneratorHtmlAngularBootstrap;
+import com.github.braully.web.HtmlAngularBootstrap;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import static j2html.TagCreator.*;
-import j2html.tags.Tag;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -22,7 +25,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 public class AngularJSWS {
 
-    @RequestMapping(value = {"/app/user/menu"}, method = RequestMethod.GET)
+    private static final String DEFAULT_HTML = "<span>error</span>";
+
+    private static final Map<String, HtmlAngularBootstrap> FORM_ENTITY = new HashMap<>();
+
+    private static final GeneratorHtmlAngularBootstrap GENERATOR_HTML = new GeneratorHtmlAngularBootstrap();
+
+    static {
+        FORM_ENTITY.put("partner", new HtmlAngularBootstrap(Partner.class));
+    }
+
+
+    /*
+    
+     */
+    @RequestMapping(value = {"/app/user/menu"},
+            method = RequestMethod.GET)
     public List<Menu> getUserMenus() {
         List<Menu> ret = new ArrayList<>();
         Menu m = new Menu();
@@ -38,10 +56,11 @@ public class AngularJSWS {
     @RequestMapping(value = {"/app/component/form/{classe}"},
             method = RequestMethod.GET, produces = "text/html")
     public String getComponent(@PathVariable("classe") String classe) {
-        Tag form = form();
-
-        
-        
-        return form.render();
+        String ret = DEFAULT_HTML;
+        HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.render(htmlDescriptor);
+        }
+        return ret;
     }
 }
