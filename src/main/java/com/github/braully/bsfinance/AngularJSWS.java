@@ -35,7 +35,6 @@ public class AngularJSWS {
         FORM_ENTITY.put("partner", new HtmlAngularBootstrap(Partner.class));
     }
 
-
     /*
     
      */
@@ -50,6 +49,13 @@ public class AngularJSWS {
         m.setValue("Sale Section");
         m.setLink("/sale");
         ret.add(m);
+
+        m.setId(2l);
+        m.setName("Partner");
+        m.setIcon("user");
+        m.setValue("Partner");
+        m.setLink("/partner");
+        ret.add(m);
         return ret;
     }
 
@@ -59,7 +65,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.render(htmlDescriptor);
+            ret = GENERATOR_HTML.renderInputs(htmlDescriptor);
         }
         return ret;
     }

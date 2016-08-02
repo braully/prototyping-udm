@@ -7,6 +7,7 @@ package com.github.braully.web;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  *
@@ -30,6 +31,7 @@ public class HtmlElement {
     HtmlElement(Field field) {
         type = field.getType().getSimpleName();
         property = field.getName();
-
+        label = property.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+        label = WordUtils.capitalize(label);
     }
 }

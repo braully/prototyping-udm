@@ -25,7 +25,9 @@ public class HtmlAngularBootstrap extends HtmlElement {
     public HtmlAngularBootstrap() {
     }
 
-    public HtmlAngularBootstrap(String model, Class classe, String type) {
+    public HtmlAngularBootstrap(String model,
+            Class classe,
+            String type) {
         this.classe = classe;
         this.property = model;
         this.type = type;

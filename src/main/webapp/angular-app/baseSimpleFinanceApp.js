@@ -28,6 +28,7 @@ var app = angular.module('baseSimpleFinanceApp',
         $translateProvider.fallbackLanguage("en");
 
         $urlRouterProvider.otherwise('/views/blank');
+//        $urlRouterProvider.otherwise('/views/partner');
 
         $stateProvider.state('views', {
             url: '/views',
@@ -79,6 +80,10 @@ var app = angular.module('baseSimpleFinanceApp',
         }).state('views.blank', {
             templateUrl: 'views/blank.html',
             url: '/blank'
+
+        }).state('views.partner', {
+            templateUrl: 'app/component/form/partner',
+            url: '/partner'
         }).state('login', {
             templateUrl: 'views/login.html',
             url: '/login'
