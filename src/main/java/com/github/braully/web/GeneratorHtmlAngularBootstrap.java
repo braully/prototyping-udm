@@ -78,16 +78,16 @@ public class GeneratorHtmlAngularBootstrap {
     private String buildNgModelPath(String... property) {
         StringBuilder sb = new StringBuilder();
         sb.append("{{ ");
-
-        for (int i = 0; i < property.length; i++) {
-            String p = property[i];
-            sb.append(p);
-            if (i == property.length - 1) {
-                sb.append(".");
+        if (property != null && property.length > 0) {
+            for (int i = 0; i < property.length; i++) {
+                String p = property[i];
+                sb.append(p);
+                if (i == property.length - 2) {
+                    sb.append(".");
+                }
             }
         }
         sb.append(" }}");
         return sb.toString();
     }
-
 }

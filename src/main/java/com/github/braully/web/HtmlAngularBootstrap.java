@@ -34,7 +34,7 @@ public class HtmlAngularBootstrap extends HtmlElement {
     }
 
     public HtmlAngularBootstrap(Class classe) {
-        this(classe.getSimpleName(), classe, DEFAULT_TYPE);
+        this(decapitalize(classe.getSimpleName()), classe, DEFAULT_TYPE);
 
         ReflectionUtils.doWithFields(classe, (Field field) -> {
             addHtmlElement(field);
@@ -49,5 +49,14 @@ public class HtmlAngularBootstrap extends HtmlElement {
             elements = new ArrayList<>();
         }
         elements.add(new HtmlElement(field));
+    }
+
+    public static String decapitalize(String string) {
+        if (string == null || string.length() == 0) {
+            return string;
+        }
+        char c[] = string.toCharArray();
+        c[0] = Character.toLowerCase(c[0]);
+        return new String(c);
     }
 }

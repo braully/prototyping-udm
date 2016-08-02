@@ -1,91 +1,67 @@
-'use strict';
-/**
- * @ngdoc overview
- * @name baseSimpleFinanceApp
- * @description
- * # baseSimpleFinanceApp
- *
- * Main module of the application.
- */
 var app = angular.module('baseSimpleFinanceApp',
-        ['oc.lazyLoad', 'ui.router', 'ui.bootstrap',
-            'angular-loading-bar', 'pascalprecht.translate', 'metawidget']
-        ).config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$translateProvider',
-    function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $translateProvider) {
-        $ocLazyLoadProvider.config({
-            debug: false,
-            events: true,
-        });
+        ['ngRoute', 'pascalprecht.translate']);
 
-        $translateProvider.useStaticFilesLoader({
-            prefix: 'i18n/locale_',
-            suffix: '.json'
-        });
+app.config(
+        function ($routeProvider, $translateProvider) {
 
-        var userLang = navigator.language || navigator.userLanguage;
-        userLang = userLang.substr(0, 2);
-        $translateProvider.preferredLanguage(userLang);
-        $translateProvider.fallbackLanguage("en");
+            $translateProvider.useStaticFilesLoader({
+                prefix: 'i18n/locale_',
+                suffix: '.json'
+            });
 
-        $urlRouterProvider.otherwise('/views/blank');
-//        $urlRouterProvider.otherwise('/views/partner');
+            var userLang = navigator.language || navigator.userLanguage;
+            userLang = userLang.substr(0, 2);
+            $translateProvider.preferredLanguage(userLang);
+            $translateProvider.fallbackLanguage("en");
 
-        $stateProvider.state('views', {
-            url: '/views',
-            templateUrl: 'views/main.html',
-            resolve: {
-                loadMyDirectives: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load(
-                            {
-                                name: 'baseSimpleFinanceApp',
-                                files: [
-                                    'templates/header/header.js',
-                                    'templates/menu/menu.js'
-                                ]
-                            }),
-                            $ocLazyLoad.load(
-                                    {
-                                        name: 'toggle-switch',
-                                        files: ["bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                                            "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                                        ]
-                                    }),
-                            $ocLazyLoad.load(
-                                    {
-                                        name: 'ngAnimate',
-                                        files: ['bower_components/angular-animate/angular-animate.js']
-                                    })
-                    $ocLazyLoad.load(
-                            {
-                                name: 'ngCookies',
-                                files: ['bower_components/angular-cookies/angular-cookies.js']
-                            })
-                    $ocLazyLoad.load(
-                            {
-                                name: 'ngResource',
-                                files: ['bower_components/angular-resource/angular-resource.js']
-                            })
-                    $ocLazyLoad.load(
-                            {
-                                name: 'ngSanitize',
-                                files: ['bower_components/angular-sanitize/angular-sanitize.js']
-                            })
-                    $ocLazyLoad.load(
-                            {
-                                name: 'ngTouch',
-                                files: ['bower_components/angular-touch/angular-touch.js']
-                            })
-                }
-            }
-        }).state('views.blank', {
-            templateUrl: 'views/blank.html',
-            url: '/blank'
+            $routeProvider.when('/', {
+                templateUrl: 'views/blank.html',
+                controller: 'mainController'
+            }).when('/blank', {
+                templateUrl: 'views/blank.html',
+                controller: 'mainController'
+            }).when('/partner', {
+                templateUrl: 'app/component/form/partner',
+                controller: 'mainController'
+            });
+        }
+);
 
-        }).state('views.partner', {
-            templateUrl: 'app/component/form/partner',
-            url: '/partner'
-        }).state('login', {
-            templateUrl: 'views/login.html',
-            url: '/login'
-        })
+app.controller('mainController', function ($scope) {
+
+});
+
+app.directive('sidemenu', ['$location', '$http', function () {
+        return {
+            templateUrl: 'templates/menu/menu.html',
+            restrict: 'E',
+            replace: true,
+            scope: {
+            },
+            controller:
+                    function ($scope, $http) {
+                        $scope.menus = {};
+                        $http.get('app/user/menu')
+                                .success(function (data) {
+                                    $scope.menus = data;
+                                });
+                        $scope.selectedMenu = 'blank';
+                        $scope.collapseVar = 0;
+                        $scope.multiCollapseVar = 0;
+
+                        $scope.check = function (x) {
+                            if (x == $scope.collapseVar)
+                                $scope.collapseVar = 0;
+                            else
+                                $scope.collapseVar = x;
+                        };
+
+                        $scope.multiCheck = function (y) {
+                            if (y == $scope.multiCollapseVar)
+                                $scope.multiCollapseVar = 0;
+                            else
+                                $scope.multiCollapseVar = y;
+                        };
+                    }
+        }
     }]);

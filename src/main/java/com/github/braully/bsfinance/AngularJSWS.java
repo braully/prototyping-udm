@@ -49,7 +49,8 @@ public class AngularJSWS {
         m.setValue("Sale Section");
         m.setLink("/sale");
         ret.add(m);
-
+        
+        m = new Menu();
         m.setId(2l);
         m.setName("Partner");
         m.setIcon("user");
