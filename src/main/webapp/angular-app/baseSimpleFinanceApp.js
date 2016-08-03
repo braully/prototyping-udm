@@ -23,6 +23,11 @@ app.config(
             }).when('/partner', {
                 templateUrl: 'app/component/form/partner',
                 controller: 'mainController'
+            }).when('/app/:name*', {
+                templateUrl: function (urlattr) {
+                    return 'app/component/form/' + urlattr.name + '';
+                },
+                controller: 'mainController'
             });
         }
 );
