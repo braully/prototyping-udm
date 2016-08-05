@@ -44,6 +44,12 @@ public class EntityRESTfulWS {
         LISTED_ENTITY.put("partner", Partner.class);
     }
 
+    @RequestMapping("/greeting")
+    public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, ModelMap model) {
+        model.addAttribute("name", name);
+        return "greeting";
+    }
+
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)
     public IEntity getEntity(@PathVariable("classe") String classe,
             @PathVariable("id") Long id) {

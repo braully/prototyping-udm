@@ -13,15 +13,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring.boot.version>1.3.5.RELEASE</spring.boot.version>
-        <!--<directory.template.web>external-module/SB-Admin-BS4-Angular-2/dist/prod</directory.template.web>-->
-        <directory.template.web>external-module/sb-admin-angular/app</directory.template.web>
-        <directory.template.base>external-module/sb-admin-angular</directory.template.base>
+        <jsf-version>2.2.13</jsf-version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.3.5.RELEASE</version>
+        <version>1.3.6.RELEASE</version>
     </parent>
 
     <name>base-simple-finance</name>
@@ -38,29 +36,12 @@
             <version>0.7</version>
         </dependency>
         <dependency>
-            <groupId>org.metawidget.modules</groupId>
-            <artifactId>metawidget-all</artifactId>
-            <version>4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.metawidget.modules</groupId>
-            <artifactId>metawidget-jpa</artifactId>
-            <version>4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.metawidget.modules.hibernate</groupId>
-            <artifactId>metawidget-hibernate</artifactId>
-            <version>4.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate4</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,12 +65,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>        
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>${jsf-version}</version>
         </dependency>
         <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--                <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -105,20 +98,14 @@
                 <version>2.5</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <webResources>
+                    <!--                    <webResources>
                         <resource>
                             <directory>${directory.template.web}</directory>                            
                             <excludes>
                                 <exclude>index.html</exclude>
                             </excludes>
                         </resource>
-                        <!--                        <resource>
-                            <directory>${directory.template.base}</directory>                            
-                            <excludes>
-                                <exclude>index.html</exclude>
-                            </excludes>
-                        </resource>                        -->
-                    </webResources>
+                    </webResources>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -128,14 +115,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--<version>${spring.boot.version}</version>-->
-                <!--                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

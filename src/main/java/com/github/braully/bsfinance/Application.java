@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.braully.bsfinance;
 
 import org.springframework.boot.SpringApplication;
@@ -23,18 +18,27 @@ import org.springframework.boot.orm.jpa.EntityScan;
 )
 public class Application extends SpringBootServletInitializer {
 
-//    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
-//        "classpath:/META-INF/resources/", "classpath:/resources/",
-//        "classpath:/static/", "classpath:/public/"};
-//
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/**").addResourceLocations("file:/path/to/my/dropbox/");
-//    }
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
     }
 
+//    @Override
+//    public void onStartup(ServletContext servletContext) throws ServletException {
+//        super.onStartup(servletContext);
+//        servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
+//        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
+//    }
+//
+//    @Bean
+//    public ServletRegistrationBean facesServlet() {
+//        FacesServlet servlet = new FacesServlet();
+//        ServletRegistrationBean registration = new ServletRegistrationBean(servlet, "*.xhtml");
+//        registration.setName("FacesServlet");
+//        registration.setLoadOnStartup(1);
+//        return registration;
+//    }
+//    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
