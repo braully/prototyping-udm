@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.DispatcherServlet;
 
 /**
  *
@@ -19,13 +18,6 @@ public class Application {
     }
 
     /* JSF */
-//    @Bean
-//    public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
-//        ServletRegistrationBean registration = new ServletRegistrationBean(
-//                dispatcherServlet);
-//        registration.addUrlMappings("/whatever/*", "/whatever2/*");
-//        return registration;
-//    }
 
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
