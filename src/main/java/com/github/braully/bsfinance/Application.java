@@ -1,10 +1,17 @@
 package com.github.braully.bsfinance;
 
+import com.sun.faces.config.ConfigureListener;
+import javax.faces.webapp.FacesServlet;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
+import org.springframework.context.annotation.Bean;
 
 /**
  *
@@ -23,23 +30,38 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-//    @Override
-//    public void onStartup(ServletContext servletContext) throws ServletException {
-//        super.onStartup(servletContext);
-//        servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
-//        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-//    }
-//
 //    @Bean
-//    public ServletRegistrationBean facesServlet() {
+//    public ServletRegistrationBean servletRegistrationBean() {
 //        FacesServlet servlet = new FacesServlet();
-//        ServletRegistrationBean registration = new ServletRegistrationBean(servlet, "*.xhtml");
-//        registration.setName("FacesServlet");
-//        registration.setLoadOnStartup(1);
-//        return registration;
+//        return new ServletRegistrationBean(servlet, "*.xhtml");
 //    }
-//    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
+        servletContext.setInitParameter("javax.faces.DEFAULT_SUFFIX", ".html");
+    }
+
+    @Bean
+    public FacesServlet facesServlet() {
+        return new FacesServlet();
+    }
+
+    @Bean
+    public ServletRegistrationBean facesServletRegistration() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(
+                facesServlet(), "*.jsf");
+        registration.setName("FacesServlet");
+        return registration;
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
+        return new ServletListenerRegistrationBean<ConfigureListener>(
+                new ConfigureListener());
     }
 }
