@@ -1,4 +1,4 @@
-package com.github.braully.bsfinance;
+package com.github.braully.app;
 
 import com.github.braully.domain.Menu;
 import com.github.braully.domain.Partner;

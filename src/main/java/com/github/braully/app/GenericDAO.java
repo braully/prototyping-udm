@@ -1,4 +1,4 @@
-package com.github.braully.bsfinance;
+package com.github.braully.app;
 
 import com.github.braully.sak.persistence.DAO;
 import com.github.braully.sak.persistence.IUser;

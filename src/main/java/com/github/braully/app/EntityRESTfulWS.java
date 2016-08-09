@@ -1,4 +1,4 @@
-package com.github.braully.bsfinance;
+package com.github.braully.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
