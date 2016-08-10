@@ -1,4 +1,4 @@
-var app = angular.module('baseSimpleFinanceApp',
+var app = angular.module('baseApp',
         ['ngRoute', 'pascalprecht.translate']);
 
 app.config(

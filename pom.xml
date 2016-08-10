@@ -16,6 +16,7 @@
         <jsf.version>2.2.13</jsf.version>
         <j2html.version>0.7</j2html.version>
         <thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
+        <!--<tomcat.version>8.0.3</tomcat.version>-->
     </properties>
 
     <parent>
@@ -28,11 +29,11 @@
 
     <dependencies>
         <!--Spring Framework-->
-        <dependency>
+        <!--        <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
             <version>${thymeleaf.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
@@ -75,13 +76,13 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-        </dependency>    
-        <!--        <dependency>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.faces</artifactId>
             <version>${jsf.version}</version>
-        </dependency>-->
-        <dependency>
+        </dependency>
+        <!--        <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
             <version>${jsf.version}</version>
@@ -90,7 +91,7 @@
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-impl</artifactId>
             <version>${jsf.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -121,7 +122,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <!--                <version>2.6</version>
+                <version>2.6</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -141,7 +142,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                </executions>-->
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -171,4 +172,27 @@
             <url>http://repo.spring.io/milestone</url>
         </pluginRepository>
     </pluginRepositories>
+    
+    <profiles>
+        <profile>
+            <id>prod</id>
+        </profile>
+        <profile>
+            <id>war</id>
+        </profile>        
+        <profile>
+            <id>exec</id>
+            <dependencies>
+                <!--                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jsp-api</artifactId>
+                    <version>2.0</version>
+                </dependency>-->
+                <dependency>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-jasper</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

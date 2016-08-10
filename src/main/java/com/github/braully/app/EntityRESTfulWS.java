@@ -39,10 +39,10 @@ public class EntityRESTfulWS {
         LISTED_ENTITY.put("partner", Partner.class);
     }
 
-    @RequestMapping("/greeting")
-    public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, ModelMap model) {
-        model.addAttribute("name", name);
-        return "greeting";
+    @RequestMapping("/hello")
+    public String printHello(ModelMap model) {
+        model.addAttribute("message", "Hello Spring MVC Framework!");
+        return "hello";
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)

@@ -24,14 +24,14 @@
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 
-        <script src="angular-app/baseSimpleFinanceApp.js"></script>
+        <script src="angular/baseApp.js"></script>
 
         <script>
-            var lang = navigator.language || navigator.userLanguage;
-            if (lang) {
-                lang = lang.toLocaleLowerCase();
-                document.write("<script src='bower_components/angular-i18n/angular-locale_" + lang + ".js'><\/script>");
-            }
+                    var lang = navigator.language || navigator.userLanguage;
+                    if (lang) {
+                        lang = lang.toLocaleLowerCase();
+                        document.write("<script src='bower_components/angular-i18n/angular-locale_" + lang + ".js'><\/script>");
+                    }
         </script>
 
     </head>
