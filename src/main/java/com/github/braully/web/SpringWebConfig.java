@@ -16,11 +16,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
-    private ApplicationContext applicationContext;
-
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+//    private ApplicationContext applicationContext;
+//
+//    public void setApplicationContext(ApplicationContext applicationContext) {
+//        this.applicationContext = applicationContext;
+//    }
 
 //    @Bean
 //    public ServletRegistrationBean servletRegistrationBean() {
