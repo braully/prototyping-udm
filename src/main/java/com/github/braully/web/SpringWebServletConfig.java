@@ -52,15 +52,15 @@ public class SpringWebServletConfig {
             }
         };
 //        servletRegistrationBean.addInitParameter("javax.faces.WEBAPP_RESOURCES_DIRECTORY", "jsf");
-        servletRegistrationBean.addInitParameter("javax.faces.DEFAULT_SUFFIX", ".html");
+//        servletRegistrationBean.addInitParameter("javax.faces.DEFAULT_SUFFIX", ".html");
         servletRegistrationBean.setLoadOnStartup(1);
         return servletRegistrationBean;
     }
 
-    @Bean
-    public ServletContextInitializer initializer() {
-        return (ServletContext servletContext) -> {
-            servletContext.setInitParameter("javax.faces.DEFAULT_SUFFIX", ".html");
-        };
-    }
+//    @Bean
+//    public ServletContextInitializer initializer() {
+//        return (ServletContext servletContext) -> {
+////            servletContext.setInitParameter("javax.faces.DEFAULT_SUFFIX", ".html");
+//        };
+//    }
 }
