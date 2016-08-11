@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('baseSimpleFinanceApp')
+angular.module('baseApp')
         .directive('header', function () {
             return {
                 templateUrl: 'templates/header/header.html',

@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('baseSimpleFinanceApp')
+angular.module('baseApp')
         .directive('headerNotification', function () {
             return {
                 templateUrl: 'templates/header/header-notification/header-notification.html',

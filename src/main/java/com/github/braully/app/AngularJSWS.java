@@ -33,7 +33,7 @@ public class AngularJSWS {
     /*
     
      */
-    @RequestMapping(value = {"/app/user/menu"},
+    @RequestMapping(value = {"/user/menu"},
             method = RequestMethod.GET)
     public List<Menu> getUserMenus() {
         List<Menu> ret = new ArrayList<>();
@@ -44,7 +44,7 @@ public class AngularJSWS {
         m.setValue("Sale Section");
         m.setLink("/sale");
         ret.add(m);
-        
+
         m = new Menu();
         m.setId(2l);
         m.setName("Partner");
@@ -55,7 +55,7 @@ public class AngularJSWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/app/component/form/{classe}"},
+    @RequestMapping(value = {"/component/form/{classe}"},
             method = RequestMethod.GET, produces = "text/html")
     public String getComponent(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;

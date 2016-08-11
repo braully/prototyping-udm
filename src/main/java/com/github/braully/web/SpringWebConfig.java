@@ -1,27 +1,54 @@
 package com.github.braully.web;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-//@ComponentScan({"com.github.braully"})
-//@ImportResource("classpath:config.xml")
-
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Bean
+    public ViewResolver internalResourceViewResolverJsp() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/jsp/");
+        resolver.setSuffix(".jsp");
+        resolver.setOrder(0);
+        return resolver;
+    }
+
+    @Bean
+    public ViewResolver internalResourceViewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/mvc/");
+        resolver.setViewClass(JstlView.class);
+        resolver.setSuffix(".jsp");
+        resolver.setOrder(1);
+        return resolver;
+    }
+}
 
 //    private ApplicationContext applicationContext;
 //
 //    public void setApplicationContext(ApplicationContext applicationContext) {
 //        this.applicationContext = applicationContext;
 //    }
-
 //    @Bean
 //    public ServletRegistrationBean servletRegistrationBean() {
 //        ServletRegistrationBean servletRegistrationBean
@@ -104,17 +131,5 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 //        registry.addResourceHandler("/assets/**").setCachePeriod(3600 * 24)
 //                .addResourceLocations("/js/", "/css/", "i18n", "/templates/", "/bower_components/");
 //    }
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
-    @Bean
-    public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-        internalResourceViewResolver.setPrefix("/mvc/");
-//        internalResourceViewResolver.setViewClass(JstlView.class);
-        internalResourceViewResolver.setSuffix(".jsp");
-        return internalResourceViewResolver;
-    }
-}
+//@ComponentScan({"com.github.braully"})
+//@ImportResource("classpath:config.xml")

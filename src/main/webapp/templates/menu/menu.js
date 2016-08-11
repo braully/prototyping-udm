@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('baseSimpleFinanceApp').directive('sidebar', ['$location', '$http',
+angular.module('baseApp').directive('sidebar', ['$location', '$http',
     function () {
         return {
             templateUrl: 'templates/menu/menu.html',
