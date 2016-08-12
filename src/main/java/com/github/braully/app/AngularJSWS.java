@@ -27,7 +27,7 @@ public class AngularJSWS {
     private static final GeneratorHtmlAngularBootstrap GENERATOR_HTML = new GeneratorHtmlAngularBootstrap();
 
     static {
-        FORM_ENTITY.put("partner", new HtmlAngularBootstrap(Partner.class));
+        FORM_ENTITY.put("partner", new HtmlAngularBootstrap(Partner.class, HtmlAngularBootstrap.FORM_TYPE));
     }
 
     /*
@@ -57,11 +57,22 @@ public class AngularJSWS {
 
     @RequestMapping(value = {"/component/form/{classe}"},
             method = RequestMethod.GET, produces = "text/html")
-    public String getComponent(@PathVariable("classe") String classe) {
+    public String getComponentForm(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;
         HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderInputs(htmlDescriptor);
+            ret = GENERATOR_HTML.render(htmlDescriptor);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/form/{classe}/lines"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentFormLines(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderOnlyChilds(htmlDescriptor);
         }
         return ret;
     }

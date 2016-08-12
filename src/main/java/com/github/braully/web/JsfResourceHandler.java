@@ -5,13 +5,10 @@
  */
 package com.github.braully.web;
 
-import java.io.IOException;
-import javax.faces.FacesException;
 import javax.faces.application.ResourceHandler;
 import javax.faces.application.ResourceHandlerWrapper;
 import javax.faces.application.ViewResource;
 import javax.faces.context.FacesContext;
-import static javax.servlet.SessionTrackingMode.URL;
 
 /**
  *
@@ -44,5 +41,4 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
     public ResourceHandler getWrapped() {
         return wrapped;
     }
-
 }

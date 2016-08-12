@@ -17,7 +17,8 @@ import org.springframework.util.ReflectionUtils;
  */
 public class HtmlAngularBootstrap extends HtmlElement {
 
-    private static final String DEFAULT_TYPE = "div";
+    public static final String DEFAULT_TYPE = "div";
+    public static final String FORM_TYPE = "form";
     Class classe;
 
     List<HtmlElement> elements;
@@ -31,6 +32,17 @@ public class HtmlAngularBootstrap extends HtmlElement {
         this.classe = classe;
         this.property = model;
         this.type = type;
+    }
+
+    public HtmlAngularBootstrap(Class classe, String type) {
+        this(decapitalize(classe.getSimpleName()), classe, type);
+
+        ReflectionUtils.doWithFields(classe, (Field field) -> {
+            addHtmlElement(field);
+        }, (final Field field) -> {
+            final int modifiers = field.getModifiers();
+            return !Modifier.isStatic(modifiers);
+        });
     }
 
     public HtmlAngularBootstrap(Class classe) {

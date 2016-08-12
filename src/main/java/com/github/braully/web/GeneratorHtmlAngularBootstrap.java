@@ -19,7 +19,15 @@ public class GeneratorHtmlAngularBootstrap {
     private static final String LABEL_CLASS = "col-sm-1";
     private static final String ROW_CLASS = "form-group row";
 
-    public String renderInputs(HtmlAngularBootstrap html) {
+    public String render(HtmlAngularBootstrap html) {
+        return renderLocal(html, false);
+    }
+
+    public String renderOnlyChilds(HtmlAngularBootstrap html) {
+        return renderLocal(html, true);
+    }
+
+    private String renderLocal(HtmlAngularBootstrap html, boolean onlychilds) {
         ContainerTag txtHtml = new ContainerTag(getHtmlType(html.type));
 
         if (html.elements != null) {
@@ -47,7 +55,17 @@ public class GeneratorHtmlAngularBootstrap {
                 parent.with(the);
             }
         }
-        return txtHtml.render();
+        if (onlychilds) {
+            StringBuilder childs = new StringBuilder();
+            if (txtHtml.children != null) {
+                txtHtml.children.stream().forEach((t) -> {
+                    childs.append(t.render());
+                });
+            }
+            return childs.toString();
+        } else {
+            return txtHtml.render();
+        }
     }
 
     private String getHtmlType(String type) {
