@@ -1,8 +1,8 @@
 var app = angular.module('baseApp',
-        ['ngRoute', 'pascalprecht.translate']);
+        ['pascalprecht.translate']);
 
 app.config(
-        function ($routeProvider, $translateProvider) {
+        function ($translateProvider) {
 
             $translateProvider.useStaticFilesLoader({
                 prefix: 'i18n/locale_',
@@ -13,22 +13,6 @@ app.config(
             userLang = userLang.substr(0, 2);
             $translateProvider.preferredLanguage(userLang);
             $translateProvider.fallbackLanguage("en");
-
-            $routeProvider.when('/', {
-                templateUrl: 'views/blank.html',
-                controller: 'mainController'
-            }).when('/blank', {
-                templateUrl: 'views/blank.html',
-                controller: 'mainController'
-            }).when('/partner', {
-                templateUrl: 'app/component/form/partner',
-                controller: 'mainController'
-            }).when('/app/:name*', {
-                templateUrl: function (urlattr) {
-                    return 'app/component/form/' + urlattr.name + '';
-                },
-                controller: 'mainController'
-            });
         }
 );
 

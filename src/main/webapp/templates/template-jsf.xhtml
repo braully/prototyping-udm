@@ -1,29 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-br"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      ng-app="baseApp">
     <head>
         <meta charset="utf-8"/>
         <title><ui:insert name="title-page" /></title>
         <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width" />        
+        <meta name="viewport" content="width=device-width" />
+
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css" />
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" />
+
+        <link rel="stylesheet" href="css/base.css" />
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-translate/angular-translate.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+        <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+        <script>
+            var lang = navigator.language || navigator.userLanguage;
+            if (lang) {
+                lang = lang.toLocaleLowerCase();
+                document.write("\x3Cscript src='bower_components/angular-i18n/angular-locale_" + lang + ".js'>\x3C/script>");
+            }
+        </script>
+
+        <script src="angular/baseApp.js"></script>
     </head>
     <body>
-        <ui:insert name="header-content">
-            Header Template
-        </ui:insert>
+        <div id="wrapper" ng-controller="mainController">
+            <ui:insert name="header-content">
+                <nav class="navbar navbar-default navbar-static-top" 
+                     role="navigation" style="margin-bottom: 0;">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" 
+                                data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only" translate="TOGGLE_NAVIGATION"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">{{app.name}}</a>
+                    </div>
+                    <!-- /.navbar-header -->
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope fa-fw"></i>  
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <ng-repeat ng-repeat="msg in messages">
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <strong>{{msg.userFron.name}}</strong>
+                                                <span class="pull-right text-muted">
+                                                    <em>{{msg.date}}</em>
+                                                </span>
+                                            </div>
+                                            <div>{{msg.message}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                </ng-repeat>
+                                <li>
+                                    <a class="text-center" href="#">
+                                        <strong translate="ALL_MESSAGES"></strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-messages -->
+                        </li>
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-tasks">
+                                <ng-repeat ng-repeat="task in tasks">
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <p>
+                                                    <strong>{{task.name}}</strong>
+                                                    <span class="pull-right text-muted">{{task.percent}}% {{ 'COMPLETE' | translate }}</span>
+                                                </p>
+                                                <div class="progress progress-striped active">
+                                                    <div class="progress-bar progress-bar-{{task.type}}" 
+                                                         role="progressbar" aria-valuenow="{{task.percent}}" 
+                                                         aria-valuemin="0" aria-valuemax="100" style="width: {{task.percent}}%">
+                                                        <span class="sr-only">{{task.percent}}% {{ 'COMPLETE' | translate }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                </ng-repeat>
+                                <li>
+                                    <a class="text-center" href="#">
+                                        <strong translate="ALL_TASKS"></strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <ng-repeat ng-repeat="alert in alerts">
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <i class="fa fa-comment fa-fw"></i> {{alert.name}}
+                                                <span class="pull-right text-muted small">{{alert.date}}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                </ng-repeat>
+                                <li>
+                                    <a class="text-center" href="#">
+                                        <strong translate="ALL_ALERTS"></strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-user fa-fw"></i> {{ 'USER_PROFILE' | translate }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-gear fa-fw"></i> {{ 'SETTINGS' | translate }}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a ui-sref="login">
+                                        <i class="fa fa-sign-out fa-fw"></i> {{ 'LOGOUT' | translate }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ui:insert name="letf-content">
+                        <sidemenu></sidemenu>
+                    </ui:insert>
+                </nav>
+            </ui:insert>
 
-        <ui:insert name="letf-content">
-            Left Template
-        </ui:insert>
+            <div id="main">
+                <div id="content-wrapper">
+                    <div id="page-wrapper" 
+                         style="min-height: 561px;">
+                        <!-- Main Content -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h1 class="page-header"><ui:insert name="title-page" /></h1>
+                                </div>
+                                <!-- /.col-lg-12 -->
+                            </div>
+                            <ui:insert name="body-content">
 
-        <ui:insert name="body-content">
-            Body Template
-        </ui:insert>
+                            </ui:insert>
+                            <!-- /.row -->
+                        </div>
+                        <!-- angular templating -->
+                        <!-- this is where content will be injected -->
+                        <!--                        <div ng-view=""></div>-->
+                        <ui:insert name="footer-content">
 
-        <ui:insert name="footer-content">
-            Footer Template
-        </ui:insert>
-    </body>
+                        </ui:insert>
+                    </div>
+                </div><!-- End Page Content -->
+            </div><!-- End Content Wrapper -->
+        </div><!-- End Page Wrapper -->
+    </body>    
 </html>
