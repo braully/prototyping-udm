@@ -1,8 +1,10 @@
 package com.github.braully.app;
 
+import com.github.braully.web.DescriptorExposedEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import com.github.braully.domain.Partner;
+import com.github.braully.domain.PurchaseOrder;
 import java.util.HashMap;
 import java.util.List;
 import com.github.braully.sak.persistence.IEntity;
@@ -33,25 +35,26 @@ public class EntityRESTfulWS {
     @Autowired(required = false)
     protected ServletRequest request;
 
-    private static final Map<String, Class> LISTED_ENTITY = new HashMap<>();
+    static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
     static {
-        LISTED_ENTITY.put("partner", Partner.class);
-    }
+        DescriptorExposedEntity exposedEntity = new DescriptorExposedEntity(Partner.class);
+        exposedEntity.hidden("phoneticName", "attribute");
+        EXPOSED_ENTITY.put("partner", exposedEntity);
 
-    @RequestMapping("/hello")
-    public String printHello(ModelMap model) {
-        model.addAttribute("message", "Hello Spring MVC Framework!");
-        return "hello";
+        exposedEntity = new DescriptorExposedEntity(PurchaseOrder.class);
+        EXPOSED_ENTITY.put("purchaseOrder", exposedEntity);
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)
     public IEntity getEntity(@PathVariable("classe") String classe,
             @PathVariable("id") Long id) {
         log.info("getEntity()");
-        IEntity ret;
-        Class entityClass = LISTED_ENTITY.get(classe);
-        ret = (IEntity) genericDAO.load(id, entityClass);
+        IEntity ret = null;
+        DescriptorExposedEntity exposedEntity = EXPOSED_ENTITY.get(classe);
+        if (exposedEntity != null) {
+            ret = (IEntity) genericDAO.load(id, exposedEntity.getClassExposed());
+        }
         return ret;
     }
 
@@ -63,7 +66,8 @@ public class EntityRESTfulWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/rest/{classe}/{id}"}, method = {RequestMethod.PUT})
+    @RequestMapping(value = {"/rest/{classe}/{id}"},
+            method = {RequestMethod.PUT})
     @ResponseBody
     public IEntity updateEntity(@PathVariable("classe") String classe,
             @PathVariable("id") Integer id) {
@@ -74,7 +78,7 @@ public class EntityRESTfulWS {
                 ServletInputStream inputStream = request.getInputStream();
                 Class classeMapeada = null;
                 if (inputStream != null) {
-                    classeMapeada = LISTED_ENTITY.get(classe);
+                    classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
                     ObjectMapper mapper = new ObjectMapper();
                     entidade = (IEntity) mapper.readValue(inputStream, classeMapeada);
                 }
@@ -101,7 +105,7 @@ public class EntityRESTfulWS {
     public List listEntity(@PathVariable("classe") String classe) {
         log.info("listEntity()");
         List ret = null;
-        Class entityClass = LISTED_ENTITY.get(classe);
+        Class entityClass = EXPOSED_ENTITY.get(classe).getClassExposed();
         ret = genericDAO.loadCollection(entityClass);
         return ret;
     }
@@ -114,7 +118,7 @@ public class EntityRESTfulWS {
             ModelMap model) {
         log.info("searchEntity()");
         List ret = null;
-        Class entityClass = LISTED_ENTITY.get(classe);
+        Class entityClass = EXPOSED_ENTITY.get(classe).getClassExposed();
         ret = genericDAO.loadCollection(entityClass);
         return ret;
     }

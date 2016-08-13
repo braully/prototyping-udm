@@ -1,9 +1,9 @@
 package com.github.braully.app;
 
+import com.github.braully.web.DescriptorExposedEntity;
 import com.github.braully.domain.Menu;
-import com.github.braully.domain.Partner;
 import com.github.braully.web.GeneratorHtmlAngularBootstrap;
-import com.github.braully.web.HtmlAngularBootstrap;
+import com.github.braully.web.DescriptorHtmlEntity;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 public class AngularJSWS {
 
-    private static final String DEFAULT_HTML = "<span>error</span>";
+    static final String DEFAULT_HTML = "<span>error</span>";
 
-    private static final Map<String, HtmlAngularBootstrap> FORM_ENTITY = new HashMap<>();
+    static final Map<String, DescriptorHtmlEntity> FORM_ENTITY_DESCRIPTOR_CACHE = new HashMap<>();
 
-    private static final GeneratorHtmlAngularBootstrap GENERATOR_HTML = new GeneratorHtmlAngularBootstrap();
-
-    static {
-        FORM_ENTITY.put("partner", new HtmlAngularBootstrap(Partner.class, HtmlAngularBootstrap.FORM_TYPE));
-    }
+    static final GeneratorHtmlAngularBootstrap GENERATOR_HTML = new GeneratorHtmlAngularBootstrap();
 
     /*
     
@@ -59,7 +55,7 @@ public class AngularJSWS {
             method = RequestMethod.GET, produces = "text/html")
     public String getComponentForm(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;
-        HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
             ret = GENERATOR_HTML.render(htmlDescriptor);
         }
@@ -70,10 +66,23 @@ public class AngularJSWS {
             method = RequestMethod.GET, produces = "text/html")
     public String getComponentFormLines(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;
-        HtmlAngularBootstrap htmlDescriptor = FORM_ENTITY.get(classe);
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
             ret = GENERATOR_HTML.renderOnlyChilds(htmlDescriptor);
         }
         return ret;
+    }
+
+    private DescriptorHtmlEntity getDescriptorHtmlEntity(String classe) {
+        DescriptorExposedEntity descriptorExposedEntity = EntityRESTfulWS.EXPOSED_ENTITY.get(classe);
+        DescriptorHtmlEntity descriptorHtmlEntity = null;
+        if (descriptorExposedEntity != null) {
+            descriptorHtmlEntity = FORM_ENTITY_DESCRIPTOR_CACHE.get(classe);
+            if (descriptorHtmlEntity == null) {
+                descriptorHtmlEntity = new DescriptorHtmlEntity(descriptorExposedEntity);
+                FORM_ENTITY_DESCRIPTOR_CACHE.put(classe, descriptorHtmlEntity);
+            }
+        }
+        return descriptorHtmlEntity;
     }
 }

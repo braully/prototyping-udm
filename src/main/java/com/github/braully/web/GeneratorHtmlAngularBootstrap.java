@@ -17,17 +17,17 @@ public class GeneratorHtmlAngularBootstrap {
     private static final String CHECK_TYPE = "input";
     private static final String NG_MODEL = "ng-model";
     private static final String LABEL_CLASS = "col-sm-1";
-    private static final String ROW_CLASS = "form-group row";
+    private static final String ROW_CLASS = "form-group";
 
-    public String render(HtmlAngularBootstrap html) {
+    public String render(DescriptorHtmlEntity html) {
         return renderLocal(html, false);
     }
 
-    public String renderOnlyChilds(HtmlAngularBootstrap html) {
+    public String renderOnlyChilds(DescriptorHtmlEntity html) {
         return renderLocal(html, true);
     }
 
-    private String renderLocal(HtmlAngularBootstrap html, boolean onlychilds) {
+    private String renderLocal(DescriptorHtmlEntity html, boolean onlychilds) {
         ContainerTag txtHtml = new ContainerTag(getHtmlType(html.type));
 
         if (html.elements != null) {

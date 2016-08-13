@@ -8,25 +8,29 @@ package com.github.braully.web;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.util.ReflectionUtils;
 
 /**
  *
  * @author braully
  */
-public class HtmlAngularBootstrap extends HtmlElement {
+public class DescriptorHtmlEntity extends HtmlElement {
 
     public static final String DEFAULT_TYPE = "div";
     public static final String FORM_TYPE = "form";
     Class classe;
 
     List<HtmlElement> elements;
+    Set<String> hidden;
+    Set<String> exclude = new HashSet<>();
 
-    public HtmlAngularBootstrap() {
+    public DescriptorHtmlEntity() {
     }
 
-    public HtmlAngularBootstrap(String model,
+    public DescriptorHtmlEntity(String model,
             Class classe,
             String type) {
         this.classe = classe;
@@ -34,26 +38,30 @@ public class HtmlAngularBootstrap extends HtmlElement {
         this.type = type;
     }
 
-    public HtmlAngularBootstrap(Class classe, String type) {
+    public DescriptorHtmlEntity(Class classe, String type) {
         this(decapitalize(classe.getSimpleName()), classe, type);
 
-        ReflectionUtils.doWithFields(classe, (Field field) -> {
+        parseFieldClass(classe);
+    }
+
+    private void parseFieldClass(Class classe1) {
+        ReflectionUtils.doWithFields(classe1, (Field field) -> {
             addHtmlElement(field);
         }, (final Field field) -> {
             final int modifiers = field.getModifiers();
-            return !Modifier.isStatic(modifiers);
+            return !Modifier.isStatic(modifiers)
+                    && !exclude.contains(field.getName());
         });
     }
 
-    public HtmlAngularBootstrap(Class classe) {
+    public DescriptorHtmlEntity(Class classe) {
         this(decapitalize(classe.getSimpleName()), classe, DEFAULT_TYPE);
+        parseFieldClass(classe);
+    }
 
-        ReflectionUtils.doWithFields(classe, (Field field) -> {
-            addHtmlElement(field);
-        }, (final Field field) -> {
-            final int modifiers = field.getModifiers();
-            return !Modifier.isStatic(modifiers);
-        });
+    public DescriptorHtmlEntity(DescriptorExposedEntity descriptorExposedEntity) {
+        this(descriptorExposedEntity.classExposed);
+        this.hidden = descriptorExposedEntity.hiddenProperties;
     }
 
     private void addHtmlElement(Field field) {
