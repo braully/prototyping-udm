@@ -116,6 +116,16 @@ public class GeneratorHtmlAngularBootstrap {
         return sb.toString();
     }
 
+    private String buildNgRepeatPath(String var, String collection) {
+        StringBuilder sb = new StringBuilder();
+        if (var != null && collection != null) {
+            sb.append(var);
+            sb.append(" in ");
+            sb.append(collection);
+        }
+        return sb.toString();
+    }
+
     public String renderTable(DescriptorHtmlEntity htmlDescriptor) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
@@ -124,37 +134,37 @@ public class GeneratorHtmlAngularBootstrap {
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
 
         if (htmlDescriptor.elements != null) {
-//                        <thead>
-//                            <tr>
-//                                <th>#</th>
-//                                <th>First Name</th>
-//                                <th>Last Name</th>
-//                                <th>Username</th>
-//                            </tr>
-//                        </thead>
+            ContainerTag thead = TagCreator.thead();
+            ContainerTag tr = TagCreator.tr();
+
             for (HtmlElement he : htmlDescriptor.elements) {
-                ContainerTag parent = txtHtml;
-
                 if (!StringUtils.isEmpty(he.label)) {
-                    parent = TagCreator.div();
-                    parent.withClass(ROW_CLASS);
-                    txtHtml.with(parent);
-                    ContainerTag labelHtml = TagCreator.label(he.label);
-//                    labelHtml.withClass(LABEL_CLASS);
-                    parent.with(labelHtml);
+                    ContainerTag th = TagCreator.th(he.label);
+                    tr.with(th);
                 }
+            }
+            thead.with(tr);
+            txtHtml.with(thead);
 
-                EmptyTag the = TagCreator.emptyTag(getHtmlType(he.type));
+            String var = htmlDescriptor.property + "Item";
+            String collection = htmlDescriptor.property + "s";
+
+            ContainerTag tbody = TagCreator.tbody();
+            ContainerTag trBody = TagCreator.tr();
+            trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
+
+            for (HtmlElement he : htmlDescriptor.elements) {
+                ContainerTag td = TagCreator.td();
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
-                        the.setAttribute(at.getKey(), at.getValue());
+                        td.setAttribute(at.getKey(), at.getValue());
                     });
                 }
-                the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath(htmlDescriptor.property, he.property));
-
-                parent.with(the);
+                td.withText(buildNgModelPath(var, he.property));
+                trBody.with(td);
             }
+            tbody.with(trBody);
+            txtHtml.with(tbody);
         }
         return txtHtml.render();
     }
