@@ -19,8 +19,6 @@ import org.springframework.util.ReflectionUtils;
  */
 public class DescriptorHtmlEntity extends HtmlElement {
 
-    public static final String DEFAULT_TYPE = "div";
-    public static final String FORM_TYPE = "form";
     Class classe;
 
     List<HtmlElement> elements;
@@ -55,7 +53,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
     }
 
     public DescriptorHtmlEntity(Class classe) {
-        this(decapitalize(classe.getSimpleName()), classe, DEFAULT_TYPE);
+        this(decapitalize(classe.getSimpleName()), classe, null);
         parseFieldClass(classe);
     }
 

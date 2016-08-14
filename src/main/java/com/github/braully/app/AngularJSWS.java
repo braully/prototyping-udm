@@ -51,13 +51,24 @@ public class AngularJSWS {
         return ret;
     }
 
+    @RequestMapping(value = {"/component/table/{classe}"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTable(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTable(htmlDescriptor);
+        }
+        return ret;
+    }
+
     @RequestMapping(value = {"/component/form/{classe}"},
             method = RequestMethod.GET, produces = "text/html")
     public String getComponentForm(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.render(htmlDescriptor);
+            ret = GENERATOR_HTML.renderForm(htmlDescriptor);
         }
         return ret;
     }
@@ -68,7 +79,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderOnlyChilds(htmlDescriptor);
+            ret = GENERATOR_HTML.renderFormOnlyChilds(htmlDescriptor);
         }
         return ret;
     }
