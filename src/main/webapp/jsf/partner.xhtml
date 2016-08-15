@@ -7,6 +7,10 @@
     <ui:composition template="/templates/template-jsf.xhtml">
         <ui:define name="title-page">Sale</ui:define>
 
+        <ui:define name="header-append">
+            <script src="js/sale.js"></script>
+        </ui:define>
+
         <ui:define name="body-content">
             <div class="row">
                 <div class="col-lg-12">
@@ -17,9 +21,8 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form">
+                                    <form role="form" method="post" action="/app/rest/partner">
                                         <ng-include src="'/app/component/form/partner/lines'">
-
                                         </ng-include>
                                         <button type="submit" class="btn btn-default">Save</button>
                                     </form>
@@ -45,9 +48,7 @@
 
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="dataTable_wrapper" 
-                                 ng-include="'/app/component/table/partner'">
-
+                            <div class="dataTable_wrapper" ng-include="'/app/component/table/partner'">
                             </div>
                         </div>
                         <!-- /.panel-body -->

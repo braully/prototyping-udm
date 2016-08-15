@@ -1,14 +1,12 @@
 var app = angular.module('baseApp',
-        ['pascalprecht.translate']);
+        ['pascalprecht.translate', 'ngResource']);
 
 app.config(
         function ($translateProvider) {
-
             $translateProvider.useStaticFilesLoader({
                 prefix: 'i18n/locale_',
                 suffix: '.json'
             });
-
             var userLang = navigator.language || navigator.userLanguage;
             userLang = userLang.substr(0, 2);
             $translateProvider.preferredLanguage(userLang);
@@ -16,9 +14,8 @@ app.config(
         }
 );
 
-app.controller('mainController', function ($scope) {
+app.constant('ENDPOINT_URI', 'http://localhost:8080/app/');
 
-});
 
 app.directive('sidemenu', ['$location', '$http', function () {
         return {
@@ -54,3 +51,7 @@ app.directive('sidemenu', ['$location', '$http', function () {
                     }
         }
     }]);
+
+app.controller('mainController', function ($scope) {
+
+});

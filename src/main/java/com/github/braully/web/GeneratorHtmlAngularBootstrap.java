@@ -101,8 +101,14 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     private String buildNgModelPath(String... property) {
+        return buildNgModelPath(false, property);
+    }
+
+    private String buildNgModelPath(boolean brackets, String... property) {
         StringBuilder sb = new StringBuilder();
-        sb.append("{{ ");
+        if (brackets) {
+            sb.append("{{ ");
+        }
         if (property != null && property.length > 0) {
             for (int i = 0; i < property.length; i++) {
                 String p = property[i];
@@ -112,7 +118,9 @@ public class GeneratorHtmlAngularBootstrap {
                 }
             }
         }
-        sb.append(" }}");
+        if (brackets) {
+            sb.append(" }}");
+        }
         return sb.toString();
     }
 
@@ -160,7 +168,7 @@ public class GeneratorHtmlAngularBootstrap {
                         td.setAttribute(at.getKey(), at.getValue());
                     });
                 }
-                td.withText(buildNgModelPath(var, he.property));
+                td.withText(buildNgModelPath(true, var, he.property));
                 trBody.with(td);
             }
             tbody.with(trBody);
