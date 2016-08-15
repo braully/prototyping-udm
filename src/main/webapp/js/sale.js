@@ -4,12 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('baseApp').factory('EntityFactory', function ($resource) {
-    return $resource('/app/rest/partner/:id');
-});
-
 angular.module('baseApp').controller('mainController', function ($scope, EntityFactory) {
     $scope.partner = [];
-    $scope.partners = EntityFactory.query();
+    $scope.partners = EntityFactory.query({entity: 'partner'});
 });
 

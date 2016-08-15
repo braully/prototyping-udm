@@ -16,6 +16,9 @@ app.config(
 
 app.constant('ENDPOINT_URI', 'http://localhost:8080/app/');
 
+app.factory('EntityFactory', function ($resource) {
+    return $resource('/app/rest/:entity/:id');
+});
 
 app.directive('sidemenu', ['$location', '$http', function () {
         return {
