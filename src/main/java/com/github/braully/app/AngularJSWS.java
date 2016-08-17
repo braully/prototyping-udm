@@ -51,9 +51,20 @@ public class AngularJSWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/component/table/{classe}"},
+    @RequestMapping(value = {"/component/table/{classe}/"},
             method = RequestMethod.GET, produces = "text/html")
     public String getComponentTable(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTable(htmlDescriptor);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/table/{classe}/simple"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTableSimple(@PathVariable("classe") String classe) {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
