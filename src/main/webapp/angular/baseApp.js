@@ -16,9 +16,10 @@ app.config(
 
 app.constant('ENDPOINT_URI', 'http://localhost:8080/app/');
 
-app.factory('EntityFactory', function ($resource) {
-    return $resource('/app/rest/:entity/:id');
+app.factory('Entity', function ($resource) {
+    return $resource('/app/rest/:classe/:id', {classe: '@classe', id: '@id'});
 });
+
 
 app.directive('sidemenu', ['$location', '$http', function () {
         return {
@@ -55,6 +56,19 @@ app.directive('sidemenu', ['$location', '$http', function () {
         }
     }]);
 
-app.controller('mainController', function ($scope) {
+app.controller('mainControllerBase', function ($scope, Entity) {
+    $scope.saveEntity = function (entity) {
+        $scope.entity = Entity.save(entity);
+    };
 
+    $scope.query = function (args) {
+        $scope.entities = Entity.query(args);
+    };
 });
+
+
+app.controller('mainController', function ($scope, $controller, Entity) {
+    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));
+});
+
+

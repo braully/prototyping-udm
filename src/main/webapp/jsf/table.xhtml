@@ -39,23 +39,25 @@
                             <form role="form" method="post" action="/app/rest/partner">
                                 <ng-include src="'/app/component/form/partner/lines'">
                                 </ng-include>
-                                <a class="btn btn-primary" role="button" 
-                                   data-toggle="collapse" href="#collapseExample" 
-                                   aria-expanded="false" aria-controls="collapseExample">
-                                    Link with href
-                                </a>
-                                <button class="btn btn-primary" 
-                                        type="button" data-toggle="collapse" 
-                                        data-target="#collapseExample" aria-expanded="false" 
-                                        aria-controls="collapseExample">
-                                    Button with data-target
-                                </button>
-                                <div class="collapse" id="collapseExample">
-                                    Teste teste
+
+                                <div class="collapse" id="advanced-search">
+                                    <div class="form-group ng-scope">
+                                        <label>Advanced</label>
+                                        <input class="form-control ng-pristine ng-valid" ng-model="partner.advanced" />
+                                    </div>
                                 </div>
+
+                                <button class="btn btn-default" 
+                                        type="button" data-toggle="collapse" 
+                                        data-target="#advanced-search" 
+                                        aria-expanded="false" 
+                                        aria-controls="advanced-search">
+                                    <span class="glyphicon glyphicon-option-vertical"></span>
+                                    Advanced
+                                </button>
                                 <button type="Search" class="btn btn-default pull-right">
                                     <span class="glyphicon glyphicon-search"></span>
-                                    Search
+                                    Search Partner
                                 </button>
                             </form>
                         </div>
@@ -127,7 +129,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-4">
-                                <div class="btn-group" role="group">
+                                <div class="btn-group pagination" role="group">
                                     <button type="button" class="btn btn-default dropdown-toggle" 
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="glyphicon glyphicon-th"></span>

@@ -22,10 +22,10 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form" method="post" action="/app/rest/partner">
+                                    <form role="form">
                                         <ng-include src="'/app/component/form/partner/lines'">
                                         </ng-include>
-                                        <button type="submit" class="btn btn-default">Save</button>
+                                        <button type="submit" ng-click="saveEntity(partner)" class="btn btn-default">Save</button>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
