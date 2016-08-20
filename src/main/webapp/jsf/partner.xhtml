@@ -8,9 +8,11 @@
         <ui:define name="title-page">Partner</ui:define>
 
         <ui:define name="header-append">
-            <script src="js/sale.js"></script>
-            <!--<script src="/app/component/js/partner.js"></script>-->
+            <!--<script src="js/partner.js"></script>-->
+            <script src="/app/component/js/partner.js"></script>
         </ui:define>
+
+        <ui:param name="controllerAngular" value="partnerController" />
 
         <ui:define name="body-content">
             <div class="row">
@@ -25,7 +27,9 @@
                                     <form role="form">
                                         <ng-include src="'/app/component/form/partner/lines'">
                                         </ng-include>
-                                        <button type="submit" ng-click="saveEntity(partner)" class="btn btn-default">Save</button>
+                                        <button type="submit" 
+                                                ng-click="saveEntity(partner)" 
+                                                class="btn btn-default">Save</button>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
@@ -49,7 +53,8 @@
 
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="dataTable_wrapper" ng-include="'/app/component/table/partner'">
+                            <div class="dataTable_wrapper" 
+                                 ng-include="'/app/component/table/partner'">
                             </div>
                         </div>
                     </div>

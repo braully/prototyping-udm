@@ -41,7 +41,7 @@
         </ui:insert>
     </head>
     <body>
-        <div id="wrapper" ng-controller="mainController">
+        <div id="wrapper">
             <ui:insert name="header-content">
                 <nav class="navbar navbar-default navbar-static-top" 
                      role="navigation" style="margin-bottom: 0;">
@@ -175,7 +175,7 @@
             </ui:insert>
 
             <div id="main">
-                <div id="content-wrapper">
+                <div id="content-wrapper" ng-controller="#{controllerAngular}">
                     <div id="page-wrapper" 
                          style="min-height: 561px;">
                         <!-- Main Content -->

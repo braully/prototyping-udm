@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,9 +59,9 @@ public class EntityRESTfulWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/rest/{classe}"}, method = {RequestMethod.POST})
+    @RequestMapping(value = {"/rest/{classe}"}, method = {RequestMethod.POST}, consumes = "application/json")
     @ResponseBody
-    public IEntity createEntity(@PathVariable("classe") String classe) {
+    public IEntity createEntity(@PathVariable("classe") String classe, @RequestBody String jsonEntity) {
         log.info("createEntity()");
         IEntity ret = null;
         return ret;

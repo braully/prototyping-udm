@@ -4,6 +4,7 @@ import com.github.braully.web.DescriptorExposedEntity;
 import com.github.braully.domain.Menu;
 import com.github.braully.web.GeneratorHtmlAngularBootstrap;
 import com.github.braully.web.DescriptorHtmlEntity;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -25,6 +27,16 @@ public class AngularJSWS {
     static final Map<String, DescriptorHtmlEntity> FORM_ENTITY_DESCRIPTOR_CACHE = new HashMap<>();
 
     static final GeneratorHtmlAngularBootstrap GENERATOR_HTML = new GeneratorHtmlAngularBootstrap();
+
+    static final String DEFAULT_APP_NAME = "baseApp";
+
+    static final String DEFAULT_JS_TXT = "angular.module('%s').controller('%s', function ($scope, $controller) {\n"
+            + "    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));\n"
+            + "    \n"
+            + "    $scope.%s = [];\n"
+            + "    $scope.%s = { classe: '%s' };\n"
+            + "});\n"
+            + "\n";
 
     /*
     
@@ -48,6 +60,20 @@ public class AngularJSWS {
         m.setValue("Partner");
         m.setLink("/partner");
         ret.add(m);
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/js/{classe}.js"},
+            method = RequestMethod.GET, produces = "application/javascript")
+    public String getComponentJavaScript(@PathVariable("classe") String classe) {
+        String appName, controllerName, listName, varName, className;
+        appName = DEFAULT_APP_NAME;
+        className = classe;
+        controllerName = className + "Controller";
+        listName = className + "s";
+        varName = className;
+//        String ret = MessageFormat.format(DEFAULT_JS_TXT, appName, controllerName, listName, varName, className);
+        String ret = String.format(DEFAULT_JS_TXT, appName, controllerName, listName, varName, className);
         return ret;
     }
 
