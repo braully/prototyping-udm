@@ -31,7 +31,7 @@ public class AngularJSWS {
 
     static final String DEFAULT_APP_NAME = "baseApp";
 
-    static final String DEFAULT_JS_TXT = "angular.module('%s').controller('%s', function ($scope, $controller) {\n"
+    static final String DEFAULT_JS_TXT = "angular.module('%s').controller('%s', function ($scope, $controller, Entity) {\n"
             + "    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));\n"
             + "    $scope.%s = Entity.query({classe: '%s'});\n"
             + "    $scope.%s = [];\n"

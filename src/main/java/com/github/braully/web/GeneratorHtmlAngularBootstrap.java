@@ -179,7 +179,7 @@ public class GeneratorHtmlAngularBootstrap {
         return txtHtml.render();
     }
 
-    public String renderFilter(DescriptorHtmlEntity htmlDescriptor) {
+    public String renderFilter(DescriptorHtmlEntity html) {
         String typeRoot = html.type;
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
@@ -212,12 +212,15 @@ public class GeneratorHtmlAngularBootstrap {
         }
 
         ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
-        collapse.with(button("Advanced").withClass("btn btn-default").withType("button")
+
+        txtHtml.with(collapse);
+        txtHtml.with(button("Advanced").withClass("btn btn-default").withType("button")
                 .attr("data-toggle", "collapse").attr("data-target", "#advanced-search").attr("aria-expand", "false")
                 .attr("aria-controls", "advanced-search")
                 .with(span().withClass("glyphicon glyphicon-option-vertical")));
 
-        txtHtml.with(collapse);
+        txtHtml.with(button("Search").withClass("btn btn-default pull-right").withType("Search")
+                .with(span().withClass("glyphicon glyphicon-search")));
 
         if (true) {
             StringBuilder childs = new StringBuilder();
@@ -295,6 +298,6 @@ public class GeneratorHtmlAngularBootstrap {
             txtHtml.with(tbody);
         }
         return txtHtml.render();
-        return ret;
+        //return ret;
     }
 }
