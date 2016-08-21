@@ -1,5 +1,8 @@
 package com.github.braully.app;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.braully.web.DescriptorExposedEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
@@ -33,8 +36,8 @@ public class EntityRESTfulWS {
 
     @Autowired
     private GenericDAO genericDAO;
-    @Autowired(required = false)
-    protected ServletRequest request;
+//    @Autowired(required = false)
+//    protected ServletRequest request;
 
     static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
@@ -61,9 +64,22 @@ public class EntityRESTfulWS {
 
     @RequestMapping(value = {"/rest/{classe}"}, method = {RequestMethod.POST}, consumes = "application/json")
     @ResponseBody
-    public IEntity createEntity(@PathVariable("classe") String classe, @RequestBody String jsonEntity) {
+    public IEntity createEntity(@PathVariable("classe") String classe,
+            @RequestBody String jsonEntity) {
         log.info("createEntity()");
         IEntity ret = null;
+        DescriptorExposedEntity exposedEntity = EXPOSED_ENTITY.get(classe);
+        if (exposedEntity != null && jsonEntity != null) {
+            try {
+                Class classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                ret = (IEntity) mapper.readValue(jsonEntity, classeMapeada);
+                genericDAO.saveEntity(ret);
+            } catch (IOException ex) {
+                log.error("Falha ao obter conteudo do servlete", ex);
+            }
+        }
         return ret;
     }
 
@@ -71,17 +87,17 @@ public class EntityRESTfulWS {
             method = {RequestMethod.PUT})
     @ResponseBody
     public IEntity updateEntity(@PathVariable("classe") String classe,
-            @PathVariable("id") Integer id) {
+            @PathVariable("id") Integer id,
+            @RequestBody String jsonEntity) {
         log.info("updateEntity()");
         IEntity entidade = null;
         if (classe != null && !classe.trim().isEmpty()) {
             try {
-                ServletInputStream inputStream = request.getInputStream();
                 Class classeMapeada = null;
-                if (inputStream != null) {
+                if (jsonEntity != null) {
                     classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
                     ObjectMapper mapper = new ObjectMapper();
-                    entidade = (IEntity) mapper.readValue(inputStream, classeMapeada);
+                    entidade = (IEntity) mapper.readValue(jsonEntity, classeMapeada);
                 }
             } catch (IOException ex) {
                 log.error("Falha ao obter conteudo do servlete", ex);
