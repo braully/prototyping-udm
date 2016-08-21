@@ -5,6 +5,8 @@ import j2html.tags.ContainerTag;
 import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
 
+import static j2html.TagCreator.*;
+
 import java.util.Map;
 
 import org.springframework.util.StringUtils;
@@ -47,7 +49,6 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.withClass(ROW_CLASS);
                     txtHtml.with(parent);
                     ContainerTag labelHtml = TagCreator.label(he.label);
-//                    labelHtml.withClass(LABEL_CLASS);
                     parent.with(labelHtml);
                 }
 
@@ -135,7 +136,7 @@ public class GeneratorHtmlAngularBootstrap {
         return sb.toString();
     }
 
-    public String renderTable(DescriptorHtmlEntity htmlDescriptor) {
+    public String renderTableSimple(DescriptorHtmlEntity htmlDescriptor) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
@@ -179,24 +180,121 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     public String renderFilter(DescriptorHtmlEntity htmlDescriptor) {
-        String filter = "<div class=\"collapse\" id=\"advanced-search\">\n" +
-                "                                    <div class=\"form-group ng-scope\">\n" +
-                "                                        <label>Advanced</label>\n" +
-                "                                        <input class=\"form-control ng-pristine ng-valid\" ng-model=\"partner.advanced\"/>\n" +
-                "                                    </div>\n" +
-                "                                </div>\n" +
-                "                                <button class=\"btn btn-default\"\n" +
-                "                                        type=\"button\" data-toggle=\"collapse\"\n" +
-                "                                        data-target=\"#advanced-search\"\n" +
-                "                                        aria-expanded=\"false\"\n" +
-                "                                        aria-controls=\"advanced-search\">\n" +
-                "                                    <span class=\"glyphicon glyphicon-option-vertical\"></span>\n" +
-                "                                    Advanced\n" +
-                "                                </button>\n" +
-                "                                <button type=\"Search\" class=\"btn btn-default pull-right\">\n" +
-                "                                    <span class=\"glyphicon glyphicon-search\"></span>\n" +
-                "                                    Search Partner\n" +
-                "                                </button>";
-        return filter;
+        String typeRoot = html.type;
+        if (typeRoot == null) {
+            typeRoot = FORM_TYPE;
+        }
+        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+
+        if (html.elements != null) {
+            for (HtmlElement he : html.elements) {
+                ContainerTag parent = txtHtml;
+
+                if (!StringUtils.isEmpty(he.label)) {
+                    parent = TagCreator.div();
+                    parent.withClass(ROW_CLASS);
+                    txtHtml.with(parent);
+                    ContainerTag labelHtml = TagCreator.label(he.label);
+                    parent.with(labelHtml);
+                }
+
+                EmptyTag the = TagCreator.emptyTag(getHtmlType(he.type));
+                if (he.attributes != null) {
+                    he.attributes.entrySet().stream().forEach((at) -> {
+                        the.setAttribute(at.getKey(), at.getValue());
+                    });
+                }
+                the.withClass("form-control");
+                the.attr(NG_MODEL, buildNgModelPath(html.property, he.property));
+
+                parent.with(the);
+            }
+        }
+
+        ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
+        collapse.with(button("Advanced").withClass("btn btn-default").withType("button")
+                .attr("data-toggle", "collapse").attr("data-target", "#advanced-search").attr("aria-expand", "false")
+                .attr("aria-controls", "advanced-search")
+                .with(span().withClass("glyphicon glyphicon-option-vertical")));
+
+        txtHtml.with(collapse);
+
+        if (true) {
+            StringBuilder childs = new StringBuilder();
+            if (txtHtml.children != null) {
+                txtHtml.children.stream().forEach((t) -> {
+                    childs.append(t.render());
+                });
+            }
+            return childs.toString();
+        } else {
+            return txtHtml.render();
+        }
+    }
+
+    public String renderTable(DescriptorHtmlEntity htmlDescriptor) {
+        String typeRoot = htmlDescriptor.type;
+        if (typeRoot == null) {
+            typeRoot = TABLE_TYPE;
+        }
+        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        txtHtml.withClass("table table-bordred table-striped");
+
+        if (htmlDescriptor.elements != null) {
+            ContainerTag thead = TagCreator.thead();
+            ContainerTag tr = TagCreator.tr();
+
+            for (HtmlElement he : htmlDescriptor.elements) {
+                if (!StringUtils.isEmpty(he.label)) {
+                    ContainerTag th = TagCreator.th(he.label);
+                    tr.with(th);
+                }
+            }
+
+            ContainerTag th = TagCreator.th("Edit");
+            tr.with(th);
+            th = TagCreator.th("Delete");
+            tr.with(th);
+
+            thead.with(tr);
+            txtHtml.with(thead);
+
+            String var = htmlDescriptor.property + "Item";
+            String collection = htmlDescriptor.property + "s";
+
+            ContainerTag tbody = TagCreator.tbody();
+            ContainerTag trBody = TagCreator.tr();
+            trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
+
+            for (HtmlElement he : htmlDescriptor.elements) {
+                ContainerTag td = TagCreator.td();
+                if (he.attributes != null) {
+                    he.attributes.entrySet().stream().forEach((at) -> {
+                        td.setAttribute(at.getKey(), at.getValue());
+                    });
+                }
+                td.withText(buildNgModelPath(true, var, he.property));
+                trBody.with(td);
+            }
+
+            ContainerTag td = TagCreator.td();
+            td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Edit").with(
+                    button().withClass("btn btn-primary btn-xs").attr("data-title", "Edit")
+                            .attr("data-toggle", "modal").attr("data-target", "#edit").with(
+                            span().withClass("glyphicon glyphicon-pencil"))));
+            trBody.with(td);
+
+            td = TagCreator.td();
+            td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Delete").with(
+                    button().withClass("btn btn-danger btn-xs").attr("data-title", "Delete")
+                            .attr("data-toggle", "modal").attr("data-target", "#delete").with(
+                            span().withClass("glyphicon glyphicon-trash"))));
+            trBody.with(td);
+
+            tbody.with(trBody);
+            txtHtml.with(tbody);
+        }
+        return txtHtml.render();
+        return ret;
     }
 }
