@@ -4,11 +4,12 @@ import j2html.TagCreator;
 import j2html.tags.ContainerTag;
 import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
+
 import java.util.Map;
+
 import org.springframework.util.StringUtils;
 
 /**
- *
  * @author braully
  */
 public class GeneratorHtmlAngularBootstrap {
@@ -175,5 +176,27 @@ public class GeneratorHtmlAngularBootstrap {
             txtHtml.with(tbody);
         }
         return txtHtml.render();
+    }
+
+    public String renderFilter(DescriptorHtmlEntity htmlDescriptor) {
+        String filter = "<div class=\"collapse\" id=\"advanced-search\">\n" +
+                "                                    <div class=\"form-group ng-scope\">\n" +
+                "                                        <label>Advanced</label>\n" +
+                "                                        <input class=\"form-control ng-pristine ng-valid\" ng-model=\"partner.advanced\"/>\n" +
+                "                                    </div>\n" +
+                "                                </div>\n" +
+                "                                <button class=\"btn btn-default\"\n" +
+                "                                        type=\"button\" data-toggle=\"collapse\"\n" +
+                "                                        data-target=\"#advanced-search\"\n" +
+                "                                        aria-expanded=\"false\"\n" +
+                "                                        aria-controls=\"advanced-search\">\n" +
+                "                                    <span class=\"glyphicon glyphicon-option-vertical\"></span>\n" +
+                "                                    Advanced\n" +
+                "                                </button>\n" +
+                "                                <button type=\"Search\" class=\"btn btn-default pull-right\">\n" +
+                "                                    <span class=\"glyphicon glyphicon-search\"></span>\n" +
+                "                                    Search Partner\n" +
+                "                                </button>";
+        return filter;
     }
 }
