@@ -185,15 +185,24 @@ public class GeneratorHtmlAngularBootstrap {
             typeRoot = FORM_TYPE;
         }
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
         if (html.elements != null) {
             for (HtmlElement he : html.elements) {
-                ContainerTag parent = txtHtml;
+                ContainerTag container;
+                //he.principalFilter
+                boolean hePrincipal = Math.random() <= 0.5;
+                if (hePrincipal) {
+                    container = txtHtml;
+                } else {
+                    container = collapse;
+                }
+                ContainerTag parent = container;
 
                 if (!StringUtils.isEmpty(he.label)) {
                     parent = TagCreator.div();
                     parent.withClass(ROW_CLASS);
-                    txtHtml.with(parent);
+                    container.with(parent);
                     ContainerTag labelHtml = TagCreator.label(he.label);
                     parent.with(labelHtml);
                 }
@@ -211,7 +220,6 @@ public class GeneratorHtmlAngularBootstrap {
             }
         }
 
-        ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
         txtHtml.with(collapse);
         txtHtml.with(button("Advanced").withClass("btn btn-default").withType("button")
