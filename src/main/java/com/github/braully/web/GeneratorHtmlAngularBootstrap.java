@@ -181,6 +181,7 @@ public class GeneratorHtmlAngularBootstrap {
 
     public String renderFilter(DescriptorHtmlEntity html) {
         String typeRoot = html.type;
+        String beanRoot = html.property + "Search";
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
@@ -214,12 +215,11 @@ public class GeneratorHtmlAngularBootstrap {
                     });
                 }
                 the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath(html.property, he.property));
+                the.attr(NG_MODEL, buildNgModelPath(beanRoot, he.property));
 
                 parent.with(the);
             }
         }
-
 
         txtHtml.with(collapse);
         txtHtml.with(button("Advanced").withClass("btn btn-default").withType("button")
@@ -227,8 +227,8 @@ public class GeneratorHtmlAngularBootstrap {
                 .attr("aria-controls", "advanced-search")
                 .with(span().withClass("glyphicon glyphicon-option-vertical")));
 
-        txtHtml.with(button("Search").withClass("btn btn-default pull-right").withType("Search")
-                .with(span().withClass("glyphicon glyphicon-search")));
+        txtHtml.with(button().withClass("btn btn-default pull-right").withType("Search")
+                .with(span().withClass("glyphicon glyphicon-search")).withText("Search"));
 
         if (true) {
             StringBuilder childs = new StringBuilder();
@@ -291,15 +291,15 @@ public class GeneratorHtmlAngularBootstrap {
             ContainerTag td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Edit").with(
                     button().withClass("btn btn-primary btn-xs").attr("data-title", "Edit")
-                            .attr("data-toggle", "modal").attr("data-target", "#edit").with(
-                            span().withClass("glyphicon glyphicon-pencil"))));
+                    .attr("data-toggle", "modal").attr("data-target", "#edit").with(
+                    span().withClass("glyphicon glyphicon-pencil"))));
             trBody.with(td);
 
             td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Delete").with(
                     button().withClass("btn btn-danger btn-xs").attr("data-title", "Delete")
-                            .attr("data-toggle", "modal").attr("data-target", "#delete").with(
-                            span().withClass("glyphicon glyphicon-trash"))));
+                    .attr("data-toggle", "modal").attr("data-target", "#delete").with(
+                    span().withClass("glyphicon glyphicon-trash"))));
             trBody.with(td);
 
             tbody.with(trBody);

@@ -36,6 +36,7 @@ public class AngularJSWS {
             + "    $scope.%s = Entity.query({classe: '%s'});\n"
             + "    $scope.%s = [];\n"
             + "    $scope.%s = { classe: '%s' };\n"
+            + "    $scope.%s = [];\n"
             + "});\n"
             + "\n";
 
@@ -67,14 +68,16 @@ public class AngularJSWS {
     @RequestMapping(value = {"/component/js/{classe}.js"},
             method = RequestMethod.GET, produces = "application/javascript")
     public String getComponentJavaScript(@PathVariable("classe") String classe) {
-        String appName, controllerName, listName, varName, className;
+        String appName, controllerName, listName, varName, className, searchVar;
         appName = DEFAULT_APP_NAME;
         className = classe;
         controllerName = className + "Controller";
         listName = className + "s";
         varName = className;
+        searchVar = className + "Search";
 //        String ret = MessageFormat.format(DEFAULT_JS_TXT, appName, controllerName, listName, varName, className);
-        String ret = String.format(DEFAULT_JS_TXT, appName, controllerName, listName, className, varName, varName, className);
+        String ret = String.format(DEFAULT_JS_TXT, appName, controllerName,
+                listName, className, varName, varName, className, searchVar);
         return ret;
     }
 
