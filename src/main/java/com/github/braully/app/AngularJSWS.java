@@ -52,7 +52,7 @@ public class AngularJSWS {
         m.setName("Sale");
         m.setIcon("table");
         m.setValue("Sale Section");
-        m.setLink("/sale");
+        m.setLink("/teste.xhtml");
         ret.add(m);
 
         m = new Menu();
@@ -60,7 +60,7 @@ public class AngularJSWS {
         m.setName("Partner");
         m.setIcon("user");
         m.setValue("Partner");
-        m.setLink("/partner");
+        m.setLink("/partner.xhtml");
         ret.add(m);
         return ret;
     }

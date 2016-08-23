@@ -1,18 +1,24 @@
 angular.module('baseApp').controller('mainController', function ($scope, $controller, Entity) {
     angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));
-//    $scope.partner = Entity.get({classe: 'partner', id: '@id'})
+    $scope.partner = Entity.get({classe: 'partner', id: '@id'});
     $scope.objects = Entity.query({classe: 'partner'});
     $scope.partners = $scope.objects;
-    $scope.partner = [];
+//    $scope.partner = [];
     $scope.partner.classe = 'partner';
 
-    $scope.objects.$promise.then(function () {
-        $scope.totalItems = $scope.objects.length;
-    });
+    $scope.successSaveEntity = function (data) {
+        $scope.partner = [];
+        $scope.partner.classe = 'partner';
+    };
+
+    //Pagination
     $scope.currentPage = 1;
     $scope.numPerPage = 5;
 
-    $scope.totalPages = Math.ceil($scope.objects.length / $scope.numPerPage);
+    $scope.objects.$promise.then(function () {
+        $scope.totalItems = $scope.objects.length;
+        $scope.totalPages = Math.ceil($scope.objects.length / $scope.numPerPage);
+    });
 
     $scope.paginate = function (value) {
         var begin, end, index;

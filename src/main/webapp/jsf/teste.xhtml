@@ -46,7 +46,13 @@
                                 </a>
                             </li>
 
-                            <li ng-class="{disabled: $scope.currentPage == $scope.totalPages}">
+                            <li ng-repeat="n in totalPages"
+                                ng-class="{active: n == currentPage}"
+                                ng-click="setPage()">
+                                <a href="javascript:;" ng-bind="n + 1">1</a>
+                            </li>
+
+                            <li ng-class="{disabled: currentPage == totalPages}">
                                 <a href="javascript:;" ng-click="nextPage()">
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>

@@ -1,5 +1,5 @@
 var app = angular.module('baseApp',
-        ['pascalprecht.translate', 'ngResource']);
+        ['pascalprecht.translate', 'ngResource', 'angular-growl']);
 
 app.config(
         function ($translateProvider) {
@@ -56,9 +56,23 @@ app.directive('sidemenu', ['$location', '$http', function () {
         }
     }]);
 
-app.controller('mainControllerBase', function ($scope, Entity) {
+app.controller('mainControllerBase', function ($scope, growl, Entity) {
     $scope.saveEntity = function (entity) {
         $scope.entity = Entity.save(entity);
+        $scope.entity.$promise.then(function (data) {
+            growl.success("<b>Salvo</b> com sucesso");
+            $scope.successSaveEntity(data);
+        }, function (error) {
+            growl.error("<b>Falha</b> ao salvar: " + error);
+        });
+    };
+
+    $scope.errorSaveEntity = function (error) {
+
+    };
+
+    $scope.successSaveEntity = function (data) {
+
     };
 
     $scope.query = function (args) {

@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css" />
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" />
+        <link href="bower_components/angular-growl-v2/build/angular-growl.min.css" rel="stylesheet" />
 
         <link rel="stylesheet" href="css/base.css" />
 
@@ -29,11 +30,13 @@
         <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
         <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+        <script src="bower_components/angular-growl-v2/build/angular-growl.min.js"></script>
+
         <script>
             var lang = navigator.language || navigator.userLanguage;
             if (lang) {
-                lang = lang.toLocaleLowerCase();
-                document.write("\x3Cscript src='bower_components/angular-i18n/angular-locale_" + lang + ".js'>\x3C/script>");
+            lang = lang.toLocaleLowerCase();
+            document.write("\x3Cscript src='bower_components/angular-i18n/angular-locale_" + lang + ".js'>\x3C/script>");
             }
         </script>
         <script src="angular/baseApp.js"></script>
@@ -41,6 +44,7 @@
         </ui:insert>
     </head>
     <body>
+        <div growl=""></div>
         <div id="wrapper">
             <ui:insert name="header-content">
                 <nav class="navbar navbar-default navbar-static-top" 
