@@ -2,8 +2,11 @@ package com.github.braully.app;
 
 import com.github.braully.web.DescriptorExposedEntity;
 import com.github.braully.domain.Menu;
+import com.github.braully.sak.util.UtilIO;
 import com.github.braully.web.GeneratorHtmlAngularBootstrap;
 import com.github.braully.web.DescriptorHtmlEntity;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang3.text.StrSubstitutor;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -31,14 +39,7 @@ public class AngularJSWS {
 
     static final String DEFAULT_APP_NAME = "baseApp";
 
-    static final String DEFAULT_JS_TXT = "angular.module('%s').controller('%s', function ($scope, $controller, Entity) {\n"
-            + "    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));\n"
-            + "    $scope.%s = Entity.query({classe: '%s'});\n"
-            + "    $scope.%s = [];\n"
-            + "    $scope.%s = { classe: '%s' };\n"
-            + "    $scope.%s = [];\n"
-            + "});\n"
-            + "\n";
+    static final String DEFAULT_JS_TXT = "/js/partner.js";
 
     /*
     
@@ -75,10 +76,17 @@ public class AngularJSWS {
         listName = className + "s";
         varName = className;
         searchVar = className + "Search";
-//        String ret = MessageFormat.format(DEFAULT_JS_TXT, appName, controllerName, listName, varName, className);
-        String ret = String.format(DEFAULT_JS_TXT, appName, controllerName,
-                listName, className, varName, varName, className, searchVar);
-        return ret;
+
+//        Map valuesMap = new HashMap();
+//        valuesMap.put("partner", className);
+//        valuesMap.put("baseApp", DEFAULT_APP_NAME);
+
+//        StrSubstitutor sub = new StrSubstitutor(valuesMap);
+//        sub.setVariablePrefix("");
+//        sub.setVariableSuffix("");
+//        String resolvedString = sub.replace(getTemplateStringControllerJS());
+        String resolvedString = getTemplateStringControllerJS().replaceAll("partner", className);
+        return resolvedString;
     }
 
     @RequestMapping(value = {"/component/table/{classe}"},
@@ -147,5 +155,16 @@ public class AngularJSWS {
             }
         }
         return descriptorHtmlEntity;
+    }
+
+    private static String getTemplateStringControllerJS() {
+        String ret = null;
+        try {
+            ClassPathResource classPathResource = new ClassPathResource(DEFAULT_JS_TXT);
+            ret = FileCopyUtils.copyToString(new InputStreamReader(classPathResource.getInputStream()));
+        } catch (IOException ex) {
+            Logger.getLogger(AngularJSWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
     }
 }

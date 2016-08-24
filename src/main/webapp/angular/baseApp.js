@@ -62,6 +62,7 @@ app.controller('mainControllerBase', function ($scope, growl, Entity) {
         $scope.entity.$promise.then(function (data) {
             growl.success("<b>Salvo</b> com sucesso");
             $scope.successSaveEntity(data);
+            $scope.entities = Entity.query($scope.entitySearch);
         }, function (error) {
             growl.error("<b>Falha</b> ao salvar: " + error);
         });

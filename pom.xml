@@ -101,6 +101,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
             <!--            <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -182,6 +183,16 @@
         </profile>        
         <profile>
             <id>exec</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/webapp</directory>
+                    </resource>
+                </resources>
+            </build>
             <dependencies>
                 <!--                <dependency>
                     <groupId>javax.servlet</groupId>
