@@ -42,12 +42,9 @@ public class EntityRESTfulWS {
     static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
     static {
-        DescriptorExposedEntity exposedEntity = new DescriptorExposedEntity(Partner.class);
-        exposedEntity.hidden("phoneticName", "attribute");
-        EXPOSED_ENTITY.put("partner", exposedEntity);
-
-        exposedEntity = new DescriptorExposedEntity(PurchaseOrder.class);
-        EXPOSED_ENTITY.put("purchaseOrder", exposedEntity);
+        EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
+                .hiddenForm("phoneticName", "attribute"));
+        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)
@@ -69,7 +66,7 @@ public class EntityRESTfulWS {
         log.info("createEntity()");
         IEntity ret = null;
         DescriptorExposedEntity exposedEntity = EXPOSED_ENTITY.get(classe);
-        if (exposedEntity != null && jsonEntity != null) {
+        if (exposedEntity != null && jsonEntity != null && !jsonEntity.isEmpty()) {
             try {
                 Class classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
                 ObjectMapper mapper = new ObjectMapper();

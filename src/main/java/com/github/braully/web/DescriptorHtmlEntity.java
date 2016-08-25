@@ -21,8 +21,10 @@ public class DescriptorHtmlEntity extends HtmlElement {
 
     Class classe;
 
-    List<HtmlElement> elements;
-    Set<String> hidden;
+    List<HtmlElement> elementsForm;
+    List<HtmlElement> elementsList;
+    Set<String> hiddenFormProperties;
+    Set<String> hiddenListProperties;
     Set<String> exclude = new HashSet<>();
 
     public DescriptorHtmlEntity() {
@@ -38,35 +40,47 @@ public class DescriptorHtmlEntity extends HtmlElement {
 
     public DescriptorHtmlEntity(Class classe, String type) {
         this(decapitalize(classe.getSimpleName()), classe, type);
-
         parseFieldClass(classe);
     }
 
     private void parseFieldClass(Class classe1) {
         ReflectionUtils.doWithFields(classe1, (Field field) -> {
-            addHtmlElement(field);
-        }, (final Field field) -> {
-            final int modifiers = field.getModifiers();
-            return !Modifier.isStatic(modifiers)
-                    && !exclude.contains(field.getName());
+            addHtmlFormElement(field);
+            addHtmlListElement(field);
         });
     }
 
-    public DescriptorHtmlEntity(Class classe) {
+    private DescriptorHtmlEntity(Class classe) {
         this(decapitalize(classe.getSimpleName()), classe, null);
-        parseFieldClass(classe);
     }
 
     public DescriptorHtmlEntity(DescriptorExposedEntity descriptorExposedEntity) {
         this(descriptorExposedEntity.classExposed);
-        this.hidden = descriptorExposedEntity.hiddenProperties;
+        this.hiddenFormProperties = descriptorExposedEntity.hiddenFormProperties;
+        this.hiddenListProperties = descriptorExposedEntity.hiddenListProperties;
+        parseFieldClass(classe);
     }
 
-    private void addHtmlElement(Field field) {
-        if (elements == null) {
-            elements = new ArrayList<>();
+    private void addHtmlListElement(Field field) {
+        if (elementsList == null) {
+            elementsList = new ArrayList<>();
         }
-        elements.add(new HtmlElement(field));
+        final int modifiers = field.getModifiers();
+        if (!Modifier.isStatic(modifiers)
+                && !hiddenListProperties.contains(field.getName())) {
+            elementsList.add(new HtmlElement(field));
+        }
+    }
+
+    private void addHtmlFormElement(Field field) {
+        if (elementsForm == null) {
+            elementsForm = new ArrayList<>();
+        }
+        final int modifiers = field.getModifiers();
+        if (!Modifier.isStatic(modifiers)
+                && !hiddenFormProperties.contains(field.getName())) {
+            elementsForm.add(new HtmlElement(field));
+        }
     }
 
     public static String decapitalize(String string) {

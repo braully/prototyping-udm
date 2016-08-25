@@ -14,27 +14,40 @@ import java.util.Set;
  * @author strike
  */
 public class DescriptorExposedEntity {
-
+    
+    static final String[] DEFAULT_HIDDEN_FORM_FIELDS = new String[]{"id", "version"};
+    
     Class classExposed;
-    Set<String> hiddenProperties;
+    Set<String> hiddenFormProperties;
+    Set<String> hiddenListProperties;
     Set<String> excludeProperties;
-
+    
     public DescriptorExposedEntity() {
-        hiddenProperties = new HashSet<>();
+        hiddenFormProperties = new HashSet<>();
+        hiddenListProperties = new HashSet<>();
+        Arrays.stream(DEFAULT_HIDDEN_FORM_FIELDS).forEach(s -> hiddenFormProperties.add(s));
     }
-
+    
     public DescriptorExposedEntity(Class aClass) {
         this();
         this.classExposed = aClass;
     }
-
+    
     public Class getClassExposed() {
         return classExposed;
     }
-
-    public void hidden(String... hiddenProperties) {
+    
+    public DescriptorExposedEntity hiddenForm(String... hiddenProperties) {
         if (hiddenProperties != null) {
-            Arrays.stream(hiddenProperties).forEach(hp -> this.hiddenProperties.add(hp));
+            Arrays.stream(hiddenProperties).forEach(hp -> this.hiddenFormProperties.add(hp));
         }
+        return this;
+    }
+    
+    public DescriptorExposedEntity hiddenList(String... hiddenProperties) {
+        if (hiddenProperties != null) {
+            Arrays.stream(hiddenProperties).forEach(hp -> this.hiddenListProperties.add(hp));
+        }
+        return this;
     }
 }

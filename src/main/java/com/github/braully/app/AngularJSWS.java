@@ -2,7 +2,6 @@ package com.github.braully.app;
 
 import com.github.braully.web.DescriptorExposedEntity;
 import com.github.braully.domain.Menu;
-import com.github.braully.sak.util.UtilIO;
 import com.github.braully.web.GeneratorHtmlAngularBootstrap;
 import com.github.braully.web.DescriptorHtmlEntity;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 
@@ -63,28 +61,38 @@ public class AngularJSWS {
         m.setValue("Partner");
         m.setLink("/partner.xhtml");
         ret.add(m);
+
+        m = new Menu();
+        m.setId(2l);
+        m.setName("Form");
+        m.setIcon("form");
+        m.setValue("Form");
+        m.setLink("/form.xhtml");
+        ret.add(m);
+
+        m = new Menu();
+        m.setId(2l);
+        m.setName("Search");
+        m.setIcon("search");
+        m.setValue("Search");
+        m.setLink("/search.xhtml");
+        ret.add(m);
+
+        m = new Menu();
+        m.setId(2l);
+        m.setName("Table");
+        m.setIcon("table");
+        m.setValue("Table");
+        m.setLink("/table.xhtml");
+        ret.add(m);
         return ret;
     }
 
     @RequestMapping(value = {"/component/js/{classe}.js"},
             method = RequestMethod.GET, produces = "application/javascript")
     public String getComponentJavaScript(@PathVariable("classe") String classe) {
-        String appName, controllerName, listName, varName, className, searchVar;
-        appName = DEFAULT_APP_NAME;
-        className = classe;
-        controllerName = className + "Controller";
-        listName = className + "s";
-        varName = className;
-        searchVar = className + "Search";
+        String className = classe;
 
-//        Map valuesMap = new HashMap();
-//        valuesMap.put("partner", className);
-//        valuesMap.put("baseApp", DEFAULT_APP_NAME);
-
-//        StrSubstitutor sub = new StrSubstitutor(valuesMap);
-//        sub.setVariablePrefix("");
-//        sub.setVariableSuffix("");
-//        String resolvedString = sub.replace(getTemplateStringControllerJS());
         String resolvedString = getTemplateStringControllerJS().replaceAll("partner", className);
         return resolvedString;
     }

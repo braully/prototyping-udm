@@ -40,8 +40,8 @@ public class GeneratorHtmlAngularBootstrap {
         }
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
 
-        if (html.elements != null) {
-            for (HtmlElement he : html.elements) {
+        if (html.elementsForm != null) {
+            for (HtmlElement he : html.elementsForm) {
                 ContainerTag parent = txtHtml;
 
                 if (!StringUtils.isEmpty(he.label)) {
@@ -143,11 +143,11 @@ public class GeneratorHtmlAngularBootstrap {
         }
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
 
-        if (htmlDescriptor.elements != null) {
+        if (htmlDescriptor.elementsForm != null) {
             ContainerTag thead = TagCreator.thead();
             ContainerTag tr = TagCreator.tr();
 
-            for (HtmlElement he : htmlDescriptor.elements) {
+            for (HtmlElement he : htmlDescriptor.elementsForm) {
                 if (!StringUtils.isEmpty(he.label)) {
                     ContainerTag th = TagCreator.th(he.label);
                     tr.with(th);
@@ -163,7 +163,7 @@ public class GeneratorHtmlAngularBootstrap {
             ContainerTag trBody = TagCreator.tr();
             trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
 
-            for (HtmlElement he : htmlDescriptor.elements) {
+            for (HtmlElement he : htmlDescriptor.elementsForm) {
                 ContainerTag td = TagCreator.td();
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
@@ -188,8 +188,8 @@ public class GeneratorHtmlAngularBootstrap {
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
         ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
-        if (html.elements != null) {
-            for (HtmlElement he : html.elements) {
+        if (html.elementsForm != null) {
+            for (HtmlElement he : html.elementsForm) {
                 ContainerTag container;
                 //he.principalFilter
                 boolean hePrincipal = Math.random() <= 0.5;
@@ -251,11 +251,11 @@ public class GeneratorHtmlAngularBootstrap {
         ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
         txtHtml.withClass("table table-bordred table-striped");
 
-        if (htmlDescriptor.elements != null) {
+        if (htmlDescriptor.elementsList != null) {
             ContainerTag thead = TagCreator.thead();
             ContainerTag tr = TagCreator.tr();
 
-            for (HtmlElement he : htmlDescriptor.elements) {
+            for (HtmlElement he : htmlDescriptor.elementsList) {
                 if (!StringUtils.isEmpty(he.label)) {
                     ContainerTag th = TagCreator.th(he.label);
                     tr.with(th);
@@ -277,7 +277,7 @@ public class GeneratorHtmlAngularBootstrap {
             ContainerTag trBody = TagCreator.tr();
             trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
 
-            for (HtmlElement he : htmlDescriptor.elements) {
+            for (HtmlElement he : htmlDescriptor.elementsForm) {
                 ContainerTag td = TagCreator.td();
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {

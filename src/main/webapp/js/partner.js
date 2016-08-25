@@ -2,16 +2,14 @@ angular.module('baseApp').controller('mainController', function ($scope, $contro
     angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));
 //    $scope.partner = Entity.get({classe: 'partner', id: '@id'});
 
-    $scope.partner = [];
-    $scope.partner.classe = 'partner';
+    $scope.partner = {classe: 'partner'};
 
     $scope.entitySearch = {classe: 'partner'};
     $scope.objects = Entity.query($scope.entitySearch);
     $scope.partners = $scope.objects;
 
     $scope.successSaveEntity = function (data) {
-        $scope.partner = [];
-        $scope.partner.classe = 'partner';
+        $scope.partner = {classe: 'partner'};
     };
 
     //Pagination
