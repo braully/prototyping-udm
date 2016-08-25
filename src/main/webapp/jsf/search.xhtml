@@ -22,8 +22,24 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <form role="form">
-                                <ng-include src="'/app/component/filter/partner'">
-                                </ng-include>
+                                <!--                                <ng-include src="'/app/component/filter/partner'">
+                                                                </ng-include>-->
+
+
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input class="form-control" ng-model="entitySearch.name"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Unique Code</label>
+                                    <input class="form-control" ng-model="entitySearch.uniqueCode"/>
+                                </div>
+
+                                <button class="btn btn-default pull-right" ng-click="query(entitySearch)"
+                                        type="Search">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    Search
+                                </button>
                             </form>
                         </div>
                         <div class="table-responsive"

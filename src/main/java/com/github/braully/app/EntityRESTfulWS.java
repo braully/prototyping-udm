@@ -1,7 +1,5 @@
 package com.github.braully.app;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.braully.web.DescriptorExposedEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import com.github.braully.sak.persistence.IEntity;
 import java.io.IOException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -116,16 +112,21 @@ public class EntityRESTfulWS {
     @RequestMapping(value = {"/rest/{classe}"},
             method = RequestMethod.GET)
     @ResponseBody
-    public List listEntity(@PathVariable("classe") String classe) {
+    public List listEntity(@PathVariable("classe") String classe,
+            @RequestParam(required = false) Map<String, String> params) {
         log.info("listEntity()");
         List ret = null;
-        Class entityClass = EXPOSED_ENTITY.get(classe).getClassExposed();
-        ret = genericDAO.loadCollection(entityClass);
+        DescriptorExposedEntity exposedEntity = EXPOSED_ENTITY.get(classe);
+        if (exposedEntity != null) {
+            Class entityClass = exposedEntity.getClassExposed();
+            params = exposedEntity.sanitizeFilterParams(params);
+            ret = genericDAO.loadCollection(entityClass);
+        }
         return ret;
     }
 
-    @RequestMapping(value = {"/rest/{classe}/search"},
-            method = RequestMethod.GET)
+    @RequestMapping(value = {"/rest/{classe}/search"}, method = RequestMethod.POST,
+            consumes = "application/json")
     @ResponseBody
     public List searchEntity(@PathVariable("classe") String classe,
             @RequestParam Map<String, String> allRequestParams,

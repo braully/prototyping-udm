@@ -7,6 +7,7 @@ package com.github.braully.web;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -49,5 +50,9 @@ public class DescriptorExposedEntity {
             Arrays.stream(hiddenProperties).forEach(hp -> this.hiddenListProperties.add(hp));
         }
         return this;
+    }
+
+    public Map<String, String> sanitizeFilterParams(Map<String, String> params) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

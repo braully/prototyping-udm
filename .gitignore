@@ -2,3 +2,4 @@
 /.idea/
 /src/main/webapp/bower_components/
 /.dependency
+/nbproject/
