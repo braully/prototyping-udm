@@ -60,4 +60,9 @@ public class DescriptorExposedEntity {
     public String getSearchNameMethod() {
         return searchNameMethod;
     }
+
+    public DescriptorExposedEntity filterMethod(String searchMethod) {
+        this.searchNameMethod = searchMethod;
+        return this;
+    }
 }

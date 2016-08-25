@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -25,6 +26,10 @@ public class EntitySearch {
     private GenericDAO genericDAO;
 
     List searchEntitys(Class entitityClass, String searchMethod, Map params) {
+        if (StringUtils.isEmpty(searchMethod)) {
+            return defaultSearchEntity(entitityClass, params);
+        }
+
         Object bean = context.getBean(searchMethod, params);
         Object ret = null;
         try {
@@ -50,6 +55,9 @@ public class EntitySearch {
     }
 
     public List defaultSearchEntity(Class entitityClass, Map parameters) {
-        return null;
+        if (parameters == null || parameters.isEmpty()) {
+            return genericDAO.loadCollection(entitityClass);
+        }
+        return genericDAO.loadCollectionWhere(entitityClass, parameters);
     }
 }
