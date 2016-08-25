@@ -20,11 +20,11 @@ import org.springframework.stereotype.Service;
 public class EntitySearch {
 
     @Autowired
-    ApplicationContext context;
+    private ApplicationContext context;
     @Autowired
     private GenericDAO genericDAO;
 
-    List searchEntitys(String searchMethod, Map params) {
+    List searchEntitys(Class entitityClass, String searchMethod, Map params) {
         Object bean = context.getBean(searchMethod, params);
         Object ret = null;
         try {
@@ -39,21 +39,17 @@ public class EntitySearch {
                 paramObjects[i++] = value;
             }
             ret = MethodUtils.invokeMethod(bean, searchMethod, paramObjects);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(EntitySearch.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(EntitySearch.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             Logger.getLogger(EntitySearch.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (List) ret;
     }
 
-    private Object convertParameter(Object pValue, Class<?> type) {
+    private Object convertParameter(Object pValue, Class type) {
         return pValue;
     }
 
-    public List defaultSearchEntity(Map parameters) {
+    public List defaultSearchEntity(Class entitityClass, Map parameters) {
         return null;
     }
 }

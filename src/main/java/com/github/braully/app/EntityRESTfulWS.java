@@ -32,8 +32,9 @@ public class EntityRESTfulWS {
 
     @Autowired
     private GenericDAO genericDAO;
-//    @Autowired(required = false)
-//    protected ServletRequest request;
+
+    @Autowired
+    private EntitySearch entitySearch;
 
     static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
@@ -119,8 +120,11 @@ public class EntityRESTfulWS {
         DescriptorExposedEntity exposedEntity = EXPOSED_ENTITY.get(classe);
         if (exposedEntity != null) {
             Class entityClass = exposedEntity.getClassExposed();
+            String searchMethodName = exposedEntity.getSearchNameMethod();
             params = exposedEntity.sanitizeFilterParams(params);
-            ret = genericDAO.loadCollection(entityClass);
+            List searchEntitys = entitySearch.searchEntitys(entityClass, searchMethodName, params);
+//            ret = genericDAO.loadCollection(entityClass);
+            ret = searchEntitys;
         }
         return ret;
     }
