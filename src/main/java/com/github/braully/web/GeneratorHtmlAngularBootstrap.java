@@ -59,7 +59,7 @@ public class GeneratorHtmlAngularBootstrap {
                     });
                 }
                 the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath(html.property, he.property));
+                the.attr(NG_MODEL, buildNgModelPath("model.entity", he.property));
 
                 parent.with(the);
             }
@@ -157,7 +157,7 @@ public class GeneratorHtmlAngularBootstrap {
             txtHtml.with(thead);
 
             String var = htmlDescriptor.property + "Item";
-            String collection = htmlDescriptor.property + "s";
+            String collection = "model.entities";
 
             ContainerTag tbody = TagCreator.tbody();
             ContainerTag trBody = TagCreator.tr();
@@ -181,7 +181,7 @@ public class GeneratorHtmlAngularBootstrap {
 
     public String renderFilter(DescriptorHtmlEntity html) {
         String typeRoot = html.type;
-        String beanRoot = html.property + "Search";
+        String beanRoot = "model.search";
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
@@ -271,10 +271,11 @@ public class GeneratorHtmlAngularBootstrap {
             txtHtml.with(thead);
 
             String var = htmlDescriptor.property + "Item";
-            String collection = htmlDescriptor.property + "s";
+            String collection = "model.entities";
 
             ContainerTag tbody = TagCreator.tbody();
             ContainerTag trBody = TagCreator.tr();
+
             trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
 
             for (HtmlElement he : htmlDescriptor.elementsForm) {
