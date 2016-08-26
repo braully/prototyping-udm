@@ -68,12 +68,13 @@ app.controller('mainControllerBase', function ($scope, growl, Entity) {
         totalPages: 0
     };
 
-    $scope.saveEntity = function (entity) {
-        $scope.model.entity = Entity.save(entity);
+    $scope.saveEntity = function () {
+        $scope.model.entity.classe = $scope.model.classe;
+        $scope.model.entity = Entity.save($scope.model.entity);
         $scope.model.entity.$promise.then(function (data) {
             growl.success("<b>Save</b> successful");
             $scope.successSaveEntity(data);
-            $scope.model.entities = Entity.query($scope.model.search);
+            $scope.query();
         }, function (error) {
             growl.error("<b>Fail</b> on save: " + error);
         });

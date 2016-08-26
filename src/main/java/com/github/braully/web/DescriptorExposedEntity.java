@@ -6,9 +6,12 @@
 package com.github.braully.web;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -54,7 +57,19 @@ public class DescriptorExposedEntity {
     }
 
     public Map<String, String> sanitizeFilterParams(Map<String, String> params) {
-        return params;
+        Map<String, String> sanitized = new HashMap<>();
+        if (params != null) {
+            for (Map.Entry<String, String> ent : params.entrySet()) {
+                String key = ent.getKey();
+                String value = ent.getValue();
+                value = StringEscapeUtils.escapeJava(value);
+                key = StringEscapeUtils.escapeJava(key);
+                if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(value)) {
+                    sanitized.put(key, value);
+                }
+            }
+        }
+        return sanitized;
     }
 
     public String getSearchNameMethod() {
