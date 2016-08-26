@@ -54,7 +54,7 @@ public class DescriptorExposedEntity {
     }
 
     public Map<String, String> sanitizeFilterParams(Map<String, String> params) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return params;
     }
 
     public String getSearchNameMethod() {

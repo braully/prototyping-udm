@@ -57,15 +57,60 @@ app.directive('sidemenu', ['$location', '$http', function () {
     }]);
 
 app.controller('mainControllerBase', function ($scope, growl, Entity) {
+    $scope.model = {
+        classe: '',
+        entities: {},
+        entity: {},
+        search: {},
+        currentPage: 1,
+        numPerPage: 5,
+        totalItems: 0,
+        totalPages: 0
+    };
+
     $scope.saveEntity = function (entity) {
-        $scope.entity = Entity.save(entity);
-        $scope.entity.$promise.then(function (data) {
-            growl.success("<b>Salvo</b> com sucesso");
+        $scope.model.entity = Entity.save(entity);
+        $scope.model.entity.$promise.then(function (data) {
+            growl.success("<b>Save</b> successful");
             $scope.successSaveEntity(data);
-            $scope.entities = Entity.query($scope.entitySearch);
+            $scope.model.entities = Entity.query($scope.model.search);
         }, function (error) {
-            growl.error("<b>Falha</b> ao salvar: " + error);
+            growl.error("<b>Fail</b> on save: " + error);
         });
+    };
+
+    $scope.query = function (args) {
+        $scope.model.entities = Entity.query(args);
+    };
+
+    $scope.query = function () {
+        $scope.model.search.classe = $scope.model.classe;
+        $scope.model.entities = Entity.query($scope.model.search);
+    };
+
+
+    $scope.paginate = function (value) {
+        var begin, end, index;
+        begin = ($scope.model.currentPage - 1) * $scope.model.numPerPage;
+        end = begin + $scope.numPerPage;
+        index = $scope.model.entities.indexOf(value);
+        return (begin <= index && index < end);
+    };
+
+    $scope.setPage = function () {
+        $scope.model.currentPage = this.n;
+    };
+
+    $scope.prevPage = function () {
+        if ($scope.model.currentPage > 1) {
+            $scope.model.currentPage--;
+        }
+    };
+
+    $scope.nextPage = function () {
+        if ($scope.model.currentPage * $scope.model.numPerPage < $scope.model.entities.length) {
+            $scope.model.currentPage++;
+        }
     };
 
     $scope.errorSaveEntity = function (error) {
@@ -74,10 +119,6 @@ app.controller('mainControllerBase', function ($scope, growl, Entity) {
 
     $scope.successSaveEntity = function (data) {
 
-    };
-
-    $scope.query = function (args) {
-        $scope.entities = Entity.query(args);
     };
 });
 

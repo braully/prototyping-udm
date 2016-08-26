@@ -123,7 +123,6 @@ public class EntityRESTfulWS {
             String searchMethodName = exposedEntity.getSearchNameMethod();
             params = exposedEntity.sanitizeFilterParams(params);
             List searchEntitys = entitySearch.searchEntitys(entityClass, searchMethodName, params);
-//            ret = genericDAO.loadCollection(entityClass);
             ret = searchEntitys;
         }
         return ret;
