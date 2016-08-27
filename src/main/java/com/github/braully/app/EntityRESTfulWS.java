@@ -56,7 +56,9 @@ public class EntityRESTfulWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/rest/{classe}"}, method = {RequestMethod.POST}, consumes = "application/json")
+    @RequestMapping(value = {"/rest/{classe}"},
+            method = {RequestMethod.POST},
+            consumes = "application/json")
     @ResponseBody
     public IEntity createEntity(@PathVariable("classe") String classe,
             @RequestBody String jsonEntity) {
@@ -128,7 +130,8 @@ public class EntityRESTfulWS {
         return ret;
     }
 
-    @RequestMapping(value = {"/rest/{classe}/search"}, method = RequestMethod.POST,
+    @RequestMapping(value = {"/rest/{classe}/search"},
+            method = RequestMethod.POST,
             consumes = "application/json")
     @ResponseBody
     public List searchEntity(@PathVariable("classe") String classe,

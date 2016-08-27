@@ -1,5 +1,5 @@
 angular.module('baseApp').controller('mainController', function ($scope, $controller, Entity) {
-    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));
+    angular.extend(this, $controller('controllerBase', {$scope: $scope}));
 
     $scope.model.classe = 'partner';
 

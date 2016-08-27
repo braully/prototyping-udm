@@ -20,8 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author braully
@@ -90,10 +92,15 @@ public class AngularJSWS {
 
     @RequestMapping(value = {"/component/js/{classe}.js"},
             method = RequestMethod.GET, produces = "application/javascript")
-    public String getComponentJavaScript(@PathVariable("classe") String classe) {
+    public String getComponentJavaScript(@PathVariable("classe") String classe,
+            @RequestParam(required = false) Map<String, String> params) {
         String className = classe;
-
-        String resolvedString = getTemplateStringControllerJS().replaceAll("partner", className);
+        String resolvedString = getTemplateStringControllerJS()
+                .replaceAll("partner", className);
+        String controllerName = null;
+        if (params != null && !StringUtils.isEmpty(controllerName = params.get("controller.name"))) {
+            resolvedString = resolvedString.replaceAll("mainController", controllerName);
+        }
         return resolvedString;
     }
 

@@ -56,7 +56,7 @@ app.directive('sidemenu', ['$location', '$http', function () {
         }
     }]);
 
-app.controller('mainControllerBase', function ($scope, growl, Entity) {
+app.controller('controllerBase', function ($scope, growl, Entity) {
     $scope.model = {
         classe: '',
         entities: {},
@@ -125,7 +125,7 @@ app.controller('mainControllerBase', function ($scope, growl, Entity) {
 
 
 app.controller('mainController', function ($scope, $controller, Entity) {
-    angular.extend(this, $controller('mainControllerBase', {$scope: $scope}));
+    angular.extend(this, $controller('controllerBase', {$scope: $scope}));
 });
 
 
