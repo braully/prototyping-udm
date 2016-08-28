@@ -36,6 +36,27 @@
                                     <form role="form">
                                         <ng-include src="'/app/component/form/purchaseOrder/lines'">
                                         </ng-include>
+
+                                        <div class="form-group">
+                                            <label>Partner</label>
+                                            <div class="form-group input-group">                                            
+                                                <input type="text" class="form-control" list="partnersList"
+                                                       ng-model="model.entity.partner" autocomplete="off"></input>
+                                                <datalist id="partnersList">
+                                                    <option value="India">India</option>
+                                                    <option value="United States">United States</option>
+                                                    <option value="United Kingdom">United Kingdom</option>
+                                                    <option value="Germany">Germany</option>
+                                                    <option value="France">France</option>
+                                                </datalist>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>                                                
+                                            </div>
+                                        </div>
+
                                         <button type="submit"
                                                 ng-click="saveEntity()"
                                                 class="btn btn-default">Save
