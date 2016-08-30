@@ -40,15 +40,36 @@
                                         <div class="form-group">
                                             <label>Partner</label>
                                             <div class="form-group input-group">                                            
-                                                <input type="text" class="form-control" list="partnersList"
-                                                       ng-model="model.entity.partner" autocomplete="off"></input>
-                                                <datalist id="partnersList">
-                                                    <option value="India">India</option>
-                                                    <option value="United States">United States</option>
-                                                    <option value="United Kingdom">United Kingdom</option>
-                                                    <option value="Germany">Germany</option>
-                                                    <option value="France">France</option>
-                                                </datalist>
+                                                <input type="text" class="form-control" 
+                                                       id="partner-search-autocomplete"
+                                                       ng-model="model.entity.partner" autocomplete="off">
+                                                </input>
+                                                <script type="text/javascript">
+                                                            //<![CDATA[
+                                                            var countries = [
+                                                                {value: 'Andorra', data: 'AD'},
+                                                                {value: 'Zimbabwe', data: 'ZZ'}
+                                                            ];
+
+                                                            $('#partner-search-autocomplete').autocomplete({
+                                                                source: function (request, response) {
+                                                                    $.get("/app/rest/partner", {
+                                                                        name: request.term
+                                                                    }, function (data) {
+                                                                        response($.map(data, function (item) {
+                                                                            return {
+                                                                                label: item.name,
+                                                                                value: item.name,
+                                                                                id: item.id
+                                                                            };
+                                                                        }));
+                                                                    });
+                                                                },
+                                                                onSelect: function (suggestion) {
+                                                                    //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+                                                                }
+                                                            });
+                                                </script>
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-default" type="button">
                                                         <i class="fa fa-search"></i>
