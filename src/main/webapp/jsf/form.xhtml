@@ -39,6 +39,16 @@
 
                                         <div class="form-group">
                                             <label>Partner</label>
+                                            <div class="form-group input-group">
+                                                <autocomplete ng-model="model.entity.partner" 
+                                                              url="/app/rest/partner" 
+                                                              label="{{id}} {{name}}" 
+                                                              value="model.entity.partner" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Partner</label>
                                             <div class="form-group input-group">                                            
                                                 <input type="text" class="form-control" list="partnersList"
                                                        ng-model="model.entity.partner" autocomplete="off"></input>
