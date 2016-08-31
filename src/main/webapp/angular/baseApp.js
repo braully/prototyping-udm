@@ -57,7 +57,7 @@ app.directive('sidemenu', ['$location', '$http', function () {
     }]);
 
 
-app.directive('autocomplete', function ($http, $interpolate, $parse) {
+app.directive('jautocomplete', function ($http, $interpolate, $parse) {
     return {
         restrict: 'E',
         replace: true,
@@ -214,3 +214,32 @@ app.controller('mainController', function ($scope, $controller, Entity) {
 });
 
 
+app.directive('ng-autocomplete', function ($http) {
+    return {
+        restrict: "A",
+        compile: function (scope, elem, attr) {
+            elem.autocomplete({
+                source: function (request, response) {
+                    $http({
+                        url: '/app/rest/partner',
+                        params: {name: request.term}
+                    }).success(function (data) {
+                        return response($.map(data, function (autocompleteResult) {
+                            return {
+                                label: autocompleteResult.name,
+                                value: autocompleteResult.name
+                            };
+                        }));
+                    });
+                },
+                minLength: 1,
+                select: function (event, selectedItem) {
+                    // Do something with the selected item, e.g. 
+//                    scope.yourObject = selectedItem.item.value;
+                    scope.$apply();
+                    event.preventDefault();
+                }
+            });
+        }
+    };
+});
