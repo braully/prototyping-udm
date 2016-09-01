@@ -39,50 +39,18 @@
 
                                         <div class="form-group">
                                             <label>Partner</label>
-                                            <div class="form-group input-group">
-                                                <input type="text" class="form-control" 
-                                                       ng-autocomplete=""
-                                                       ng-model="model.entity.partner" 
-                                                       url="/app/rest/partner" 
-                                                       label="{{id}} {{name}}" />
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Partner</label>
                                             <div class="form-group input-group">                                            
-                                                <input type="text" class="form-control" 
-                                                       id="partner-search-autocomplete"
-                                                       ng-model="model.entity.partner" 
-                                                       autocomplete="off">
-                                                </input>
-                                                <script>
-                                                            var countries = [
-                                                                {value: 'Andorra', data: 'AD'},
-                                                                {value: 'Zimbabwe', data: 'ZZ'}
-                                                            ];
-
-                                                            $('#partner-search-autocomplete').autocomplete({
-                                                                source: function (request, response) {
-                                                                    $.get("/app/rest/partner", {
-                                                                        name: request.term
-                                                                    }, function (data) {
-                                                                        response($.map(data, function (item) {
-                                                                            return {
-                                                                                label: item.name,
-                                                                                value: item.name,
-                                                                                id: item.id
-                                                                            };
-                                                                        }));
-                                                                    });
-                                                                },
-                                                                onSelect: function (suggestion) {
-                                                                    //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-                                                                }
-                                                            });
-                                                </script>
+                                                <jautocomplete type="text" class="form-control" 
+                                                               ng-model="model.entity.partner" 
+                                                               autocomplete="off"
+                                                               url="/app/rest/partner"
+                                                               label="{{name}}" value="{{id}}">
+                                                </jautocomplete>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button">
+                                                    <button class="btn btn-default" type="button" disabled="">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-default" type="button" disabled="">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>                                                

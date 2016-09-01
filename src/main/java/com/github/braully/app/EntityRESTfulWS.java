@@ -41,7 +41,8 @@ public class EntityRESTfulWS {
     static {
         EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
                 .hiddenForm("phoneticName", "attribute"));
-        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
+        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class)
+                .hiddenForm("partner"));
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)

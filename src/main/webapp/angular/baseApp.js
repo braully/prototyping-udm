@@ -57,6 +57,51 @@ app.directive('sidemenu', ['$location', '$http', function () {
     }]);
 
 
+app.directive('ng-autocomplete', function ($http, $interpolate, $parse) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        compile: function (scope, elem, attr) {
+            elem.autocomplete({
+                source: function (request, response) {
+                    $http({url: '/app/rest/partner', params: {name: request.term}})
+                            .success(function (data) {
+                                mappedItems = $.map(data, function (item) {
+                                    var result = {};
+
+                                    if (typeof item === "string") {
+                                        result.label = item;
+                                        result.value = item;
+
+                                        return result;
+                                    }
+
+                                    result.label = $interpolate(labelExpression)(item);
+
+                                    if (attrs.value) {
+                                        result.value = item[attrs.value];
+                                    } else {
+                                        result.value = item;
+                                    }
+
+                                    return result;
+                                });
+
+                                return response(mappedItems);
+                            });
+                },
+                minLength: 1,
+                select: function (event, selectedItem) {
+                    // Do something with the selected item, e.g. 
+//                    scope.yourObject = selectedItem.item.value;
+                    scope.$apply();
+                    event.preventDefault();
+                }
+            });
+        }
+    };
+});
+
 app.directive('jautocomplete', function ($http, $interpolate, $parse) {
     return {
         restrict: 'E',
@@ -68,9 +113,8 @@ app.directive('jautocomplete', function ($http, $interpolate, $parse) {
                     labelExpression = attrs.label;
 
             return function (scope, element, attrs, controller) {
-                var
-                        mappedItems = null,
-                        allowCustomEntry = attrs.allowCustomEntry || false;
+                var mappedItems = null;
+                var allowCustomEntry = attrs.allowCustomEntry || false;
 
                 element.autocomplete({
                     source: function (request, response) {
@@ -103,20 +147,15 @@ app.directive('jautocomplete', function ($http, $interpolate, $parse) {
 
                                     return response(mappedItems);
                                 });
-                    },
-                    select: function (event, ui) {
+                    }, select: function (event, ui) {
                         scope.$apply(function (scope) {
                             modelAccessor.assign(scope, ui.item.value);
                         });
 
                         elem.val(ui.item.label);
-
                         event.preventDefault();
-                    },
-                    change: function (event, ui) {
-                        var
-                                currentValue = elem.val(),
-                                matchingItem = null;
+                    }, change: function (event, ui) {
+                        var currentValue = elem.val(), matchingItem = null;
 
                         if (allowCustomEntry) {
                             return;
@@ -211,35 +250,4 @@ app.controller('controllerBase', function ($scope, growl, Entity) {
 
 app.controller('mainController', function ($scope, $controller, Entity) {
     angular.extend(this, $controller('controllerBase', {$scope: $scope}));
-});
-
-
-app.directive('ng-autocomplete', function ($http) {
-    return {
-        restrict: "A",
-        compile: function (scope, elem, attr) {
-            elem.autocomplete({
-                source: function (request, response) {
-                    $http({
-                        url: '/app/rest/partner',
-                        params: {name: request.term}
-                    }).success(function (data) {
-                        return response($.map(data, function (autocompleteResult) {
-                            return {
-                                label: autocompleteResult.name,
-                                value: autocompleteResult.name
-                            };
-                        }));
-                    });
-                },
-                minLength: 1,
-                select: function (event, selectedItem) {
-                    // Do something with the selected item, e.g. 
-//                    scope.yourObject = selectedItem.item.value;
-                    scope.$apply();
-                    event.preventDefault();
-                }
-            });
-        }
-    };
 });
