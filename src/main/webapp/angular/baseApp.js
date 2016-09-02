@@ -56,140 +56,26 @@ app.directive('sidemenu', ['$location', '$http', function () {
         }
     }]);
 
-
-app.directive('ng-autocomplete', function ($http, $interpolate, $parse) {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        compile: function (scope, elem, attr) {
-            elem.autocomplete({
-                source: function (request, response) {
-                    $http({url: '/app/rest/partner', params: {name: request.term}})
-                            .success(function (data) {
-                                mappedItems = $.map(data, function (item) {
-                                    var result = {};
-
-                                    if (typeof item === "string") {
-                                        result.label = item;
-                                        result.value = item;
-
-                                        return result;
-                                    }
-
-                                    result.label = $interpolate(labelExpression)(item);
-
-                                    if (attrs.value) {
-                                        result.value = item[attrs.value];
-                                    } else {
-                                        result.value = item;
-                                    }
-
-                                    return result;
-                                });
-
-                                return response(mappedItems);
-                            });
-                },
-                minLength: 1,
-                select: function (event, selectedItem) {
-                    // Do something with the selected item, e.g. 
-//                    scope.yourObject = selectedItem.item.value;
-                    scope.$apply();
-                    event.preventDefault();
-                }
-            });
-        }
-    };
-});
-
-app.directive('jautocomplete', function ($http, $interpolate, $parse) {
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<input type="text" />',
-        require: 'ngModel',
-        compile: function (elem, attrs) {
-            var modelAccessor = $parse(attrs.ngModel),
-                    labelExpression = attrs.label;
-
-            return function (scope, element, attrs, controller) {
-                var mappedItems = null;
-                var allowCustomEntry = attrs.allowCustomEntry || false;
-
-                element.autocomplete({
-                    source: function (request, response) {
-                        $http({
-                            url: attrs.url,
-                            method: 'GET',
-                            params: {name: request.term}
-                        })
-                                .success(function (data) {
-                                    mappedItems = $.map(data, function (item) {
-                                        var result = {};
-
-                                        if (typeof item === "string") {
-                                            result.label = item;
-                                            result.value = item;
-
-                                            return result;
-                                        }
-
-                                        result.label = $interpolate(labelExpression)(item);
-
-                                        if (attrs.value) {
-                                            result.value = item[attrs.value];
-                                        } else {
-                                            result.value = item;
-                                        }
-
-                                        return result;
-                                    });
-
-                                    return response(mappedItems);
-                                });
-                    }, select: function (event, ui) {
-                        scope.$apply(function (scope) {
-                            modelAccessor.assign(scope, ui.item.value);
-                        });
-
-                        elem.val(ui.item.label);
-                        event.preventDefault();
-                    }, change: function (event, ui) {
-                        var currentValue = elem.val(), matchingItem = null;
-
-                        if (allowCustomEntry) {
-                            return;
-                        }
-
-                        for (var i = 0; i < mappedItems.length; i++) {
-                            if (mappedItems[i].label === currentValue) {
-                                matchingItem = mappedItems[i].label;
-                                break;
-                            }
-                        }
-
-                        if (!matchingItem) {
-                            scope.$apply(function (scope) {
-                                modelAccessor.assign(scope, null);
-                            });
-                        }
-                    }
-                });
-            }
-        }
-    }
-});
-
 app.controller('controllerBase', function ($scope, growl, Entity) {
     $scope.model = {
         classe: '',
         entities: {},
         entity: {},
         search: {},
+        selectList: {},
         currentPage: 1,
         numPerPage: 5,
         totalItems: 0,
         totalPages: 0
+    };
+
+    $scope.selectList = function (args) {
+        var ret = {};
+        if (args) {
+//            $scope.model.entities = Entity.query(args);
+            ret = Entity.query(args);
+        }
+        return ret;
     };
 
     $scope.saveEntity = function () {

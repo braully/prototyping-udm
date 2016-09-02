@@ -3,6 +3,7 @@ package com.github.braully.app;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.braully.web.DescriptorExposedEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.braully.domain.Inventory;
 import java.util.Map;
 import com.github.braully.domain.Partner;
 import com.github.braully.domain.PurchaseOrder;
@@ -43,6 +44,7 @@ public class EntityRESTfulWS {
                 .hiddenForm("phoneticName", "attribute"));
         EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class)
                 .hiddenForm("partner"));
+        EXPOSED_ENTITY.put("inventory", new DescriptorExposedEntity(Inventory.class));
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)
