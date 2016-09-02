@@ -20,7 +20,8 @@ public class GeneratorHtmlAngularBootstrap {
     public static final String FORM_TYPE = "form";
     public static final String TABLE_TYPE = "table";
     public static final String INPUT_TYPE = "input";
-    public static final String CHECK_TYPE = "input";
+    public static final String CHECK_TYPE = "check";
+    public static final String DATE_TYPE = "date";
     public static final String NG_MODEL = "ng-model";
     public static final String LABEL_CLASS = "col-sm-1";
     public static final String ROW_CLASS = "form-group";
@@ -38,7 +39,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
-        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        ContainerTag txtHtml = getHtmlType(typeRoot);
 
         if (html.elementsForm != null) {
             for (HtmlElement he : html.elementsForm) {
@@ -52,7 +53,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                EmptyTag the = TagCreator.emptyTag(getHtmlType(he.type));
+                ContainerTag the = getHtmlType(he.type);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -77,26 +78,37 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    private String getHtmlType(String type) {
-        String ret = null;
+    private ContainerTag getHtmlType(String type) {
+        ContainerTag ret = null;
         if (type != null) {
+            String tagType = null;
+            String attype = null;
             switch (type.toLowerCase()) {
                 case "string":
-                    ret = INPUT_TYPE;
+                    tagType = INPUT_TYPE;
                     break;
                 case "boolean":
-                    ret = CHECK_TYPE;
+                    tagType = INPUT_TYPE;
+                    attype = CHECK_TYPE;
+                    break;
+                case "date":
+                    tagType = INPUT_TYPE;
+                    attype = DATE_TYPE;
                     break;
                 case "int":
                 case "integer":
                 case "long":
                 case "float":
                 case "double":
-                    ret = INPUT_TYPE;
+                    tagType = INPUT_TYPE;
                     break;
                 default:
-                    ret = type;
+                    tagType = type;
                     break;
+            }
+            ret = new ContainerTag(tagType);
+            if (attype != null) {
+                ret.attr("type", attype);
             }
         }
         return ret;
@@ -141,7 +153,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
         }
-        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        ContainerTag txtHtml = getHtmlType(typeRoot);
 
         if (htmlDescriptor.elementsForm != null) {
             ContainerTag thead = TagCreator.thead();
@@ -185,7 +197,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
-        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        ContainerTag txtHtml = getHtmlType(typeRoot);
         ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
         if (html.elementsForm != null) {
@@ -208,7 +220,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                EmptyTag the = TagCreator.emptyTag(getHtmlType(he.type));
+                ContainerTag the = getHtmlType(he.type);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -248,7 +260,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
         }
-        ContainerTag txtHtml = new ContainerTag(getHtmlType(typeRoot));
+        ContainerTag txtHtml = getHtmlType(typeRoot);
         txtHtml.withClass("table table-bordred table-striped");
 
         if (htmlDescriptor.elementsList != null) {
