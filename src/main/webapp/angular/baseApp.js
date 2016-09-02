@@ -70,12 +70,9 @@ app.controller('controllerBase', function ($scope, growl, Entity) {
     };
 
     $scope.selectList = function (args) {
-        var ret = {};
-        if (args) {
-//            $scope.model.entities = Entity.query(args);
-            ret = Entity.query(args);
+        if (args && !$scope.model.selectList[args]) {
+            $scope.model.selectList[args] = Entity.query({classe: args});
         }
-        return ret;
     };
 
     $scope.saveEntity = function () {
