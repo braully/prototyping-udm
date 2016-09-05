@@ -69,6 +69,10 @@ app.controller('controllerBase', function ($scope, growl, Entity) {
         totalPages: 0
     };
 
+    $scope.modalOpen = function (name, url) {
+        angular.element(document.getElementById('modal')).append("<div><button class='btn btn-default'>Show alert #</button></div>");
+    };
+
     $scope.selectList = function (args) {
         if (args && !$scope.model.selectList[args]) {
             $scope.model.selectList[args] = Entity.query({classe: args});
