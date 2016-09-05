@@ -20,6 +20,26 @@ app.factory('Entity', function ($resource) {
     return $resource('/app/rest/:classe/:id', {classe: '@classe', id: '@id'});
 });
 
+app.directive('modal', ['$location', '$http', function () {
+        return {
+            templateUrl: 'templates/modal/modal.html',
+            restrict: 'E',
+            replace: true,
+//            scope: true,
+            scope: {
+                bodyUrl: '=',
+                title: '='
+            },
+            controller:
+                    function ($scope, $http) {
+                        $scope.saveEntityModal = function () {
+
+                        };
+                    }
+        };
+    }
+]);
+
 
 app.directive('sidemenu', ['$location', '$http', function () {
         return {
