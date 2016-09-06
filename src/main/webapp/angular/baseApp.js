@@ -26,10 +26,11 @@ app.directive('modal', ['$location', '$http', 'growl', 'Entity', function () {
             restrict: 'E',
             replace: true,
             scope: {
-                bodyUrl: '=',
-                title: '=',
+                bodyUrl: '@',
+                title: '@',
                 entity: '=entity',
-                classe: '='
+                classe: '@',
+                htmlId: '@'
             },
             controller:
                     function ($scope, $element, growl, Entity) {
@@ -39,6 +40,7 @@ app.directive('modal', ['$location', '$http', 'growl', 'Entity', function () {
                             $scope.entity = Entity.save($scope.entity);
                             $scope.entity.$promise.then(function (data) {
                                 growl.success("<b>Save</b> successful");
+                                $element.modal('hide');
                             }, function (error) {
                                 growl.error("<b>Fail</b> on save: " + error);
                             });
@@ -84,7 +86,7 @@ app.directive('sidemenu', ['$location', '$http', function () {
         }
     }]);
 
-app.controller('controllerBase', function ($scope, growl, Entity) {
+app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     $scope.model = {
         classe: '',
         entities: {},
@@ -97,8 +99,14 @@ app.controller('controllerBase', function ($scope, growl, Entity) {
         totalPages: 0
     };
 
-    $scope.modalOpen = function (name, url) {
-        angular.element(document.getElementById('modal')).append("<div><button class='btn btn-default'>Show alert #</button></div>");
+    $scope.modalOpen = function (classe, name, url) {
+//        angular.element(document.getElementById('modal')).append("<div><button class='btn btn-default'>Show alert #</button></div>");
+        var modalChild = document.getElementById(name);
+        if (!modalChild) {
+            var modal = angular.element(document.getElementById('modal'));
+            modal.append($compile("<modal html-id='" + name + "' body-url='" + url + "' "
+                    + "title='New Inventory' classe='inventory' entity='" + name + "'></modal>")($scope));
+        }
     };
 
     $scope.selectList = function (args) {
