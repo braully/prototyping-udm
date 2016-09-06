@@ -20,20 +20,28 @@ app.factory('Entity', function ($resource) {
     return $resource('/app/rest/:classe/:id', {classe: '@classe', id: '@id'});
 });
 
-app.directive('modal', ['$location', '$http', function () {
+app.directive('modal', ['$location', '$http', 'growl', 'Entity', function () {
         return {
             templateUrl: 'templates/modal/modal.html',
             restrict: 'E',
             replace: true,
-//            scope: true,
             scope: {
                 bodyUrl: '=',
-                title: '='
+                title: '=',
+                entity: '=entity',
+                classe: '='
             },
             controller:
-                    function ($scope, $http) {
-                        $scope.saveEntityModal = function () {
-
+                    function ($scope, $element, growl, Entity) {
+                        $scope.model = {entity: $scope.entity, classe: $scope.classe};
+                        $scope.saveEntity = function () {
+                            $scope.entity.classe = $scope.classe;
+                            $scope.entity = Entity.save($scope.entity);
+                            $scope.entity.$promise.then(function (data) {
+                                growl.success("<b>Save</b> successful");
+                            }, function (error) {
+                                growl.error("<b>Fail</b> on save: " + error);
+                            });
                         };
                     }
         };

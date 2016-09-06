@@ -33,7 +33,16 @@
                                     </form>
                                 </div>
                                 <div class="col-lg-6" ng-controller="purchaseOrderController">
+                                    <div id="modal">
+                                        <modal body-Url="'/app/component/form/inventory/lines'" 
+                                               title="'New Inventory'" classe="'inventory'"
+                                               entity="model.entity.inventory">
+                                        </modal>
+                                    </div>
+
                                     <form role="form">
+
+
                                         <ng-include src="'/app/component/form/purchaseOrder/lines'">
                                         </ng-include>
 
@@ -50,7 +59,7 @@
                                                 </select>
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-default"
-                                                            ng-init="model.entity.inventory = model.entity.inventory || {}"
+                                                            ng-init="model.entity.inventory = model.entity.inventory || {classe: 'inventory'}"
                                                             ng-click="modalOpen('model.entity.inventory', '/app/component/form/inventory')"
                                                             ng-disabled="!model.selectList.inventory" 
                                                             type="button"
