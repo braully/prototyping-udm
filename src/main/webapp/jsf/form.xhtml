@@ -33,8 +33,6 @@
                                     </form>
                                 </div>
                                 <div class="col-lg-6" ng-controller="purchaseOrderController">
-
-
                                     <form role="form">
                                         <ng-include src="'/app/component/form/purchaseOrder/lines'">
                                         </ng-include>
@@ -51,12 +49,10 @@
                                                     <option value=""></option>
                                                 </select>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default"
+                                                    <button class="btn btn-default" type="button"
                                                             ng-init="model.entity.inventory = model.entity.inventory || {classe: 'inventory'}"
                                                             ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
-                                                            ng-disabled="!model.selectList.inventory" 
-                                                            type="button" data-toggle="modal" 
-                                                            data-target="#model.entity.inventory">
+                                                            ng-disabled="!model.selectList.inventory">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </span>

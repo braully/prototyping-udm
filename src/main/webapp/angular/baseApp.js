@@ -45,6 +45,7 @@ app.directive('modal', ['$location', '$http', 'growl', 'Entity', function () {
                                 growl.error("<b>Fail</b> on save: " + error);
                             });
                         };
+                        $element.modal('show');
                     }
         };
     }
@@ -100,12 +101,15 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     };
 
     $scope.modalOpen = function (classe, name, url) {
-//        angular.element(document.getElementById('modal')).append("<div><button class='btn btn-default'>Show alert #</button></div>");
+        var namesanitized = name.replace(/\./g, '_');
         var modalChild = document.getElementById(name);
         if (!modalChild) {
             var modal = angular.element(document.getElementById('modal'));
-            modal.append($compile("<modal html-id='" + name + "' body-url='" + url + "' "
-                    + "title='New Inventory' classe='inventory' entity='" + name + "'></modal>")($scope));
+            modal.append($compile("<modal html-id='" + namesanitized + "' body-url='" + url + "' "
+                    + "title='New " + classe + "' classe='"
+                    + classe + "' entity='" + name + "'></modal>")($scope));
+        } else {
+            $('#' + namesanitized).modal('show');
         }
     };
 
