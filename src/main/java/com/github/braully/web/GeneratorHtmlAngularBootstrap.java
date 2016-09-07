@@ -52,7 +52,7 @@ public class GeneratorHtmlAngularBootstrap {
                     ContainerTag labelHtml = TagCreator.label(he.label);
                     parent.with(labelHtml);
                 }
-
+                
                 ContainerTag the = getHtmlType(he.type);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {

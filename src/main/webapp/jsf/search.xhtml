@@ -6,10 +6,10 @@
 
     <ui:composition template="/templates/template-jsf.xhtml">
         <ui:define name="title-page">Partner</ui:define>
-
-        <ui:define name="header-append">
-            <script src="js/partner.js"></script>
-        </ui:define>
+        
+        <ui:param name="controllerAngular" value="mainController"/>
+        
+        <ui:define name="header-append"><script src="js/partner.js"></script></ui:define>
 
         <ui:define name="body-content">
             <div class="row">

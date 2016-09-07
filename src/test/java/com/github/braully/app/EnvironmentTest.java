@@ -6,6 +6,8 @@
 package com.github.braully.app;
 
 import com.github.braully.config.SpringMainConfig;
+import j2html.TagCreator;
+import j2html.tags.UnescapedText;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,7 @@ public class EnvironmentTest {
     public void testEnvironment() {
         System.out.println("testEnvironment()");
         System.err.println("testEnvironment()");
+        System.out.println(TagCreator.unsafeHtml("<div></div>").render());
     }
 
 }
