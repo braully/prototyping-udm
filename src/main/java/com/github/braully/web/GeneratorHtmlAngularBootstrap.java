@@ -24,7 +24,7 @@ public class GeneratorHtmlAngularBootstrap {
     public static final String DATE_TYPE = "date";
     public static final String NG_MODEL = "ng-model";
     public static final String LABEL_CLASS = "col-sm-1";
-    public static final String ROW_CLASS = "form-group";
+    public static final String ROW_CLASS_FORM = "form-group";
 
     public String renderForm(DescriptorHtmlEntity html) {
         return renderFormLocal(html, false);
@@ -40,30 +40,10 @@ public class GeneratorHtmlAngularBootstrap {
             typeRoot = FORM_TYPE;
         }
         ContainerTag txtHtml = new ContainerTag(typeRoot);
-
         if (html.elementsForm != null) {
-            for (HtmlElement he : html.elementsForm) {
-                ContainerTag parent = txtHtml;
-
-                if (!StringUtils.isEmpty(he.label)) {
-                    parent = TagCreator.div();
-                    parent.withClass(ROW_CLASS);
-                    txtHtml.with(parent);
-                    ContainerTag labelHtml = TagCreator.label(he.label);
-                    parent.with(labelHtml);
-                }
-
-                ContainerTag the = getHtmlFormElement(he);
-                if (he.attributes != null) {
-                    he.attributes.entrySet().stream().forEach((at) -> {
-                        the.setAttribute(at.getKey(), at.getValue());
-                    });
-                }
-                the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath("model.entity", he.property));
-
-                parent.with(the);
-            }
+            html.elementsForm.forEach((ef) -> {
+                txtHtml.with(buildFormElemet(ef));
+            });
         }
         if (onlychilds) {
             StringBuilder childs = new StringBuilder();
@@ -76,6 +56,27 @@ public class GeneratorHtmlAngularBootstrap {
         } else {
             return txtHtml.render();
         }
+    }
+
+    private Tag buildFormElemet(HtmlElement he) {
+        Tag ret = null;
+        if (he != null) {
+            ContainerTag row = null;
+            
+            if (!StringUtils.isEmpty(he.label)) {
+                row = TagCreator.div();
+                row.withClass(ROW_CLASS_FORM);
+                ContainerTag labelHtml = TagCreator.label(he.label);
+                row.with(labelHtml);
+            }
+
+            ret = getHtmlFormElement(he);
+            if (row != null) {
+                row.with(ret);
+                ret = row;
+            }
+        }
+        return ret;
     }
 
     private ContainerTag getHtmlFormElement(HtmlElement he) {
@@ -109,10 +110,18 @@ public class GeneratorHtmlAngularBootstrap {
                     tagType = type;
                     break;
             }
-            ret = new ContainerTag(tagType);
-            if (attype != null) {
-                ret.attr("type", attype);
+            ContainerTag rt = new ContainerTag(tagType);
+            if (he.attributes != null) {
+                he.attributes.entrySet().stream().forEach((at) -> {
+                    rt.setAttribute(at.getKey(), at.getValue());
+                });
             }
+            if (attype != null) {
+                rt.attr("type", attype);
+            }
+            rt.withClass("form-control");
+            rt.attr(NG_MODEL, buildNgModelPath("model.entity", he.property));
+            ret = rt;
         }
         return ret;
     }
@@ -217,7 +226,7 @@ public class GeneratorHtmlAngularBootstrap {
 
                 if (!StringUtils.isEmpty(he.label)) {
                     parent = TagCreator.div();
-                    parent.withClass(ROW_CLASS);
+                    parent.withClass(ROW_CLASS_FORM);
                     container.with(parent);
                     ContainerTag labelHtml = TagCreator.label(he.label);
                     parent.with(labelHtml);
