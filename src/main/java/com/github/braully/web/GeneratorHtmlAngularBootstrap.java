@@ -39,7 +39,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
-        ContainerTag txtHtml = getHtmlType(typeRoot);
+        ContainerTag txtHtml = new ContainerTag(typeRoot);
 
         if (html.elementsForm != null) {
             for (HtmlElement he : html.elementsForm) {
@@ -52,8 +52,8 @@ public class GeneratorHtmlAngularBootstrap {
                     ContainerTag labelHtml = TagCreator.label(he.label);
                     parent.with(labelHtml);
                 }
-                
-                ContainerTag the = getHtmlType(he.type);
+
+                ContainerTag the = getHtmlFormType(he);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -78,12 +78,13 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    private ContainerTag getHtmlType(String type) {
+    private ContainerTag getHtmlFormType(HtmlElement he) {
         ContainerTag ret = null;
-        if (type != null) {
+        if (he != null && he.type != null) {
+            String type = he.type.toLowerCase();
             String tagType = null;
             String attype = null;
-            switch (type.toLowerCase()) {
+            switch (type) {
                 case "string":
                     tagType = INPUT_TYPE;
                     break;
@@ -102,6 +103,8 @@ public class GeneratorHtmlAngularBootstrap {
                 case "double":
                     tagType = INPUT_TYPE;
                     break;
+                case "entity":
+                case "collection":
                 default:
                     tagType = type;
                     break;
@@ -153,7 +156,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
         }
-        ContainerTag txtHtml = getHtmlType(typeRoot);
+        ContainerTag txtHtml = new ContainerTag(typeRoot);
 
         if (htmlDescriptor.elementsForm != null) {
             ContainerTag thead = TagCreator.thead();
@@ -197,7 +200,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
         }
-        ContainerTag txtHtml = getHtmlType(typeRoot);
+        ContainerTag txtHtml = new ContainerTag(typeRoot);
         ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
         if (html.elementsForm != null) {
@@ -220,7 +223,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                ContainerTag the = getHtmlType(he.type);
+                ContainerTag the = getHtmlFormType(he);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -260,7 +263,7 @@ public class GeneratorHtmlAngularBootstrap {
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
         }
-        ContainerTag txtHtml = getHtmlType(typeRoot);
+        ContainerTag txtHtml = new ContainerTag(typeRoot);
         txtHtml.withClass("table table-bordred table-striped");
 
         if (htmlDescriptor.elementsList != null) {
