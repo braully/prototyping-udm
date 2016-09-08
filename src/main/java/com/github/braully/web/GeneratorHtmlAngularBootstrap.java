@@ -62,14 +62,13 @@ public class GeneratorHtmlAngularBootstrap {
         Tag ret = null;
         if (he != null) {
             ContainerTag row = null;
-            
+
             if (!StringUtils.isEmpty(he.label)) {
                 row = TagCreator.div();
                 row.withClass(ROW_CLASS_FORM);
                 ContainerTag labelHtml = TagCreator.label(he.label);
                 row.with(labelHtml);
             }
-
             ret = getHtmlFormElement(he);
             if (row != null) {
                 row.with(ret);
@@ -79,8 +78,8 @@ public class GeneratorHtmlAngularBootstrap {
         return ret;
     }
 
-    private ContainerTag getHtmlFormElement(HtmlElement he) {
-        ContainerTag ret = null;
+    private Tag getHtmlFormElement(HtmlElement he) {
+        Tag ret = null;
         if (he != null && he.type != null) {
             String type = he.type.toLowerCase();
             String tagType = null;
@@ -110,17 +109,17 @@ public class GeneratorHtmlAngularBootstrap {
                     tagType = type;
                     break;
             }
-            ContainerTag rt = new ContainerTag(tagType);
+            Tag rt = new ContainerTag(tagType);
             if (he.attributes != null) {
                 he.attributes.entrySet().stream().forEach((at) -> {
                     rt.setAttribute(at.getKey(), at.getValue());
                 });
             }
             if (attype != null) {
-                rt.attr("type", attype);
+                rt.setAttribute("type", attype);
             }
-            rt.withClass("form-control");
-            rt.attr(NG_MODEL, buildNgModelPath("model.entity", he.property));
+            rt.setAttribute("class", "form-control");
+            rt.setAttribute(NG_MODEL, buildNgModelPath("model.entity", he.property));
             ret = rt;
         }
         return ret;
@@ -232,15 +231,14 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                ContainerTag the = getHtmlFormElement(he);
+                Tag the = getHtmlFormElement(he);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
                     });
                 }
-                the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath(beanRoot, he.property));
-
+                the.setAttribute("class", "form-control");
+                the.setAttribute(NG_MODEL, buildNgModelPath(beanRoot, he.property));
                 parent.with(the);
             }
         }
