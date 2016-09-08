@@ -20,6 +20,9 @@ import org.apache.commons.lang3.text.WordUtils;
  */
 public class HtmlElement {
 
+    static final String TYPE_SELECT_ONE = "selectone";
+    static final String TYPE_SELECT_MANY = "selectmany";
+
     String id;
     String label;
     String type;
@@ -38,12 +41,12 @@ public class HtmlElement {
         property = field.getName();
         if (field.getAnnotation(OneToOne.class) != null
                 || field.getAnnotation(ManyToOne.class) != null) {
-            type = "selectone";
+            type = TYPE_SELECT_ONE;
         }
         if (field.getType().isAssignableFrom(Collection.class)
                 && (field.getAnnotation(ManyToMany.class) != null
                 || field.getAnnotation(OneToMany.class) != null)) {
-            type = "selectmany";
+            type = TYPE_SELECT_MANY;
         }
         label = property.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
         label = WordUtils.capitalize(label);

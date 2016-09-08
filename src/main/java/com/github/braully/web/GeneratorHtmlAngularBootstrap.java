@@ -52,7 +52,8 @@ public class GeneratorHtmlAngularBootstrap {
                     ContainerTag labelHtml = TagCreator.label(he.label);
                     parent.with(labelHtml);
                 }
-                
+
+                String bindProperty = buildNgModelPath("model.entity", he.property);
                 ContainerTag the = getHtmlType(he.type);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
@@ -60,8 +61,8 @@ public class GeneratorHtmlAngularBootstrap {
                     });
                 }
                 the.withClass("form-control");
-                the.attr(NG_MODEL, buildNgModelPath("model.entity", he.property));
-
+                the.attr(NG_MODEL, bindProperty);
+                
                 parent.with(the);
             }
         }
@@ -102,6 +103,8 @@ public class GeneratorHtmlAngularBootstrap {
                 case "double":
                     tagType = INPUT_TYPE;
                     break;
+                case HtmlElement.TYPE_SELECT_ONE:
+                case HtmlElement.TYPE_SELECT_MANY:
                 default:
                     tagType = type;
                     break;
