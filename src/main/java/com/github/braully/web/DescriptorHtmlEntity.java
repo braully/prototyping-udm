@@ -8,9 +8,15 @@ package com.github.braully.web;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
@@ -22,8 +28,10 @@ public class DescriptorHtmlEntity extends HtmlElement {
     Class classe;
 
     List<HtmlElement> elementsForm;
+    List<HtmlElement> elementsFilter;
     List<HtmlElement> elementsList;
     Set<String> hiddenFormProperties;
+    Set<String> hiddenFilterProperties;
     Set<String> hiddenListProperties;
     Set<String> exclude = new HashSet<>();
 
@@ -46,6 +54,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
     private void parseFieldClass(Class classe1) {
         ReflectionUtils.doWithFields(classe1, (Field field) -> {
             addHtmlFormElement(field);
+            addHtmlFilterElement(field);
             addHtmlListElement(field);
         });
     }
@@ -57,6 +66,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
     public DescriptorHtmlEntity(DescriptorExposedEntity descriptorExposedEntity) {
         this(descriptorExposedEntity.classExposed);
         this.hiddenFormProperties = descriptorExposedEntity.hiddenFormProperties;
+        this.hiddenFilterProperties = descriptorExposedEntity.hiddenFilterProperties;
         this.hiddenListProperties = descriptorExposedEntity.hiddenListProperties;
         parseFieldClass(classe);
     }
@@ -68,7 +78,18 @@ public class DescriptorHtmlEntity extends HtmlElement {
         final int modifiers = field.getModifiers();
         if (!Modifier.isStatic(modifiers)
                 && !hiddenListProperties.contains(field.getName())) {
-            elementsList.add(new HtmlElement(field));
+            elementsList.add(buildHtmlElement(field));
+        }
+    }
+
+    private void addHtmlFilterElement(Field field) {
+        if (elementsFilter == null) {
+            elementsFilter = new ArrayList<>();
+        }
+        final int modifiers = field.getModifiers();
+        if (!Modifier.isStatic(modifiers)
+                && !hiddenFilterProperties.contains(field.getName())) {
+            elementsFilter.add(buildHtmlElement(field));
         }
     }
 
@@ -79,7 +100,8 @@ public class DescriptorHtmlEntity extends HtmlElement {
         final int modifiers = field.getModifiers();
         if (!Modifier.isStatic(modifiers)
                 && !hiddenFormProperties.contains(field.getName())) {
-            elementsForm.add(new HtmlElement(field));
+            HtmlElement htmlElement = buildHtmlElement(field);
+            elementsForm.add(htmlElement);
         }
     }
 
@@ -90,5 +112,31 @@ public class DescriptorHtmlEntity extends HtmlElement {
         char c[] = string.toCharArray();
         c[0] = Character.toLowerCase(c[0]);
         return new String(c);
+    }
+
+    HtmlElement buildHtmlElement(Field field) {
+        String ltype = field.getType().getSimpleName();
+        String lproperty = field.getName();
+        String lpattern = null;
+        if (field.getAnnotation(OneToOne.class) != null
+                || field.getAnnotation(ManyToOne.class) != null) {
+            lpattern = ltype;
+            ltype = "entity";
+        }
+        if (field.getType().isAssignableFrom(Collection.class)
+                && (field.getAnnotation(ManyToMany.class) != null
+                || field.getAnnotation(OneToMany.class) != null)) {
+            lpattern = ltype;
+            ltype = "collection";
+        }
+        String llabel = lproperty.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+        llabel = WordUtils.capitalize(llabel);
+
+        HtmlElement he = new HtmlElement();
+        he.type = ltype;
+        he.property = lproperty;
+        he.label = llabel;
+        he.pattern = lpattern;
+        return he;
     }
 }

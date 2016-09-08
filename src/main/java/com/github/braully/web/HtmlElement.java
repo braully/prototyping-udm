@@ -23,7 +23,6 @@ public class HtmlElement {
     String id;
     String label;
     String type;
-    Field field;
     String property;
     String pattern;
     String mdSize;
@@ -33,21 +32,7 @@ public class HtmlElement {
 
     public HtmlElement() {
     }
+    
+    
 
-    HtmlElement(Field field) {
-        type = field.getType().getSimpleName();
-        this.field = field;
-        property = field.getName();
-//        if (field.getAnnotation(OneToOne.class) != null
-//                || field.getAnnotation(ManyToOne.class) != null) {
-//            type = "entity";
-//        }
-//        if (field.getType().isAssignableFrom(Collection.class)
-//                && (field.getAnnotation(ManyToMany.class) != null
-//                || field.getAnnotation(OneToMany.class) != null)) {
-//            type = type + "collection";
-//        }
-        label = property.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-        label = WordUtils.capitalize(label);
-    }
 }
