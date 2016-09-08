@@ -53,7 +53,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                ContainerTag the = getHtmlFormType(he);
+                ContainerTag the = getHtmlFormElement(he);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -78,7 +78,7 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    private ContainerTag getHtmlFormType(HtmlElement he) {
+    private ContainerTag getHtmlFormElement(HtmlElement he) {
         ContainerTag ret = null;
         if (he != null && he.type != null) {
             String type = he.type.toLowerCase();
@@ -223,7 +223,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                ContainerTag the = getHtmlFormType(he);
+                ContainerTag the = getHtmlFormElement(he);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
