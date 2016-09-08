@@ -1,5 +1,6 @@
 package com.github.braully.web;
 
+import com.github.braully.app.StatisticalConsolidation;
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
 import j2html.tags.EmptyTag;
@@ -25,6 +26,10 @@ public class GeneratorHtmlAngularBootstrap {
     public static final String NG_MODEL = "ng-model";
     public static final String LABEL_CLASS = "col-sm-1";
     public static final String ROW_CLASS_FORM = "form-group";
+
+    public String renderForm(DescriptorHtmlEntity html, StatisticalConsolidation statisticalConsolidation) {
+        return renderFormLocal(html, false);
+    }
 
     public String renderForm(DescriptorHtmlEntity html) {
         return renderFormLocal(html, false);
@@ -84,40 +89,39 @@ public class GeneratorHtmlAngularBootstrap {
             String type = he.type.toLowerCase();
             String tagType = null;
             String attype = null;
+            Tag rt = null;
             switch (type) {
                 case "string":
-                    tagType = INPUT_TYPE;
+                    rt = new ContainerTag(INPUT_TYPE);
                     break;
                 case "boolean":
-                    tagType = INPUT_TYPE;
-                    attype = CHECK_TYPE;
+                    rt = new ContainerTag(INPUT_TYPE);
+                    rt.setAttribute("type", CHECK_TYPE);
                     break;
                 case "date":
                     tagType = INPUT_TYPE;
-                    attype = DATE_TYPE;
+                    rt.setAttribute("type", DATE_TYPE);
                     break;
                 case "int":
                 case "integer":
                 case "long":
                 case "float":
                 case "double":
-                    tagType = INPUT_TYPE;
+                    rt = new ContainerTag(INPUT_TYPE);
                     break;
                 case "entity":
+                    rt = entityHtmlFormElement(he);
                 case "collection":
+                    rt = collectionHtmlFormElement(he);
                 default:
-                    tagType = type;
+                    rt = new ContainerTag(type);
                     break;
             }
-            Tag rt = new ContainerTag(tagType);
-            if (he.attributes != null) {
-                he.attributes.entrySet().stream().forEach((at) -> {
-                    rt.setAttribute(at.getKey(), at.getValue());
-                });
-            }
-            if (attype != null) {
-                rt.setAttribute("type", attype);
-            }
+//            if (he.attributes != null) {
+//                he.attributes.entrySet().stream().forEach((at) -> {
+//                    rt.setAttribute(at.getKey(), at.getValue());
+//                });
+//            }
             rt.setAttribute("class", "form-control");
             rt.setAttribute(NG_MODEL, buildNgModelPath("model.entity", he.property));
             ret = rt;
@@ -330,5 +334,13 @@ public class GeneratorHtmlAngularBootstrap {
         }
         return txtHtml.render();
         //return ret;
+    }
+
+    private Tag entityHtmlFormElement(HtmlElement he) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Tag collectionHtmlFormElement(HtmlElement he) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
