@@ -19,8 +19,8 @@ import org.springframework.util.StringUtils;
  */
 public class DescriptorExposedEntity {
 
-    static final String[] DEFAULT_HIDDEN_FORM_FIELDS = new String[]{"id", "version"};
-    static final String[] DEFAULT_HIDDEN_FILTER_FIELDS = new String[]{"version"};
+    static final String[] DEFAULT_HIDDEN_FORM_FIELDS = new String[]{"id", "version", "userIdModified", "lastModified"};
+    static final String[] DEFAULT_HIDDEN_FILTER_FIELDS = new String[]{"version", "userIdModified"};
 
     Class classExposed;
     Set<String> hiddenFormProperties;

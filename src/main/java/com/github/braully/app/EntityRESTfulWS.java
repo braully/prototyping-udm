@@ -31,21 +31,22 @@ public class EntityRESTfulWS {
 
     private static final Logger log = Logger.getLogger(EntityRESTfulWS.class);
 
-    @Autowired
-    private GenericDAO genericDAO;
-
-    @Autowired
-    private EntitySearch entitySearch;
-
     static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
     static {
         EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
+                .filterMethod("PartnerRepo.searchPartner")
                 .hiddenForm("phoneticName", "attribute"));
         EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
 //                .hiddenForm("partner").hiddenForm("inventory"));
         EXPOSED_ENTITY.put("inventory", new DescriptorExposedEntity(Inventory.class));
     }
+
+    @Autowired
+    private GenericDAO genericDAO;
+
+    @Autowired
+    private EntitySearch entitySearch;
 
     @RequestMapping(value = {"/rest/{classe}/{id}"}, method = RequestMethod.GET)
     public IEntity getEntity(@PathVariable("classe") String classe,

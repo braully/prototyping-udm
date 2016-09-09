@@ -30,10 +30,24 @@ public class EntitySearch {
             return defaultSearchEntity(entitityClass, params);
         }
 
-        Object bean = context.getBean(searchMethod, params);
+        String[] splits = searchMethod.split("\\.");
+        if (splits == null || splits.length < 2) {
+            throw new IllegalArgumentException("Invalid search method: " + searchMethod);
+        }
+
+        Object bean = context.getBean(splits[0], params);
+
+        if (bean == null) {
+            throw new IllegalArgumentException("Invalid bean: " + splits[0]);
+        }
+
         Object ret = null;
         try {
             Method method = bean.getClass().getMethod(searchMethod);
+            if (method == null) {
+                throw new IllegalArgumentException("Method invalid " + splits[1] + " in  bean " + splits[0]);
+            }
+
             Parameter[] parametersDescription = method.getParameters();
             Object[] paramObjects = new Object[parametersDescription.length];
             int i = 0;
