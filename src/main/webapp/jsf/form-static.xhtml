@@ -33,8 +33,86 @@
                                 </div>
                                 <div class="col-lg-6" ng-controller="purchaseOrderController">
                                     <form role="form">
-                                        <ng-include src="'/app/component/form/purchaseOrder/lines'">
-                                        </ng-include>
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <money class="form-control" ng-model="model.entity.total"></money>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Status Type</label>
+                                            <input class="form-control" ng-model="model.entity.statusType"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Partner</label>
+                                            <div class="form-group input-group">
+                                                <select class="form-control" 
+                                                        id="partner-select"
+                                                        ng-init="selectList('partner')"
+                                                        ng-model="model.entity.partner"
+                                                        ng-options="x.name for x in model.selectList.partner track by x.id">
+                                                    <option value=""></option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            ng-init="model.entity.partner = model.entity.partner || {entity: 'partner'}"
+                                                            ng-click="modalOpen('partner', 'model.entity.partner', '/app/component/form/partner')"
+                                                            ng-disabled="!model.selectList.partner">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Observation</label>
+                                            <input class="form-control" ng-model="model.entity.observation"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Fiscal Code</label>
+                                            <input class="form-control" ng-model="model.entity.fiscalCode"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Date Order</label>
+                                            <input type="date" class="form-control" ng-model="model.entity.dateOrder"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <input class="form-control" ng-model="model.entity.type"></input>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Inventory</label>
+                                            <div class="form-group input-group">
+                                                <select class="form-control" 
+                                                        id="partner-select"
+                                                        ng-init="selectList('inventory')"
+                                                        ng-model="model.entity.inventory"
+                                                        ng-options="x.name for x in model.selectList.inventory track by x.id">
+                                                    <option value=""></option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            ng-init="model.entity.inventory = model.entity.inventory || {entity: 'inventory'}"
+                                                            ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
+                                                            ng-disabled="!model.selectList.inventory">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>User Id Modified</label>
+                                            <input class="form-control" ng-model="model.entity.userIdModified"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Last Modified</label>
+                                            <input type="date" class="form-control" ng-model="model.entity.lastModified"></input>
+                                        </div>
 
                                         <div class="form-group">
                                             <label>Inventory</label>
