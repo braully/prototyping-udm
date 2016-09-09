@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="/templates/template-jsf.xhtml">
+        <ui:define name="title-page">Partner</ui:define>
+
+        <ui:define name="header-append">
+            <script src="/app/component/js/partner.js"></script>
+            <script src="/app/component/js/purchaseOrder.js?controller.name=purchaseOrderController"></script>
+        </ui:define>
+
+        <ui:define name="body-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Partner
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6" ng-controller="mainController">
+                                    <form role="form">
+                                        <ng-include src="'/app/component/form/partner/lines'">
+                                        </ng-include>
+                                        <button type="submit"
+                                                ng-click="saveEntity()"
+                                                class="btn btn-default">Save
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="col-lg-6" ng-controller="purchaseOrderController">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label>Total</label>
+                                            <money class="form-control" ng-model="model.entity.total"></money>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Status Type</label>
+                                            <input class="form-control" ng-model="model.entity.statusType"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Partner</label>
+                                            <div class="form-group input-group">
+                                                <select class="form-control" 
+                                                        id="partner-select"
+                                                        ng-init="selectList('partner')"
+                                                        ng-model="model.entity.partner"
+                                                        ng-options="x.name for x in model.selectList.partner track by x.id">
+                                                    <option value=""></option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            ng-init="model.entity.partner = model.entity.partner || {entity: 'partner'}"
+                                                            ng-click="modalOpen('partner', 'model.entity.partner', '/app/component/form/partner')"
+                                                            ng-disabled="!model.selectList.partner">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Observation</label>
+                                            <input class="form-control" ng-model="model.entity.observation"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Fiscal Code</label>
+                                            <input class="form-control" ng-model="model.entity.fiscalCode"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Date Order</label>
+                                            <input type="date" class="form-control" ng-model="model.entity.dateOrder"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <input class="form-control" ng-model="model.entity.type"></input>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Inventory</label>
+                                            <div class="form-group input-group">
+                                                <select class="form-control" 
+                                                        id="partner-select"
+                                                        ng-init="selectList('inventory')"
+                                                        ng-model="model.entity.inventory"
+                                                        ng-options="x.name for x in model.selectList.inventory track by x.id">
+                                                    <option value=""></option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            ng-init="model.entity.inventory = model.entity.inventory || {entity: 'inventory'}"
+                                                            ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
+                                                            ng-disabled="!model.selectList.inventory">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>User Id Modified</label>
+                                            <input class="form-control" ng-model="model.entity.userIdModified"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Last Modified</label>
+                                            <input type="date" class="form-control" ng-model="model.entity.lastModified"></input>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Inventory</label>
+                                            <!--https://docs.angularjs.org/api/ng/directive/select-->
+                                            <div class="form-group input-group">
+                                                <select class="form-control" 
+                                                        id="inventory-select"
+                                                        ng-init="selectList('inventory')"
+                                                        ng-model="model.entity.inventory"
+                                                        ng-options="x.name for x in model.selectList.inventory track by x.id">
+                                                    <option value=""></option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"
+                                                            ng-init="model.entity.inventory = model.entity.inventory || {classe: 'inventory'}"
+                                                            ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
+                                                            ng-disabled="!model.selectList.inventory">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Partner</label>
+                                            <div class="form-group input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-search  "></i>
+                                                </span>
+                                                <input type="text" class="form-control" 
+                                                       id="partner-input" required=""
+                                                       ng-disabled="model.entity.partner.id"
+                                                       ng-model="model.entity.partner.name"
+                                                       autocomplete="off">
+                                                </input>
+                                                <input type="hidden" class="form-control" 
+                                                       id="partner-input-id"
+                                                       ng-model="model.entity.partner.id">
+                                                </input>
+                                                <script type="text/javascript">
+                                                            $('#partner-input').autocomplete({
+                                                                source: function (request, response) {
+                                                                    $.get("/app/rest/partner", {
+                                                                        name: request.term
+                                                                    }, function (data) {
+                                                                        response($.map(data, function (item) {
+                                                                            return {label: item.name, value: item.name, id: item.id, name: item.name};
+                                                                        }));
+                                                                    });
+                                                                }, select: function (event, ui) {
+                                                                    var inputid = $('#partner-input-id')[0];
+                                                                    var scope = angular.element(inputid).scope();
+                                                                    scope.$apply(function () {
+                                                                        scope.model.entity.partner = ui.item;
+                                                                    });
+                                                                }
+                                                            });
+                                                </script>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" 
+                                                            ng-disabled="!model.entity.partner.id" 
+                                                            type="button" ng-click="model.entity.partner = {};">
+                                                        <i class="fa fa-remove"></i>
+                                                    </button>
+                                                    <button class="btn btn-default" 
+                                                            ng-disabled="model.entity.partner.id" 
+                                                            type="button">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>                                                
+                                            </div>
+                                        </div>
+
+                                        <button type="submit"
+                                                ng-click="saveEntity()"
+                                                class="btn btn-default">Save
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

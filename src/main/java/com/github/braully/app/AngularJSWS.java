@@ -41,6 +41,8 @@ public class AngularJSWS {
 
     static final String DEFAULT_JS_TXT = "/js/partner.js";
 
+    StatisticalConsolidation statisticalConsolidation;
+
     /*
     
      */
@@ -50,38 +52,46 @@ public class AngularJSWS {
         List<Menu> ret = new ArrayList<>();
         Menu m = new Menu();
         m.setId(1l);
-        m.setName("Sale");
-        m.setIcon("table");
-        m.setValue("Sale Section");
-        m.setLink("/teste.xhtml");
-        ret.add(m);
-
-        m = new Menu();
-        m.setId(2l);
-        m.setName("Partner");
-        m.setIcon("user");
-        m.setValue("Partner");
-        m.setLink("/partner.xhtml");
+        m.setName("Form Static");
+        m.setIcon("wpforms");
+        m.setValue("Form Static");
+        m.setLink("/form-static.xhtml");
         ret.add(m);
 
         m = new Menu();
         m.setId(2l);
         m.setName("Form");
-        m.setIcon("form");
+        m.setIcon("wpforms");
         m.setValue("Form");
         m.setLink("/form.xhtml");
         ret.add(m);
 
         m = new Menu();
-        m.setId(2l);
-        m.setName("Search");
-        m.setIcon("search");
-        m.setValue("Search");
-        m.setLink("/search.xhtml");
+        m.setId(3l);
+        m.setName("Filter Static");
+        m.setIcon("filter");
+        m.setValue("Filter Static");
+        m.setLink("/filter-static.xhtml");
         ret.add(m);
 
         m = new Menu();
-        m.setId(2l);
+        m.setId(4l);
+        m.setName("Filter");
+        m.setIcon("filter");
+        m.setValue("Filter");
+        m.setLink("/filter.xhtml");
+        ret.add(m);
+
+        m = new Menu();
+        m.setId(5l);
+        m.setName("Table Static");
+        m.setIcon("table");
+        m.setValue("Table Static");
+        m.setLink("/table-static.xhtml");
+        ret.add(m);
+
+        m = new Menu();
+        m.setId(6l);
         m.setName("Table");
         m.setIcon("table");
         m.setValue("Table");

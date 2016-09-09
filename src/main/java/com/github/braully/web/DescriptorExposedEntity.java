@@ -19,17 +19,21 @@ import org.springframework.util.StringUtils;
  */
 public class DescriptorExposedEntity {
 
-    static final String[] DEFAULT_HIDDEN_FORM_FIELDS = new String[]{"id", "version"};
+    static final String[] DEFAULT_HIDDEN_FORM_FIELDS = new String[]{"id", "version", "userIdModified", "lastModified"};
+    static final String[] DEFAULT_HIDDEN_FILTER_FIELDS = new String[]{"version", "userIdModified"};
 
     Class classExposed;
     Set<String> hiddenFormProperties;
     Set<String> hiddenListProperties;
+    Set<String> hiddenFilterProperties;
     Set<String> excludeProperties;
     String searchNameMethod;
 
     public DescriptorExposedEntity() {
         hiddenFormProperties = new HashSet<>();
         hiddenListProperties = new HashSet<>();
+        hiddenFilterProperties = new HashSet<>();
+        Arrays.stream(DEFAULT_HIDDEN_FILTER_FIELDS).forEach(s -> hiddenFilterProperties.add(s));
         Arrays.stream(DEFAULT_HIDDEN_FORM_FIELDS).forEach(s -> hiddenFormProperties.add(s));
     }
 

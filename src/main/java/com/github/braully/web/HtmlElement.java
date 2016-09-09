@@ -35,20 +35,7 @@ public class HtmlElement {
 
     public HtmlElement() {
     }
+    
+    
 
-    HtmlElement(Field field) {
-        type = field.getType().getSimpleName();
-        property = field.getName();
-        if (field.getAnnotation(OneToOne.class) != null
-                || field.getAnnotation(ManyToOne.class) != null) {
-            type = TYPE_SELECT_ONE;
-        }
-        if (field.getType().isAssignableFrom(Collection.class)
-                && (field.getAnnotation(ManyToMany.class) != null
-                || field.getAnnotation(OneToMany.class) != null)) {
-            type = TYPE_SELECT_MANY;
-        }
-        label = property.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-        label = WordUtils.capitalize(label);
-    }
 }
