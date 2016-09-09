@@ -1,21 +1,17 @@
-<div class="form-group">
-    <!--https://docs.angularjs.org/api/ng/directive/select-->
-    <label>partner</label>
-    <div class="form-group input-group">
-        <select class="form-control" 
-                id="partner-select"
-                ng-init="selectList('inventory')"
-                ng-model="model.entity.inventory"
-                ng-options="x.name for x in model.selectList.inventory track by x.id">
-            <option value=""></option>
-        </select>
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button"
-                    ng-init="model.entity.inventory = model.entity.inventory || {classe: 'inventory'}"
-                    ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
-                    ng-disabled="!model.selectList.inventory">
-                <i class="fa fa-plus"></i>
-            </button>
-        </span>
-    </div>
+<div class="form-group input-group">
+    <select class="form-control" 
+            id="partner-select"
+            ng-init="selectList('pattern')"
+            ng-model="model.entity.property"
+            ng-options="x.name for x in model.selectList.pattern track by x.id">
+        <option value=""></option>
+    </select>
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button"
+                ng-init="model.entity.property = model.entity.property || {classe: 'pattern'}"
+                ng-click="modalOpen('pattern', 'model.entity.property', '/app/component/form/pattern')"
+                ng-disabled="!model.selectList.property">
+            <i class="fa fa-plus"></i>
+        </button>
+    </span>
 </div>

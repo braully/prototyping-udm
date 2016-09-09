@@ -4,19 +4,19 @@
         <i class="fa fa-search  "></i>
     </span>
     <input type="text" class="form-control" 
-           id="classe-input" required=""
+           id="pattern-input" required=""
            ng-disabled="model.entity.property.id"
            ng-model="model.entity.property.name"
            autocomplete="off">
     </input>
     <input type="hidden" class="form-control" 
-           id="classe-input-id"
+           id="pattern-input-id"
            ng-model="model.entity.property.id">
     </input>
     <script type="text/javascript">
-        $('#classe-input').autocomplete({
+        $('#pattern-input').autocomplete({
             source: function (request, response) {
-                $.get("/app/rest/classe", {
+                $.get("/app/rest/pattern", {
                     name: request.term
                 }, function (data) {
                     response($.map(data, function (item) {
@@ -24,7 +24,7 @@
                     }));
                 });
             }, select: function (event, ui) {
-                var inputid = $('#classe-input-id')[0];
+                var inputid = $('#pattern-input-id')[0];
                 var scope = angular.element(inputid).scope();
                 scope.$apply(function () {
                     scope.model.entity.property = ui.item;

@@ -116,6 +116,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
 
     HtmlElement buildHtmlElement(Field field) {
         String ltype = field.getType().getSimpleName();
+        ltype = ltype.substring(0, 1).toLowerCase() + ltype.substring(1);
         String lproperty = field.getName();
         String lpattern = null;
         if (field.getAnnotation(OneToOne.class) != null

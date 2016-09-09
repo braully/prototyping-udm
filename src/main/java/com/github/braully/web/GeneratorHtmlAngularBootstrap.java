@@ -1,5 +1,6 @@
 package com.github.braully.web;
 
+import com.github.braully.app.AngularJSWS;
 import com.github.braully.app.StatisticalConsolidation;
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
@@ -7,8 +8,16 @@ import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
 
 import static j2html.TagCreator.*;
+import j2html.tags.UnescapedText;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
 import org.springframework.util.StringUtils;
 
@@ -17,6 +26,8 @@ import org.springframework.util.StringUtils;
  */
 public class GeneratorHtmlAngularBootstrap {
 
+    public static final String FILE_INPUT_SELECT = "/templates/input/input-select.html";
+    public static final String FILE_INPUT_AUTOCOMPLETE = "/templates/input/input-autocomplete.html";
     public static final String DEFAULT_TYPE = "div";
     public static final String FORM_TYPE = "form";
     public static final String TABLE_TYPE = "table";
@@ -28,18 +39,29 @@ public class GeneratorHtmlAngularBootstrap {
     public static final String ROW_CLASS_FORM = "form-group";
 
     public String renderForm(DescriptorHtmlEntity html, StatisticalConsolidation statisticalConsolidation) {
-        return renderFormLocal(html, false);
+        return renderFormLocal(html, statisticalConsolidation).render();
     }
 
     public String renderForm(DescriptorHtmlEntity html) {
-        return renderFormLocal(html, false);
+        return renderForm(html, null);
     }
 
     public String renderFormOnlyChilds(DescriptorHtmlEntity html) {
-        return renderFormLocal(html, true);
+        return renderFormOnlyChilds(html, null);
     }
 
-    private String renderFormLocal(DescriptorHtmlEntity html, boolean onlychilds) {
+    public String renderFormOnlyChilds(DescriptorHtmlEntity html, StatisticalConsolidation statisticalConsolidation) {
+        ContainerTag txtHtml = renderFormLocal(html, statisticalConsolidation);
+        StringBuilder childs = new StringBuilder();
+        if (txtHtml.children != null) {
+            txtHtml.children.stream().forEach((t) -> {
+                childs.append(t.render());
+            });
+        }
+        return childs.toString();
+    }
+
+    private ContainerTag renderFormLocal(DescriptorHtmlEntity html, StatisticalConsolidation statisticalConsolidation) {
         String typeRoot = html.type;
         if (typeRoot == null) {
             typeRoot = FORM_TYPE;
@@ -47,34 +69,23 @@ public class GeneratorHtmlAngularBootstrap {
         ContainerTag txtHtml = new ContainerTag(typeRoot);
         if (html.elementsForm != null) {
             html.elementsForm.forEach((ef) -> {
-                txtHtml.with(buildFormElemet(ef));
+                txtHtml.with(buildFormElemet(ef, statisticalConsolidation));
             });
         }
-        if (onlychilds) {
-            StringBuilder childs = new StringBuilder();
-            if (txtHtml.children != null) {
-                txtHtml.children.stream().forEach((t) -> {
-                    childs.append(t.render());
-                });
-            }
-            return childs.toString();
-        } else {
-            return txtHtml.render();
-        }
+        return txtHtml;
     }
 
-    private Tag buildFormElemet(HtmlElement he) {
+    private Tag buildFormElemet(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
         Tag ret = null;
         if (he != null) {
             ContainerTag row = null;
-
             if (!StringUtils.isEmpty(he.label)) {
                 row = TagCreator.div();
                 row.withClass(ROW_CLASS_FORM);
                 ContainerTag labelHtml = TagCreator.label(he.label);
                 row.with(labelHtml);
             }
-            ret = getHtmlFormElement(he);
+            ret = getHtmlFormElement(he, statisticalConsolidation);
             if (row != null) {
                 row.with(ret);
                 ret = row;
@@ -83,47 +94,32 @@ public class GeneratorHtmlAngularBootstrap {
         return ret;
     }
 
-    private Tag getHtmlFormElement(HtmlElement he) {
+    private Tag getHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
         Tag ret = null;
         if (he != null && he.type != null) {
             String type = he.type.toLowerCase();
-            String tagType = null;
-            String attype = null;
             Tag rt = null;
             switch (type) {
                 case "string":
-                    rt = new ContainerTag(INPUT_TYPE);
-                    break;
                 case "boolean":
-                    rt = new ContainerTag(INPUT_TYPE);
-                    rt.setAttribute("type", CHECK_TYPE);
-                    break;
                 case "date":
-                    tagType = INPUT_TYPE;
-                    rt.setAttribute("type", DATE_TYPE);
-                    break;
                 case "int":
                 case "integer":
                 case "long":
                 case "float":
                 case "double":
-                    rt = new ContainerTag(INPUT_TYPE);
+                    rt = buildSimpleInput(he, statisticalConsolidation);
                     break;
                 case "entity":
-                    rt = entityHtmlFormElement(he);
+                    rt = entityHtmlFormElement(he, statisticalConsolidation);
+                    break;
                 case "collection":
-                    rt = collectionHtmlFormElement(he);
+                    rt = collectionHtmlFormElement(he, statisticalConsolidation);
+                    break;
                 default:
-                    rt = new ContainerTag(type);
+                    rt = buildGenericInput(he, statisticalConsolidation);
                     break;
             }
-//            if (he.attributes != null) {
-//                he.attributes.entrySet().stream().forEach((at) -> {
-//                    rt.setAttribute(at.getKey(), at.getValue());
-//                });
-//            }
-            rt.setAttribute("class", "form-control");
-            rt.setAttribute(NG_MODEL, buildNgModelPath("model.entity", he.property));
             ret = rt;
         }
         return ret;
@@ -207,6 +203,10 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     public String renderFilter(DescriptorHtmlEntity html) {
+        return renderFilter(html, null);
+    }
+
+    public String renderFilter(DescriptorHtmlEntity html, StatisticalConsolidation statisticalConsolidation) {
         String typeRoot = html.type;
         String beanRoot = "model.search";
         if (typeRoot == null) {
@@ -235,7 +235,7 @@ public class GeneratorHtmlAngularBootstrap {
                     parent.with(labelHtml);
                 }
 
-                Tag the = getHtmlFormElement(he);
+                Tag the = getHtmlFormElement(he, statisticalConsolidation);
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
                         the.setAttribute(at.getKey(), at.getValue());
@@ -336,11 +336,75 @@ public class GeneratorHtmlAngularBootstrap {
         //return ret;
     }
 
-    private Tag entityHtmlFormElement(HtmlElement he) {
+    private Tag entityHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+        return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
+    }
+
+    private Tag collectionHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private Tag collectionHtmlFormElement(HtmlElement he) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Tag buildSimpleInput(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+        EmptyTag input = TagCreator.input();
+        setSubtypeInput(input, he.type);
+        if (he.attributes != null) {
+            he.attributes.entrySet().stream().forEach((at) -> {
+                input.setAttribute(at.getKey(), at.getValue());
+            });
+        }
+        input.setAttribute("class", "form-control");
+        input.setAttribute(NG_MODEL, buildNgModelPath("model.entity", he.property));
+        return input;
+    }
+
+    private void setSubtypeInput(EmptyTag input, String type) {
+        switch (type) {
+            case "boolean":
+                input.setAttribute("type", CHECK_TYPE);
+            case "date":
+                input.setAttribute("type", DATE_TYPE);
+            default:
+                break;
+        }
+    }
+
+    private Tag buildGenericInput(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+        Tag gnerictag = TagCreator.emptyTag(he.type.toLowerCase());
+        if (he.attributes != null) {
+            he.attributes.entrySet().stream().forEach((at) -> {
+                gnerictag.setAttribute(at.getKey(), at.getValue());
+            });
+        }
+        gnerictag.setAttribute("class", "form-control");
+        gnerictag.setAttribute(NG_MODEL, buildNgModelPath("model.entity", he.property));
+        return gnerictag;
+    }
+
+    private Tag unsafeHtmlFileReplace(String filereplace, HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+        Map<String, String> propMap = new HashMap<>();
+        propMap.put("property", he.property);
+        propMap.put("pattern", he.pattern);
+        propMap.put("classe", he.type);
+        propMap.put("mdSize", he.mdSize);
+        propMap.put("sort", he.sort);
+        if (he.attributes != null) {
+            propMap.putAll(he.attributes);
+        }
+        String templateStringFromFile = getTemplateStringFromFile(filereplace);
+        for (Map.Entry<String, String> e : propMap.entrySet()) {
+            templateStringFromFile = templateStringFromFile.replaceAll(e.getKey(), e.getValue());
+        }
+        return TagCreator.unsafeHtml(templateStringFromFile);
+    }
+
+    private static String getTemplateStringFromFile(String filereplace) {
+        String ret = null;
+        try {
+            ClassPathResource classPathResource = new ClassPathResource(filereplace);
+            ret = FileCopyUtils.copyToString(new InputStreamReader(classPathResource.getInputStream()));
+        } catch (IOException ex) {
+            Logger.getLogger(AngularJSWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
     }
 }

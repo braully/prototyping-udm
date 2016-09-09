@@ -41,6 +41,8 @@ public class AngularJSWS {
 
     static final String DEFAULT_JS_TXT = "/js/partner.js";
 
+    StatisticalConsolidation statisticalConsolidation;
+
     /*
     
      */
