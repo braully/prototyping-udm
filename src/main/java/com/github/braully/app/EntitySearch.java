@@ -3,6 +3,7 @@ package com.github.braully.app;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -43,7 +44,15 @@ public class EntitySearch {
 
         Object ret = null;
         try {
-            Method method = bean.getClass().getMethod(searchMethod);
+            Method[] methods = bean.getClass().getMethods();
+            Method method = null;
+            for (Method m : methods) {
+                if (m.getName().equalsIgnoreCase(splits[1])) {
+                    method = m;
+                    break;
+                }
+            }
+
             if (method == null) {
                 throw new IllegalArgumentException("Method invalid " + splits[1] + " in  bean " + splits[0]);
             }
@@ -57,7 +66,7 @@ public class EntitySearch {
                 Object value = convertParameter(pValue, p.getType());
                 paramObjects[i++] = value;
             }
-            ret = MethodUtils.invokeMethod(bean, searchMethod, paramObjects);
+            ret = MethodUtils.invokeMethod(bean, splits[1], paramObjects);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             Logger.getLogger(EntitySearch.class.getName()).log(Level.SEVERE, null, ex);
         }

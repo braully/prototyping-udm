@@ -35,7 +35,7 @@ public class EntityRESTfulWS {
 
     static {
         EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
-                .filterMethod("PartnerRepo.searchPartner")
+                .filterMethod("partnerRepo.searchPartner")
                 .hiddenForm("phoneticName", "attribute"));
         EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
 //                .hiddenForm("partner").hiddenForm("inventory"));
