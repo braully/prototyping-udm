@@ -3,12 +3,12 @@ package com.github.braully.app;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.beanutils.MethodUtils;
+import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -20,31 +20,46 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class EntitySearch {
-
+    
+    private static final Logger log = Logger.getLogger(EntitySearch.class.getName());
+    /**/
+    
     @Autowired
     private ApplicationContext context;
     @Autowired
     private GenericDAO genericDAO;
-
+    
     List searchEntitys(Class entitityClass, String searchMethod, Map params) {
         if (StringUtils.isEmpty(searchMethod)) {
             return defaultSearchEntity(entitityClass, params);
         }
-
+        
         String[] splits = searchMethod.split("\\.");
         if (splits == null || splits.length < 2) {
             throw new IllegalArgumentException("Invalid search method: " + searchMethod);
         }
-
-        Object bean = context.getBean(splits[0], params);
-
+        
+        Object bean = context.getBean(splits[0]);
+        
         if (bean == null) {
             throw new IllegalArgumentException("Invalid bean: " + splits[0]);
         }
-
+        
         Object ret = null;
         try {
-            Method[] methods = bean.getClass().getMethods();
+            Class beanClass = bean.getClass();
+            
+            try {
+                Advised advised = (Advised) bean;
+                Class cls = advised.getTargetSource().getTargetClass();
+                if (cls != null) {
+                    beanClass = cls;
+                }
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Bean original type not found", e);
+            }
+            
+            Method[] methods = beanClass.getMethods();
             Method method = null;
             for (Method m : methods) {
                 if (m.getName().equalsIgnoreCase(splits[1])) {
@@ -52,31 +67,37 @@ public class EntitySearch {
                     break;
                 }
             }
-
+            
             if (method == null) {
                 throw new IllegalArgumentException("Method invalid " + splits[1] + " in  bean " + splits[0]);
             }
-
+            
             Parameter[] parametersDescription = method.getParameters();
             Object[] paramObjects = new Object[parametersDescription.length];
-            int i = 0;
-            for (Parameter p : parametersDescription) {
+            Class[] paramTypes = new Class[parametersDescription.length];
+            
+            for (int i = 0; i < parametersDescription.length; i++) {
+                Parameter p = parametersDescription[i];
                 String name = p.getName();
                 Object pValue = params.get(name);
                 Object value = convertParameter(pValue, p.getType());
-                paramObjects[i++] = value;
+                paramObjects[i] = value;
+                paramTypes[i] = p.getType();
+                if (value == null) {
+                    log.info("Parameter: '" + name + "' not found in query");
+                }
             }
-            ret = MethodUtils.invokeMethod(bean, splits[1], paramObjects);
+            ret = MethodUtils.invokeMethod(bean, splits[1], paramObjects, paramTypes);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             Logger.getLogger(EntitySearch.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (List) ret;
     }
-
+    
     private Object convertParameter(Object pValue, Class type) {
         return pValue;
     }
-
+    
     public List defaultSearchEntity(Class entitityClass, Map parameters) {
         if (parameters == null || parameters.isEmpty()) {
             return genericDAO.loadCollection(entitityClass);

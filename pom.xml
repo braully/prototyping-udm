@@ -107,13 +107,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.5.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerArguments>
+                        <!--Necessary to Parameter.getName()-->
                         <endorseddirs>${endorsed.dir}</endorseddirs>
+                        <verbose />
+                        <parameters />
                     </compilerArguments>
+                    <!--                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>-->
+                    <!--                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>-->
                 </configuration>
             </plugin>
             
