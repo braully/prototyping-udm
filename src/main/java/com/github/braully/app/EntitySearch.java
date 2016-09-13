@@ -20,35 +20,35 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class EntitySearch {
-    
+
     private static final Logger log = Logger.getLogger(EntitySearch.class.getName());
     /**/
-    
+
     @Autowired
     private ApplicationContext context;
     @Autowired
     private GenericDAO genericDAO;
-    
+
     List searchEntitys(Class entitityClass, String searchMethod, Map params) {
         if (StringUtils.isEmpty(searchMethod)) {
             return defaultSearchEntity(entitityClass, params);
         }
-        
+
         String[] splits = searchMethod.split("\\.");
         if (splits == null || splits.length < 2) {
             throw new IllegalArgumentException("Invalid search method: " + searchMethod);
         }
-        
+
         Object bean = context.getBean(splits[0]);
-        
+
         if (bean == null) {
             throw new IllegalArgumentException("Invalid bean: " + splits[0]);
         }
-        
+
         Object ret = null;
         try {
             Class beanClass = bean.getClass();
-            
+
             try {
                 Advised advised = (Advised) bean;
                 Class cls = advised.getTargetSource().getTargetClass();
@@ -58,24 +58,34 @@ public class EntitySearch {
             } catch (Exception e) {
                 log.log(Level.WARNING, "Bean original type not found", e);
             }
-            
-            Method[] methods = beanClass.getMethods();
+
+            /* Search for Default Method with Map as parameter */
             Method method = null;
-            for (Method m : methods) {
-                if (m.getName().equalsIgnoreCase(splits[1])) {
-                    method = m;
-                    break;
+            try {
+                method = beanClass.getMethod(searchMethod, Map.class);
+            } catch (NoSuchMethodException e) {
+
+            }
+
+            if (method == null) {
+//                if method not found, search for first method with searchmethod as name
+                Method[] methods = beanClass.getMethods();
+                for (Method m : methods) {
+                    if (m.getName().equalsIgnoreCase(splits[1])) {
+                        method = m;
+                        break;
+                    }
                 }
             }
-            
+
             if (method == null) {
                 throw new IllegalArgumentException("Method invalid " + splits[1] + " in  bean " + splits[0]);
             }
-            
+
             Parameter[] parametersDescription = method.getParameters();
             Object[] paramObjects = new Object[parametersDescription.length];
             Class[] paramTypes = new Class[parametersDescription.length];
-            
+
             for (int i = 0; i < parametersDescription.length; i++) {
                 Parameter p = parametersDescription[i];
                 String name = p.getName();
@@ -93,11 +103,11 @@ public class EntitySearch {
         }
         return (List) ret;
     }
-    
+
     private Object convertParameter(Object pValue, Class type) {
         return pValue;
     }
-    
+
     public List defaultSearchEntity(Class entitityClass, Map parameters) {
         if (parameters == null || parameters.isEmpty()) {
             return genericDAO.loadCollection(entitityClass);
