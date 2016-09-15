@@ -306,7 +306,7 @@ public class GeneratorHtmlAngularBootstrap {
 
             trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
 
-            for (HtmlElement he : htmlDescriptor.elementsForm) {
+            for (HtmlElement he : htmlDescriptor.elementsList) {
                 ContainerTag td = TagCreator.td();
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {

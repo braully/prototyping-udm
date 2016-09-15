@@ -144,8 +144,9 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     $scope.paginate = function (value) {
         var begin, end, index;
         begin = ($scope.model.currentPage - 1) * $scope.model.numPerPage;
-        end = begin + $scope.numPerPage;
+        end = begin + $scope.model.numPerPage;
         index = $scope.model.entities.indexOf(value);
+        console.log("i: " + index + " b: " + begin + " e: " + end);
         return (begin <= index && index < end);
     };
 

@@ -93,6 +93,9 @@ public class EntitySearch {
                 Object value = convertParameter(pValue, p.getType());
                 paramObjects[i] = value;
                 paramTypes[i] = p.getType();
+                if(p.isNamePresent()){
+                    log.log(Level.SEVERE, "Parameter: name not present in parameter reflection");
+                }
                 if (value == null) {
                     log.log(Level.INFO, "Parameter: ''{0}'' not found in query", name);
                 }
