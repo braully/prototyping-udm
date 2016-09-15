@@ -68,6 +68,7 @@ public class DescriptorExposedEntity {
                 String value = ent.getValue();
                 value = StringEscapeUtils.escapeJava(value);
                 key = StringEscapeUtils.escapeJava(key);
+                key = removeCharctersUnsafe(key);
                 if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(value)) {
                     sanitized.put(key, value);
                 }
@@ -83,5 +84,13 @@ public class DescriptorExposedEntity {
     public DescriptorExposedEntity filterMethod(String searchMethod) {
         this.searchNameMethod = searchMethod;
         return this;
+    }
+
+    private String removeCharctersUnsafe(String key) {
+        String ret = null;
+        if (key != null) {
+            ret = key.replaceAll("\\.", "");
+        }
+        return ret;
     }
 }

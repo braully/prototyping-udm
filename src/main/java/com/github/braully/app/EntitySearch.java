@@ -94,7 +94,7 @@ public class EntitySearch {
                 paramObjects[i] = value;
                 paramTypes[i] = p.getType();
                 if (value == null) {
-                    log.info("Parameter: '" + name + "' not found in query");
+                    log.log(Level.INFO, "Parameter: ''{0}'' not found in query", name);
                 }
             }
             ret = MethodUtils.invokeMethod(bean, splits[1], paramObjects, paramTypes);

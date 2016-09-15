@@ -7,6 +7,8 @@ package com.github.braully.app;
 
 import com.github.braully.domain.Partner;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +23,12 @@ public class PartnerRepo {
     GenericDAO genericDAO;
 
     public List searchPartner(String name) {
-        List list = genericDAO.loadCollection(Partner.class);
-        return list;
+        if (name == null) {
+            return genericDAO.loadCollection(Partner.class);
+        }
+        EntityManager entityManager = genericDAO.getEntityManager();
+        Query query = entityManager.createQuery("SELECT p FROM Partner p WHERE lower(p.name) like :name");
+        query.setParameter("name", name.toLowerCase() + "%");
+        return query.getResultList();
     }
 }
