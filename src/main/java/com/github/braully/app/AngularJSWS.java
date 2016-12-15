@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -41,6 +42,7 @@ public class AngularJSWS {
 
     static final String DEFAULT_JS_TXT = "/js/partner.js";
 
+    @Autowired
     StatisticalConsolidation statisticalConsolidation;
 
     /*
@@ -120,7 +122,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderTable(htmlDescriptor);
+            ret = GENERATOR_HTML.renderTable(htmlDescriptor, statisticalConsolidation);
         }
         return ret;
     }
@@ -131,7 +133,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderTableSimple(htmlDescriptor);
+            ret = GENERATOR_HTML.renderTableSimple(htmlDescriptor, statisticalConsolidation);
         }
         return ret;
     }
@@ -142,7 +144,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderFilter(htmlDescriptor);
+            ret = GENERATOR_HTML.renderFilter(htmlDescriptor, statisticalConsolidation);
         }
         return ret;
     }
@@ -153,7 +155,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderForm(htmlDescriptor);
+            ret = GENERATOR_HTML.renderForm(htmlDescriptor, statisticalConsolidation);
         }
         return ret;
     }
@@ -164,7 +166,7 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderFormOnlyChilds(htmlDescriptor);
+            ret = GENERATOR_HTML.renderFormOnlyChilds(htmlDescriptor, statisticalConsolidation);
         }
         return ret;
     }

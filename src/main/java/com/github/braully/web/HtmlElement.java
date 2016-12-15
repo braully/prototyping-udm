@@ -31,11 +31,11 @@ public class HtmlElement {
     String mdSize;
     String sort;
 
+    Class classe;
+
     Map<String, String> attributes;
 
     public HtmlElement() {
     }
-    
-    
 
 }

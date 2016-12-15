@@ -26,6 +26,8 @@ import org.springframework.util.StringUtils;
  */
 public class GeneratorHtmlAngularBootstrap {
 
+    public static final int THRESHOLD_ENTITY_COUNT_SELECT = 5;
+
     public static final String FILE_INPUT_SELECT = "/templates/input/input-select.html";
     public static final String FILE_INPUT_AUTOCOMPLETE = "/templates/input/input-autocomplete.html";
     public static final String DEFAULT_TYPE = "div";
@@ -161,7 +163,7 @@ public class GeneratorHtmlAngularBootstrap {
         return sb.toString();
     }
 
-    public String renderTableSimple(DescriptorHtmlEntity htmlDescriptor) {
+    public String renderTableSimple(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
@@ -271,7 +273,7 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    public String renderTable(DescriptorHtmlEntity htmlDescriptor) {
+    public String renderTable(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
@@ -339,11 +341,16 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     private Tag entityHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
-        return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
+//        statisticalConsolidation.countEntity(he.classe);
+        if (statisticalConsolidation.countEntity(he.classe) <= THRESHOLD_ENTITY_COUNT_SELECT) {
+            return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
+        } else {
+            return unsafeHtmlFileReplace(FILE_INPUT_AUTOCOMPLETE, he, statisticalConsolidation);
+        }
     }
 
     private Tag collectionHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
     }
 
     private Tag buildSimpleInput(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {

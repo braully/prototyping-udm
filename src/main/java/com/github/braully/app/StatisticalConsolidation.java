@@ -75,4 +75,7 @@ public class StatisticalConsolidation {
         return ret;
     }
 
+    public long countEntity(Class classe) {
+        return Math.round(Math.random() * 10);
+    }
 }

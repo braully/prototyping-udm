@@ -25,8 +25,6 @@ import org.springframework.util.ReflectionUtils;
  */
 public class DescriptorHtmlEntity extends HtmlElement {
 
-    Class classe;
-
     List<HtmlElement> elementsForm;
     List<HtmlElement> elementsFilter;
     List<HtmlElement> elementsList;
@@ -134,6 +132,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         llabel = WordUtils.capitalize(llabel);
 
         HtmlElement he = new HtmlElement();
+        he.classe = field.getType();
         he.type = ltype;
         he.property = lproperty;
         he.label = llabel;
