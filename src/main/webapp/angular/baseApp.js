@@ -94,10 +94,20 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
         entity: {},
         search: {},
         selectList: {},
-        currentPage: 1,
+        currentPage: 0,
         numPerPage: 5,
         totalItems: 0,
-        totalPages: 0
+        totalPages: 5
+    };
+
+    $scope.numToArray = function (num) {
+//        console.log('var to array: ' + num);
+        var array = new Array(num);
+        for (var i = 0; i < num; i++) {
+            array[i] = i;
+        }
+//        console.log(array);
+        return array;
     };
 
     $scope.modalOpen = function (classe, name, url) {
@@ -143,25 +153,25 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
 
     $scope.paginate = function (value) {
         var begin, end, index;
-        begin = ($scope.model.currentPage - 1) * $scope.model.numPerPage;
+        begin = $scope.model.currentPage * $scope.model.numPerPage;
         end = begin + $scope.model.numPerPage;
         index = $scope.model.entities.indexOf(value);
-        console.log("i: " + index + " b: " + begin + " e: " + end);
+//        console.log("i: " + index + " b: " + begin + " e: " + end);
         return (begin <= index && index < end);
     };
 
-    $scope.setPage = function () {
-        $scope.model.currentPage = this.n;
+    $scope.setPage = function (n) {
+        $scope.model.currentPage = n;
     };
 
     $scope.prevPage = function () {
-        if ($scope.model.currentPage > 1) {
+        if ($scope.model.currentPage > 0) {
             $scope.model.currentPage--;
         }
     };
 
     $scope.nextPage = function () {
-        if ($scope.model.currentPage * $scope.model.numPerPage < $scope.model.entities.length) {
+        if (($scope.model.currentPage + 1) * $scope.model.numPerPage < $scope.model.entities.length) {
             $scope.model.currentPage++;
         }
     };

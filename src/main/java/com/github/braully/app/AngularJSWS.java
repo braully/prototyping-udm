@@ -122,7 +122,66 @@ public class AngularJSWS {
         String ret = DEFAULT_HTML;
         DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
         if (htmlDescriptor != null) {
-            ret = GENERATOR_HTML.renderTable(htmlDescriptor, statisticalConsolidation);
+            ret = GENERATOR_HTML.renderTableComplete(htmlDescriptor,
+                    statisticalConsolidation);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/table/{classe}/table"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTableTable(@PathVariable("classe") String classe,
+            @RequestParam(required = false) Map<String, String> params) {
+        String ret = DEFAULT_HTML;
+        boolean pagination = false;
+
+        String strPagination = params.get("pagination");
+        if (strPagination != null) {
+            try {
+                pagination = Boolean.parseBoolean(strPagination);
+            } catch (Exception e) {
+
+            }
+        }
+
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTable(htmlDescriptor,
+                    statisticalConsolidation, pagination);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/table/{classe}/pagination"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTablePagination(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTablePagination(htmlDescriptor, statisticalConsolidation);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/table/{classe}/export"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTableExport(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTableExport(htmlDescriptor, statisticalConsolidation);
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = {"/component/table/{classe}/complete"},
+            method = RequestMethod.GET, produces = "text/html")
+    public String getComponentTableComplete(@PathVariable("classe") String classe) {
+        String ret = DEFAULT_HTML;
+        boolean pagination = true;
+        DescriptorHtmlEntity htmlDescriptor = getDescriptorHtmlEntity(classe);
+        if (htmlDescriptor != null) {
+            ret = GENERATOR_HTML.renderTable(htmlDescriptor, statisticalConsolidation, pagination);
         }
         return ret;
     }

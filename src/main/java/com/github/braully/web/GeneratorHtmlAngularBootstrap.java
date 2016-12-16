@@ -11,9 +11,14 @@ import static j2html.TagCreator.*;
 import j2html.tags.UnescapedText;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.core.io.ClassPathResource;
@@ -30,6 +35,10 @@ public class GeneratorHtmlAngularBootstrap {
 
     public static final String FILE_INPUT_SELECT = "/templates/input/input-select.html";
     public static final String FILE_INPUT_AUTOCOMPLETE = "/templates/input/input-autocomplete.html";
+    public static final String FILE_PAGINATION_TABLE = "/templates/pagination/pagination-table.html";
+    public static final String FILE_EXPORT_TABLE = "/templates/export/export-table-spreadsheet.html";
+    /*
+     */
     public static final String DEFAULT_TYPE = "div";
     public static final String FORM_TYPE = "form";
     public static final String TABLE_TYPE = "table";
@@ -164,46 +173,7 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     public String renderTableSimple(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
-        String typeRoot = htmlDescriptor.type;
-        if (typeRoot == null) {
-            typeRoot = TABLE_TYPE;
-        }
-        ContainerTag txtHtml = new ContainerTag(typeRoot);
-
-        if (htmlDescriptor.elementsForm != null) {
-            ContainerTag thead = TagCreator.thead();
-            ContainerTag tr = TagCreator.tr();
-
-            for (HtmlElement he : htmlDescriptor.elementsForm) {
-                if (!StringUtils.isEmpty(he.label)) {
-                    ContainerTag th = TagCreator.th(he.label);
-                    tr.with(th);
-                }
-            }
-            thead.with(tr);
-            txtHtml.with(thead);
-
-            String var = htmlDescriptor.property + "Item";
-            String collection = "model.entities";
-
-            ContainerTag tbody = TagCreator.tbody();
-            ContainerTag trBody = TagCreator.tr();
-            trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
-
-            for (HtmlElement he : htmlDescriptor.elementsForm) {
-                ContainerTag td = TagCreator.td();
-                if (he.attributes != null) {
-                    he.attributes.entrySet().stream().forEach((at) -> {
-                        td.setAttribute(at.getKey(), at.getValue());
-                    });
-                }
-                td.withText(buildNgModelPath(true, var, he.property));
-                trBody.with(td);
-            }
-            tbody.with(trBody);
-            txtHtml.with(tbody);
-        }
-        return txtHtml.render();
+        return renderTableTag(htmlDescriptor, statisticalConsolidation, false).render();
     }
 
     public String renderFilter(DescriptorHtmlEntity html) {
@@ -273,7 +243,42 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    public String renderTable(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
+    public String renderTableComplete(DescriptorHtmlEntity htmlDescriptor,
+            StatisticalConsolidation statisticalConsolidation) {
+
+        ContainerTag tableDiv = new ContainerTag("div");
+        tableDiv.withClass("table-responsive");
+        tableDiv.with(renderTableTag(htmlDescriptor, statisticalConsolidation, true));
+
+        ContainerTag footer = new ContainerTag("div");
+        footer.withClass("row")
+                .with(renderTableExportTag(htmlDescriptor, statisticalConsolidation))
+                .with(renderTablePaginationTag(htmlDescriptor, statisticalConsolidation));
+
+//        ContainerTag tableComplete = new ContainerTag("div");        
+//        tableComplete.with(tableDiv);
+//        tableComplete.with(footer);
+//
+//        return tableComplete.render();
+        ContainerTag tableComplete = new ContainerTag("div");
+        tableComplete.with(tableDiv);
+        tableComplete.with(footer);
+
+        String tableDivRender = tableDiv.render();
+        String tableDivFooter = footer.render();
+
+        return tableDivRender + "\n" + tableDivFooter;
+    }
+
+    public String renderTable(DescriptorHtmlEntity htmlDescriptor,
+            StatisticalConsolidation statisticalConsolidation,
+            boolean hasPagination) {
+        return renderTableTag(htmlDescriptor, statisticalConsolidation, hasPagination).render();
+    }
+
+    public Tag renderTableTag(DescriptorHtmlEntity htmlDescriptor,
+            StatisticalConsolidation statisticalConsolidation,
+            boolean hasPagination) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
@@ -305,8 +310,11 @@ public class GeneratorHtmlAngularBootstrap {
 
             ContainerTag tbody = TagCreator.tbody();
             ContainerTag trBody = TagCreator.tr();
-
-            trBody.attr("ng-repeat", buildNgRepeatPath(var, collection));
+            String ngRepeat = buildNgRepeatPath(var, collection);
+            if (hasPagination) {
+                ngRepeat = ngRepeat + " | filter : paginate";
+            }
+            trBody.attr("ng-repeat", ngRepeat);
 
             for (HtmlElement he : htmlDescriptor.elementsList) {
                 ContainerTag td = TagCreator.td();
@@ -336,8 +344,25 @@ public class GeneratorHtmlAngularBootstrap {
             tbody.with(trBody);
             txtHtml.with(tbody);
         }
-        return txtHtml.render();
-        //return ret;
+        return txtHtml;
+    }
+
+    public String renderTableExport(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
+        return renderTableExportTag(htmlDescriptor, statisticalConsolidation).render();
+    }
+
+    public Tag renderTableExportTag(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
+        Tag txtHtml = unsafeHtmlFileReplace(FILE_EXPORT_TABLE, htmlDescriptor, statisticalConsolidation);
+        return txtHtml;
+    }
+
+    public String renderTablePagination(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
+        return renderTablePaginationTag(htmlDescriptor, statisticalConsolidation).render();
+    }
+
+    public Tag renderTablePaginationTag(DescriptorHtmlEntity htmlDescriptor, StatisticalConsolidation statisticalConsolidation) {
+        Tag txtHtml = unsafeHtmlFileReplace(FILE_PAGINATION_TABLE, htmlDescriptor, statisticalConsolidation);
+        return txtHtml;
     }
 
     private Tag entityHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {

@@ -9,6 +9,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +56,17 @@ public class DescriptorHtmlEntity extends HtmlElement {
             addHtmlFormElement(field);
             addHtmlFilterElement(field);
             addHtmlListElement(field);
+        });
+
+        Collections.sort(elementsList, new Comparator<HtmlElement>() {
+            @Override
+            public int compare(HtmlElement t, HtmlElement t1) {
+                try {
+                    return t.property.compareToIgnoreCase(t1.property);
+                } catch (Exception e) {
+                }
+                return 0;
+            }
         });
     }
 
