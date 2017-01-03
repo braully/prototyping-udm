@@ -86,7 +86,7 @@ public class GeneratorHtmlAngularBootstrap {
         return txtHtml;
     }
 
-    private Tag buildFormElemet(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag buildFormElemet(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         Tag ret = null;
         if (he != null) {
             ContainerTag row = null;
@@ -105,7 +105,7 @@ public class GeneratorHtmlAngularBootstrap {
         return ret;
     }
 
-    private Tag getHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag getHtmlFormElement(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         Tag ret = null;
         if (he != null && he.type != null) {
             String type = he.type.toLowerCase();
@@ -127,8 +127,8 @@ public class GeneratorHtmlAngularBootstrap {
                 case "collection":
                     rt = collectionHtmlFormElement(he, statisticalConsolidation);
                     break;
-                case HtmlElement.TYPE_SELECT_ONE:
-                case HtmlElement.TYPE_SELECT_MANY:
+                case DescriptorHtmlEntity.TYPE_SELECT_ONE:
+                case DescriptorHtmlEntity.TYPE_SELECT_MANY:
                 default:
                     rt = buildGenericInput(he, statisticalConsolidation);
                     break;
@@ -190,7 +190,7 @@ public class GeneratorHtmlAngularBootstrap {
         ContainerTag collapse = div().withClass("collapse").withId("advanced-search");
 
         if (html.elementsForm != null) {
-            for (HtmlElement he : html.elementsForm) {
+            for (DescriptorHtmlEntity he : html.elementsForm) {
                 ContainerTag container;
                 //he.principalFilter
                 boolean hePrincipal = Math.random() <= 0.5;
@@ -290,7 +290,7 @@ public class GeneratorHtmlAngularBootstrap {
             ContainerTag thead = TagCreator.thead();
             ContainerTag tr = TagCreator.tr();
 
-            for (HtmlElement he : htmlDescriptor.elementsList) {
+            for (DescriptorHtmlEntity he : htmlDescriptor.elementsList) {
                 if (!StringUtils.isEmpty(he.label)) {
                     ContainerTag th = TagCreator.th(he.label);
                     tr.with(th);
@@ -316,7 +316,7 @@ public class GeneratorHtmlAngularBootstrap {
             }
             trBody.attr("ng-repeat", ngRepeat);
 
-            for (HtmlElement he : htmlDescriptor.elementsList) {
+            for (DescriptorHtmlEntity he : htmlDescriptor.elementsList) {
                 ContainerTag td = TagCreator.td();
                 if (he.attributes != null) {
                     he.attributes.entrySet().stream().forEach((at) -> {
@@ -365,7 +365,7 @@ public class GeneratorHtmlAngularBootstrap {
         return txtHtml;
     }
 
-    private Tag entityHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag entityHtmlFormElement(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
 //        statisticalConsolidation.countEntity(he.classe);
         if (statisticalConsolidation.countEntity(he.classe) <= THRESHOLD_ENTITY_COUNT_SELECT) {
             return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
@@ -374,11 +374,11 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    private Tag collectionHtmlFormElement(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag collectionHtmlFormElement(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         return unsafeHtmlFileReplace(FILE_INPUT_SELECT, he, statisticalConsolidation);
     }
 
-    private Tag buildSimpleInput(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag buildSimpleInput(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         EmptyTag input = TagCreator.input();
         setSubtypeInput(input, he.type);
         if (he.attributes != null) {
@@ -402,7 +402,7 @@ public class GeneratorHtmlAngularBootstrap {
         }
     }
 
-    private Tag buildGenericInput(HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag buildGenericInput(DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         Tag gnerictag = TagCreator.emptyTag(he.type.toLowerCase());
         if (he.attributes != null) {
             he.attributes.entrySet().stream().forEach((at) -> {
@@ -414,7 +414,7 @@ public class GeneratorHtmlAngularBootstrap {
         return gnerictag;
     }
 
-    private Tag unsafeHtmlFileReplace(String filereplace, HtmlElement he, StatisticalConsolidation statisticalConsolidation) {
+    private Tag unsafeHtmlFileReplace(String filereplace, DescriptorHtmlEntity he, StatisticalConsolidation statisticalConsolidation) {
         Map<String, String> propMap = new HashMap<>();
         propMap.put("property", he.property);
         propMap.put("pattern", he.pattern);

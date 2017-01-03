@@ -7,40 +7,50 @@ package com.github.braully.web;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- *
  * @author braully
  */
-public class DescriptorHtmlEntity extends HtmlElement {
+public class DescriptorHtmlEntity {
 
-    List<HtmlElement> elementsForm;
-    List<HtmlElement> elementsFilter;
-    List<HtmlElement> elementsList;
+
+    static final String TYPE_SELECT_ONE = "selectone";
+    static final String TYPE_SELECT_MANY = "selectmany";
+
+    List<DescriptorHtmlEntity> elementsForm;
+    List<DescriptorHtmlEntity> elementsFilter;
+    List<DescriptorHtmlEntity> elementsList;
     Set<String> hiddenFormProperties;
     Set<String> hiddenFilterProperties;
     Set<String> hiddenListProperties;
     Set<String> exclude = new HashSet<>();
 
+    String id;
+    String label;
+    String type;
+    String property;
+    String pattern;
+    String mdSize;
+    String sort;
+
+    Class classe;
+
+    Map<String, String> attributes;
+
     public DescriptorHtmlEntity() {
     }
 
     public DescriptorHtmlEntity(String model,
-            Class classe,
-            String type) {
+                                Class classe,
+                                String type) {
         this.classe = classe;
         this.property = model;
         this.type = type;
@@ -58,9 +68,9 @@ public class DescriptorHtmlEntity extends HtmlElement {
             addHtmlListElement(field);
         });
 
-        Collections.sort(elementsList, new Comparator<HtmlElement>() {
+        Collections.sort(elementsList, new Comparator<DescriptorHtmlEntity>() {
             @Override
-            public int compare(HtmlElement t, HtmlElement t1) {
+            public int compare(DescriptorHtmlEntity t, DescriptorHtmlEntity t1) {
                 try {
                     return t.property.compareToIgnoreCase(t1.property);
                 } catch (Exception e) {
@@ -89,7 +99,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         final int modifiers = field.getModifiers();
         if (!Modifier.isStatic(modifiers)
                 && !hiddenListProperties.contains(field.getName())) {
-            elementsList.add(buildHtmlElement(field));
+            elementsList.add(buildDescriptorHtmlEntity(field));
         }
     }
 
@@ -100,7 +110,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         final int modifiers = field.getModifiers();
         if (!Modifier.isStatic(modifiers)
                 && !hiddenFilterProperties.contains(field.getName())) {
-            elementsFilter.add(buildHtmlElement(field));
+            elementsFilter.add(buildDescriptorHtmlEntity(field));
         }
     }
 
@@ -111,7 +121,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         final int modifiers = field.getModifiers();
         if (!Modifier.isStatic(modifiers)
                 && !hiddenFormProperties.contains(field.getName())) {
-            HtmlElement htmlElement = buildHtmlElement(field);
+            DescriptorHtmlEntity htmlElement = buildDescriptorHtmlEntity(field);
             elementsForm.add(htmlElement);
         }
     }
@@ -125,7 +135,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         return new String(c);
     }
 
-    HtmlElement buildHtmlElement(Field field) {
+    DescriptorHtmlEntity buildDescriptorHtmlEntity(Field field) {
         String ltype = field.getType().getSimpleName();
         ltype = ltype.substring(0, 1).toLowerCase() + ltype.substring(1);
         String lproperty = field.getName();
@@ -144,7 +154,7 @@ public class DescriptorHtmlEntity extends HtmlElement {
         String llabel = lproperty.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
         llabel = WordUtils.capitalize(llabel);
 
-        HtmlElement he = new HtmlElement();
+        DescriptorHtmlEntity he = new DescriptorHtmlEntity();
         he.classe = field.getType();
         he.type = ltype;
         he.property = lproperty;
