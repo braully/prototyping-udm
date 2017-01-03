@@ -12,7 +12,7 @@ angular.module('baseApp').directive('sidebar', ['$location', '$http',
                     function ($scope, $http) {
                         $scope.menus = {};
                         $http.get('app/user/menu')
-                                .success(function (data) {
+                                .then(function (data) {
                                     $scope.menus = data;
                                 });
                         $scope.selectedMenu = 'dashboard';

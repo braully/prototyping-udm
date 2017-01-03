@@ -8,7 +8,9 @@ import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
 
 import static j2html.TagCreator.*;
+
 import j2html.tags.UnescapedText;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 
@@ -244,7 +247,7 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     public String renderTableComplete(DescriptorHtmlEntity htmlDescriptor,
-            StatisticalConsolidation statisticalConsolidation) {
+                                      StatisticalConsolidation statisticalConsolidation) {
 
         ContainerTag tableDiv = new ContainerTag("div");
         tableDiv.withClass("table-responsive");
@@ -271,14 +274,14 @@ public class GeneratorHtmlAngularBootstrap {
     }
 
     public String renderTable(DescriptorHtmlEntity htmlDescriptor,
-            StatisticalConsolidation statisticalConsolidation,
-            boolean hasPagination) {
+                              StatisticalConsolidation statisticalConsolidation,
+                              boolean hasPagination) {
         return renderTableTag(htmlDescriptor, statisticalConsolidation, hasPagination).render();
     }
 
     public Tag renderTableTag(DescriptorHtmlEntity htmlDescriptor,
-            StatisticalConsolidation statisticalConsolidation,
-            boolean hasPagination) {
+                              StatisticalConsolidation statisticalConsolidation,
+                              boolean hasPagination) {
         String typeRoot = htmlDescriptor.type;
         if (typeRoot == null) {
             typeRoot = TABLE_TYPE;
@@ -330,15 +333,17 @@ public class GeneratorHtmlAngularBootstrap {
             ContainerTag td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Edit").with(
                     button().withClass("btn btn-primary btn-xs").attr("data-title", "Edit")
-                    .attr("data-toggle", "modal").attr("data-target", "#edit").with(
-                    span().withClass("glyphicon glyphicon-pencil"))));
+                            .attr("data-toggle", "modal").attr("data-target", "#edit")
+                            .attr("ng-click", "editEntity(" + var + ")")
+                            .with(span().withClass("glyphicon glyphicon-pencil"))));
             trBody.with(td);
 
             td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Delete").with(
                     button().withClass("btn btn-danger btn-xs").attr("data-title", "Delete")
-                    .attr("data-toggle", "modal").attr("data-target", "#delete").with(
-                    span().withClass("glyphicon glyphicon-trash"))));
+                            .attr("data-toggle", "modal").attr("data-target", "#delete")
+                            .attr("ng-click", "deleteEntity(" + var + ")")
+                            .with(span().withClass("glyphicon glyphicon-trash"))));
             trBody.with(td);
 
             tbody.with(trBody);

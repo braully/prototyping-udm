@@ -141,6 +141,16 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
         });
     };
 
+    $scope.editEntity = function (entity) {
+        $scope.model.entity = entity;
+        $scope.model.entity.classe = $scope.model.classe;
+    };
+
+    $scope.deleteEntity = function (entity) {
+         $scope.model.entity = entity;
+         $scope.model.entity.classe = $scope.model.classe;
+    };
+
     $scope.query = function (args) {
         $scope.model.entities = Entity.query(args);
     };
