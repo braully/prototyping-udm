@@ -17,4 +17,5 @@ public class SpringMainConfig {
     public static void main(String... args) {
         SpringApplication.run(SpringMainConfig.class, args);
     }
+    
 }
