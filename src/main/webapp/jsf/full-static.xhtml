@@ -4,14 +4,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:composition template="/templates/template-jsf.xhtml">
-        <ui:define name="title-page">Table</ui:define>
+<ui:composition template="/templates/template-jsf.xhtml">
+    <ui:define name="title-page">Table</ui:define>
 
-        <ui:param name="controllerAngular" value="purchaseOrderController"/>
-
+    <ui:define name="header-append">
         <ui:define name="header-append">
-            <ui:define name="header-append"><script src="js/partner.js"></script></ui:define>
-            <script type="text/javascript">
+            <script src="js/partner.js"></script>
+        </ui:define>
+        <script type="text/javascript">
                 $(document).ready(function () {
                     $("#mytable #checkall").click(function () {
                         if ($("#mytable #checkall").is(':checked')) {
@@ -28,40 +28,42 @@
 
                     $("[data-toggle=tooltip]").tooltip();
                 });
-            </script>
-        </ui:define>
 
-        <ui:define name="body-content">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Partner
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">                                
-                                <form role="form">
-                                    <div class="form-group col-md-6">
-                                        <label>Total</label>
-                                        <money class="form-control" ng-model="model.entity.total"></money>
-                                    </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Status Type</label>
-                                        <input class="form-control" ng-model="model.entity.statusType"></input>
-                                    </div>
+        </script>
+    </ui:define>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Partner</label>
-                                        <div class="input-group">
-                                            <select class="form-control" 
-                                                    id="partner-select"
-                                                    ng-init="selectList('partner')"
-                                                    ng-model="model.entity.partner"
-                                                    ng-options="x.name for x in model.selectList.partner track by x.id">
-                                                <option value=""></option>
-                                            </select>
-                                            <span class="input-group-btn">
+    <ui:define name="body-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Partner
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form role="form">
+                                <div class="form-group col-md-6">
+                                    <label>Total</label>
+                                    <money class="form-control" ng-model="model.entity.total"></money>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Status Type</label>
+                                    <input class="form-control" ng-model="model.entity.statusType"></input>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Partner</label>
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                id="partner-select"
+                                                ng-init="selectList('partner')"
+                                                ng-model="model.entity.partner"
+                                                ng-options="x.name for x in model.selectList.partner track by x.id">
+                                            <option value=""></option>
+                                        </select>
+                                        <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button"
                                                         ng-init="model.entity.partner = model.entity.partner || {entity: 'partner'}"
                                                         ng-click="modalOpen('partner', 'model.entity.partner', '/app/component/form/partner')"
@@ -69,40 +71,40 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </span>
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Observation</label>
-                                        <input class="form-control" ng-model="model.entity.observation"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>Observation</label>
+                                    <input class="form-control" ng-model="model.entity.observation"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Fiscal Code</label>
-                                        <input class="form-control" ng-model="model.entity.fiscalCode"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>Fiscal Code</label>
+                                    <input class="form-control" ng-model="model.entity.fiscalCode"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Date Order</label>
-                                        <input type="date" class="form-control" ng-model="model.entity.dateOrder"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>Date Order</label>
+                                    <input type="date" class="form-control" ng-model="model.entity.dateOrder"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Type</label>
-                                        <input class="form-control" ng-model="model.entity.type"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>Type</label>
+                                    <input class="form-control" ng-model="model.entity.type"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Inventory</label>
-                                        <div class="input-group">
-                                            <select class="form-control" 
-                                                    id="partner-select-2"
-                                                    ng-init="selectList('inventory')"
-                                                    ng-model="model.entity.inventory"
-                                                    ng-options="x.name for x in model.selectList.inventory track by x.id">
-                                                <option value=""></option>
-                                            </select>
-                                            <span class="input-group-btn">
+                                <div class="form-group col-md-6">
+                                    <label>Inventory</label>
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                id="partner-select-2"
+                                                ng-init="selectList('inventory')"
+                                                ng-model="model.entity.inventory"
+                                                ng-options="x.name for x in model.selectList.inventory track by x.id">
+                                            <option value=""></option>
+                                        </select>
+                                        <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button"
                                                         ng-init="model.entity.inventory = model.entity.inventory || {entity: 'inventory'}"
                                                         ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
@@ -110,31 +112,32 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </span>
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>User Id Modified</label>
-                                        <input class="form-control" ng-model="model.entity.userIdModified"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>User Id Modified</label>
+                                    <input class="form-control" ng-model="model.entity.userIdModified"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Last Modified</label>
-                                        <input type="date" class="form-control" ng-model="model.entity.lastModified"></input>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label>Last Modified</label>
+                                    <input type="date" class="form-control"
+                                           ng-model="model.entity.lastModified"></input>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Inventory</label>
-                                        <!--https://docs.angularjs.org/api/ng/directive/select-->
-                                        <div class="input-group">
-                                            <select class="form-control" 
-                                                    id="inventory-select-2"
-                                                    ng-init="selectList('inventory')"
-                                                    ng-model="model.entity.inventory"
-                                                    ng-options="x.name for x in model.selectList.inventory track by x.id">
-                                                <option value=""></option>
-                                            </select>
-                                            <span class="input-group-btn">
+                                <div class="form-group col-md-6">
+                                    <label>Inventory</label>
+                                    <!--https://docs.angularjs.org/api/ng/directive/select-->
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                id="inventory-select-2"
+                                                ng-init="selectList('inventory')"
+                                                ng-model="model.entity.inventory"
+                                                ng-options="x.name for x in model.selectList.inventory track by x.id">
+                                            <option value=""></option>
+                                        </select>
+                                        <span class="input-group-btn">
                                                 <button class="btn btn-default" type="button"
                                                         ng-init="model.entity.inventory = model.entity.inventory || {classe: 'inventory'}"
                                                         ng-click="modalOpen('inventory', 'model.entity.inventory', '/app/component/form/inventory')"
@@ -142,26 +145,26 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </span>
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Partner</label>
-                                        <div class="input-group">
+                                <div class="form-group col-md-6">
+                                    <label>Partner</label>
+                                    <div class="input-group">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-search  "></i>
                                             </span>
-                                            <input type="text" class="form-control" 
-                                                   id="partner-input" required=""
-                                                   ng-disabled="model.entity.partner.id"
-                                                   ng-model="model.entity.partner.name"
-                                                   autocomplete="off">
-                                            </input>
-                                            <input type="hidden" class="form-control" 
-                                                   id="partner-input-id"
-                                                   ng-model="model.entity.partner.id">
-                                            </input>
-                                            <script type="text/javascript">
+                                        <input type="text" class="form-control"
+                                               id="partner-input" required=""
+                                               ng-disabled="model.entity.partner.id"
+                                               ng-model="model.entity.partner.name"
+                                               autocomplete="off">
+                                        </input>
+                                        <input type="hidden" class="form-control"
+                                               id="partner-input-id"
+                                               ng-model="model.entity.partner.id">
+                                        </input>
+                                        <script type="text/javascript">
                                                         $('#partner-input').autocomplete({
                                                             source: function (request, response) {
                                                                 $.get("/app/rest/partner", {
@@ -179,228 +182,230 @@
                                                                 });
                                                             }
                                                         });
-                                            </script>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" 
-                                                        ng-disabled="!model.entity.partner.id" 
+
+
+                                        </script>
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-default"
+                                                        ng-disabled="!model.entity.partner.id"
                                                         type="button" ng-click="model.entity.partner = {};">
                                                     <i class="fa fa-remove"></i>
                                                 </button>
-                                                <button class="btn btn-default" 
-                                                        ng-disabled="model.entity.partner.id" 
+                                                <button class="btn btn-default"
+                                                        ng-disabled="model.entity.partner.id"
                                                         type="button">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
-                                            </span>                                                
-                                        </div>
-                                    </div>
-
-                                    <button type="submit"
-                                            ng-click="saveEntity()"
-                                            class="btn btn-default">Save
-                                    </button>
-                                </form>
-                                <!-- /.col-lg-6 (nested) -->
-                            </div>
-                            <!-- /.row (nested) -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Partners</div>
-                        <div class="panel-body">
-                            <form role="form" method="post" action="/app/rest/partner">
-                                <ng-include src="'/app/component/form/partner/lines'">
-                                </ng-include>
-
-                                <div class="collapse" id="advanced-search">
-                                    <div class="form-group ng-scope">
-                                        <label>Advanced</label>
-                                        <input class="form-control ng-pristine ng-valid" ng-model="partner.advanced"/>
+                                            </span>
                                     </div>
                                 </div>
 
-                                <button class="btn btn-default"
-                                        type="button" data-toggle="collapse"
-                                        data-target="#advanced-search"
-                                        aria-expanded="false"
-                                        aria-controls="advanced-search">
-                                    <span class="glyphicon glyphicon-option-vertical"></span>
-                                    Advanced
-                                </button>
-                                <button type="Search" class="btn btn-default pull-right">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    Search Partner
+                                <button type="submit"
+                                        ng-click="saveEntity()"
+                                        class="btn btn-default">Save
                                 </button>
                             </form>
+                            <!-- /.col-lg-6 (nested) -->
                         </div>
-                        <div class="table-responsive">
-                            <table id="mytable" class="table table-bordred table-striped">
-                                <thead>
-                                    <th><input type="checkbox" id="checkall"/></th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Contact</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox" class="checkthis"/></td>
-                                        <td>Mohsin</td>
-                                        <td>Irshad</td>
-                                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                        <td>isometric.mohsin@gmail.com</td>
-                                        <td>+923335586757</td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                                        data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="checkthis"/></td>
-                                        <td>Mohsin</td>
-                                        <td>Irshad</td>
-                                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                        <td>isometric.mohsin@gmail.com</td>
-                                        <td>+923335586757</td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                                        data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="checkthis"/></td>
-                                        <td>Mohsin</td>
-                                        <td>Irshad</td>
-                                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                        <td>isometric.mohsin@gmail.com</td>
-                                        <td>+923335586757</td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                                        data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="checkthis"/></td>
-                                        <td>Mohsin</td>
-                                        <td>Irshad</td>
-                                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                        <td>isometric.mohsin@gmail.com</td>
-                                        <td>+923335586757</td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                                        data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" class="checkthis"/></td>
-                                        <td>Mohsin</td>
-                                        <td>Irshad</td>
-                                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                        <td>isometric.mohsin@gmail.com</td>
-                                        <td>+923335586757</td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                                        data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
-                                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <div class="btn-group pagination" role="group">
-                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                        Em Planilha
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Toda tabela</a></li>
-                                        <li><a href="#">Somente selecionados</a></li>
-                                        <li><a href="#">Apenas da pagina atual</a></li>
-                                    </ul>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Partners</div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/app/rest/partner">
+                            <ng-include src="'/app/component/form/partner/lines'">
+                            </ng-include>
+
+                            <div class="collapse" id="advanced-search">
+                                <div class="form-group ng-scope">
+                                    <label>Advanced</label>
+                                    <input class="form-control ng-pristine ng-valid" ng-model="partner.advanced"/>
                                 </div>
                             </div>
 
-                            <div class="col-xs-8">
-                                <ul class="pagination pull-right">
-                                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            <button class="btn btn-default"
+                                    type="button" data-toggle="collapse"
+                                    data-target="#advanced-search"
+                                    aria-expanded="false"
+                                    aria-controls="advanced-search">
+                                <span class="glyphicon glyphicon-option-vertical"></span>
+                                Advanced
+                            </button>
+                            <button type="Search" class="btn btn-default pull-right">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Search Partner
+                            </button>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th><input type="checkbox" id="checkall"/></th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="checkthis"/></td>
+                                <td>Mohsin</td>
+                                <td>Irshad</td>
+                                <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                                <td>isometric.mohsin@gmail.com</td>
+                                <td>+923335586757</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                                data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                                data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkthis"/></td>
+                                <td>Mohsin</td>
+                                <td>Irshad</td>
+                                <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                                <td>isometric.mohsin@gmail.com</td>
+                                <td>+923335586757</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                                data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                                data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkthis"/></td>
+                                <td>Mohsin</td>
+                                <td>Irshad</td>
+                                <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                                <td>isometric.mohsin@gmail.com</td>
+                                <td>+923335586757</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                                data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                                data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkthis"/></td>
+                                <td>Mohsin</td>
+                                <td>Irshad</td>
+                                <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                                <td>isometric.mohsin@gmail.com</td>
+                                <td>+923335586757</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                                data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                                data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkthis"/></td>
+                                <td>Mohsin</td>
+                                <td>Irshad</td>
+                                <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
+                                <td>isometric.mohsin@gmail.com</td>
+                                <td>+923335586757</td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                        <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                                data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                                data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="btn-group pagination" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                    Em Planilha
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Toda tabela</a></li>
+                                    <li><a href="#">Somente selecionados</a></li>
+                                    <li><a href="#">Apenas da pagina atual</a></li>
                                 </ul>
                             </div>
                         </div>
+
+                        <div class="col-xs-8">
+                            <ul class="pagination pull-right">
+                                <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                                </li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </ui:define>
-    </ui:composition>
+        </div>
+    </ui:define>
+</ui:composition>
 </html>

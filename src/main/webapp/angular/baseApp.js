@@ -62,8 +62,7 @@ app.directive('sidemenu', ['$location', '$http', function () {
             controller:
                     function ($scope, $http) {
                         $scope.menus = {};
-                        $http.get('app/user/menu')
-                                .then(function (data) {
+                        $http.get('app/user/menu').success(function (data) {
                                     $scope.menus = data;
                                 });
                         $scope.selectedMenu = 'blank';
