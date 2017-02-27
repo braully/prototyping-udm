@@ -62,9 +62,9 @@ app.directive('sidemenu', ['$location', '$http', function () {
             controller:
                     function ($scope, $http) {
                         $scope.menus = {};
-                        $http.get('app/user/menu').success(function (data) {
-                                    $scope.menus = data;
-                                });
+                        $http.get('app/user/menu').then(function (response) {
+                            $scope.menus = response.data;
+                        });
                         $scope.selectedMenu = 'blank';
                         $scope.collapseVar = 0;
                         $scope.multiCollapseVar = 0;
@@ -146,8 +146,8 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     };
 
     $scope.deleteEntity = function (entity) {
-         $scope.model.entity = entity;
-         $scope.model.entity.classe = $scope.model.classe;
+        $scope.model.entity = entity;
+        $scope.model.entity.classe = $scope.model.classe;
     };
 
     $scope.query = function (args) {

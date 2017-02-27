@@ -99,6 +99,23 @@ public class AngularJSWS {
         m.setValue("Table");
         m.setLink("/table.xhtml");
         ret.add(m);
+
+        m = new Menu();
+        m.setId(7l);
+        m.setName("Full Static");
+        m.setIcon("full");
+        m.setValue("Full Static");
+        m.setLink("/full-static.xhtml");
+        ret.add(m);
+
+        m = new Menu();
+        m.setId(8l);
+        m.setName("Full");
+        m.setIcon("full");
+        m.setValue("Full");
+        m.setLink("/full.xhtml");
+        ret.add(m);
+
         return ret;
     }
 
