@@ -21,7 +21,8 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6" ng-controller="mainController">
+                                <div class="col-lg-6" 
+                                     ng-controller="mainController">
                                     <form role="form">
                                         <ng-include src="'/app/component/form/partner/lines'">
                                         </ng-include>
@@ -30,12 +31,14 @@
                                         </button>
                                     </form>
                                 </div>
-                                <div class="col-lg-6" ng-controller="purchaseOrderController">
+                                <div class="col-lg-6" 
+                                     ng-controller="purchaseOrderController">
                                     <form role="form">
                                         <ng-include src="'/app/component/form/purchaseOrder/lines'">
                                         </ng-include>
-                                        
-                                        <button type="submit" ng-click="saveEntity()" class="btn btn-default">Save</button>
+
+                                        <button type="submit" ng-click="saveEntity()" 
+                                                class="btn btn-default">Save</button>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
