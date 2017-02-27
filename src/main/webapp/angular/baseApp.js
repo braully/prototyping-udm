@@ -100,12 +100,10 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     };
 
     $scope.numToArray = function (num) {
-//        console.log('var to array: ' + num);
         var array = new Array(num);
         for (var i = 0; i < num; i++) {
             array[i] = i;
         }
-//        console.log(array);
         return array;
     };
 
@@ -129,6 +127,8 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     };
 
     $scope.saveEntity = function () {
+//        console.log("model:");
+//        console.log($scope.model);
         $scope.model.entity.classe = $scope.model.classe;
         $scope.model.entity = Entity.save($scope.model.entity);
         $scope.model.entity.$promise.then(function (data) {
