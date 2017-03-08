@@ -122,6 +122,12 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
         }
     };
 
+    $scope.downloadAllRecords = function () {
+        console.log('downloadAllRecords');
+//        var blob = new Blob([], {type: "application/binary"});
+//        saveAs(blob, 'filename.dat');
+    };
+
     $scope.selectList = function (args) {
         if (args && !$scope.model.selectList[args]) {
             $scope.model.selectList[args] = Entity.query({classe: args});
@@ -131,7 +137,7 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     $scope.saveEntity = function () {
         console.log('Save');
         console.log($scope.model);
-        $scope.model.entity.classe = $scope.model.classe;   
+        $scope.model.entity.classe = $scope.model.classe;
         $scope.model.entity = Entity.save($scope.model.entity);
         $scope.model.entity.$promise.then(function (data) {
             growl.success("<b>Save</b> successful");

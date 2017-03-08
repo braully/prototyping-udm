@@ -255,7 +255,7 @@ public class GeneratorHtmlAngularBootstrap {
         tableDiv.with(renderTableTag(htmlDescriptor, statisticalConsolidation, true));
 
         ContainerTag footer = new ContainerTag("div");
-        footer
+        footer.attr("style", "height: 160px;")
                 //.withClass("row")
                 .with(renderTableExportTag(htmlDescriptor, statisticalConsolidation))
                 .with(renderTablePaginationTag(htmlDescriptor, statisticalConsolidation));
