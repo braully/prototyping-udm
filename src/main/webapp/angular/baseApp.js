@@ -129,7 +129,9 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
     };
 
     $scope.saveEntity = function () {
-        $scope.model.entity.classe = $scope.model.classe;
+        console.log('Save');
+        console.log($scope.model);
+        $scope.model.entity.classe = $scope.model.classe;   
         $scope.model.entity = Entity.save($scope.model.entity);
         $scope.model.entity.$promise.then(function (data) {
             growl.success("<b>Save</b> successful");
