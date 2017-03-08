@@ -128,6 +128,14 @@ app.controller('controllerBase', function ($compile, $scope, growl, Entity) {
 //        saveAs(blob, 'filename.dat');
     };
 
+    $scope.downloadCurrentPage = function () {
+        console.log('downloadCurrentPage');
+    };
+
+    $scope.downloadSelected = function (args) {
+        console.log('downloadSelected');
+    };
+
     $scope.selectList = function (args) {
         if (args && !$scope.model.selectList[args]) {
             $scope.model.selectList[args] = Entity.query({classe: args});
