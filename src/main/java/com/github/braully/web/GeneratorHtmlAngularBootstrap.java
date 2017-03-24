@@ -255,18 +255,20 @@ public class GeneratorHtmlAngularBootstrap {
         tableDiv.with(renderTableTag(htmlDescriptor, statisticalConsolidation, true));
 
         ContainerTag footer = new ContainerTag("div");
-        footer.withClass("row")
+        footer.attr("style", "height: 160px;")
+                //.withClass("row")
                 .with(renderTableExportTag(htmlDescriptor, statisticalConsolidation))
                 .with(renderTablePaginationTag(htmlDescriptor, statisticalConsolidation));
 
         ContainerTag tableComplete = new ContainerTag("div");
+        tableDiv.with(footer);
         tableComplete.with(tableDiv);
-        tableComplete.with(footer);
-
+//        tableComplete.with(footer);
         String tableDivRender = tableDiv.render();
-        String tableDivFooter = footer.render();
-
-        return tableDivRender + "\n" + tableDivFooter;
+//        String tableDivFooter = footer.render();
+//
+//        return tableDivRender + "\n" + tableDivFooter;
+        return tableDivRender;
     }
 
     public String renderTable(DescriptorHtmlEntity htmlDescriptor,
@@ -324,24 +326,47 @@ public class GeneratorHtmlAngularBootstrap {
                         td.setAttribute(at.getKey(), at.getValue());
                     });
                 }
-                td.withText(buildNgModelPath(true, var, he.property));
+
+                String type = he.type.toLowerCase();
+                switch (type) {
+                    case "string":
+                    case "boolean":
+                    case "date":
+                    case "int":
+                    case "integer":
+                    case "long":
+                    case "float":
+                    case "double":
+                        td.withText(buildNgModelPath(true, var, he.property));
+                        break;
+                    case "entity":
+                        td.withText(buildNgModelPath(true, var, he.property + ".name"));
+                        break;
+                    case "collection":
+                    case DescriptorHtmlEntity.TYPE_SELECT_ONE:
+                    case DescriptorHtmlEntity.TYPE_SELECT_MANY:
+                    default:
+                        td.withText("");
+                        break;
+                }
+
                 trBody.with(td);
             }
 
             ContainerTag td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Edit").with(
                     button().withClass("btn btn-primary btn-xs").attr("data-title", "Edit")
-                    .attr("data-toggle", "modal").attr("data-target", "#edit")
-                    .attr("ng-click", "editEntity(" + var + ")")
-                    .with(span().withClass("glyphicon glyphicon-pencil"))));
+                            .attr("data-toggle", "modal").attr("data-target", "#edit")
+                            .attr("ng-click", "editEntity(" + var + ")")
+                            .with(span().withClass("glyphicon glyphicon-pencil"))));
             trBody.with(td);
 
             td = TagCreator.td();
             td.with(p().attr("data-placement", "top").attr("data-toggle", "tooltip").attr("title", "Delete").with(
                     button().withClass("btn btn-danger btn-xs").attr("data-title", "Delete")
-                    .attr("data-toggle", "modal").attr("data-target", "#delete")
-                    .attr("ng-click", "deleteEntity(" + var + ")")
-                    .with(span().withClass("glyphicon glyphicon-trash"))));
+                            .attr("data-toggle", "modal").attr("data-target", "#delete")
+                            .attr("ng-click", "deleteEntity(" + var + ")")
+                            .with(span().withClass("glyphicon glyphicon-trash"))));
             trBody.with(td);
 
             tbody.with(trBody);
