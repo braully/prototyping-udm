@@ -3,3 +3,5 @@
 /src/main/webapp/bower_components/
 /.dependency
 /nbproject/
+/bkp/.nb-gradle/
+/bkp/build/

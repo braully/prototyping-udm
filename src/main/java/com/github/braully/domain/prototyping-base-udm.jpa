@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="com.github.braully.domain.generated" v="4.2.4" rws="_1498055902152605" Pws="_1498055902152605" cws="_1498055902152605" sm="false" xs="false" id="_1498055901841440" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:mapped-superclass compositePrimaryKeyClass="AbstractExpirableEntityPK" abs="true" class="AbstractExpirableEntity" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901895449">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:inf e="true" n="com.github.braully.sak.persistence.IEntity"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="dateBegin" ft="false" id="_1498055901895452"/>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="dateEnd" ft="false" id="_1498055901895453"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_1498055901895450">
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:version attribute-type="int" v="true" name="version" ft="false" id="_1498055901895451"/>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:mapped-superclass compositePrimaryKeyClass="AbstractMigrableEntityPK" abs="true" class="AbstractMigrableEntity" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901929467">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:inf e="true" n="com.github.braully.sak.persistence.IEntity"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="uniqueCode" ft="false" id="_1498055901929470">
+                <jpa:column unique="true" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_1498055901929468">
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:version attribute-type="int" v="true" name="version" ft="false" id="_1498055901929469"/>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:mapped-superclass compositePrimaryKeyClass="AbstractEntityPK" abs="true" class="AbstractEntity" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901940478">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:inf e="true" n="com.github.braully.sak.persistence.IEntity"/>
+        <jpa:attributes>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_1498055901940479">
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:version attribute-type="int" v="true" name="version" ft="false" id="_1498055901940480"/>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:mapped-superclass compositePrimaryKeyClass="AbstractLightRemoveEntityPK" abs="true" class="AbstractLightRemoveEntity" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901949486">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:inf e="true" n="com.github.braully.sak.persistence.IEntity"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Boolean" v="true" name="removed" ft="false" id="_1498055901949489"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_1498055901949487">
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:version attribute-type="int" v="true" name="version" ft="false" id="_1498055901949488"/>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:mapped-superclass compositePrimaryKeyClass="AbstractAuditableEntityPK" abs="true" class="AbstractAuditableEntity" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902101598">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Long" v="true" name="userIdModified" ft="false" id="_1498055902102599"/>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="lastModified" ft="false" id="_1498055902102600"/>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:entity compositePrimaryKeyClass="ProductPricePK" abs="false" class="ProductPrice" superclassId="_1498055901895449" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901889441">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="charge" ft="false" id="_1498055901890443"/>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="price" ft="false" id="_1498055901890444"/>
+            <jpa:basic attribute-type="Double" v="true" name="percent" ft="false" id="_1498055901890446"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902021527" v="true" name="product" ft="false" id="_1498055901890442"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902082575" v="true" name="inventory" ft="false" id="_1498055901890445"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="BudgetPK" abs="false" class="Budget" superclassId="_1498055901895449" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901919454">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="total" ft="false" id="_1498055901919455"/>
+            <jpa:basic attribute-type="String" v="true" name="typePeriod" ft="false" id="_1498055901919456"/>
+            <jpa:basic attribute-type="String" v="true" name="typePeriodConsolidation" ft="false" id="_1498055901920459"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901982506" v="true" name="account" ft="false" id="_1498055901919458"/>
+            <jpa:transient attribute-type="Double" v="true" name="percent" ft="false" id="_1498055901919457"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="FinancialAccountPK" abs="false" class="FinancialAccount" superclassId="_1498055901929467" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901926460">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="number" ft="false" id="_1498055901926461"/>
+            <jpa:basic attribute-type="String" v="true" name="bank" ft="false" id="_1498055901926462"/>
+            <jpa:basic attribute-type="String" v="true" name="agency" ft="false" id="_1498055901926463"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055901926464"/>
+            <jpa:basic attribute-type="String" v="true" name="description" ft="false" id="_1498055901926465"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055901927466"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="UserLoginPK" abs="false" class="UserLogin" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901938471">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="attribute2" ft="false" id="_1498055901940474"/>
+            <jpa:basic attribute-type="String" v="true" name="userName" ft="false" id="_1498055901940476"/>
+            <jpa:basic attribute-type="String" v="true" name="passwordHash" ft="false" id="_1498055901940477"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055901938472"/>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055902002517" v="true" name="roles" ft="false" id="_1498055901938473"/>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055902012520" v="true" name="menus" ft="false" id="_1498055901940475"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="UserMessagePK" abs="false" class="UserMessage" superclassId="_1498055901949486" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901949481">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="date" ft="false" id="_1498055901949482"/>
+            <jpa:basic attribute-type="String" v="true" name="message" ft="false" id="_1498055901949484"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901938471" v="true" name="userFrom" ft="false" id="_1498055901949483"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901938471" v="true" name="userTo" ft="false" id="_1498055901949485"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="InventoryItemPK" abs="false" class="InventoryItem" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901958490">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="quantity" ft="false" id="_1498055901958492"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055901958494"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055901958495"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902021527" v="true" name="product" ft="false" id="_1498055901958491"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="supplier" ft="false" id="_1498055901958493"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902082575" v="true" name="inventory" ft="false" id="_1498055901958496"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="CityPK" abs="false" class="City" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901965497">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="country" ft="false" id="_1498055901965498"/>
+            <jpa:basic attribute-type="String" v="true" name="phoneticName" ft="false" id="_1498055901965499"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055901965500"/>
+            <jpa:basic attribute-type="String" v="true" name="state" ft="false" id="_1498055901965501"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PartnerPK" abs="false" class="Partner" superclassId="_1498055901929467" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901973502">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="phoneticName" ft="false" id="_1498055901973503"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055901973504"/>
+            <jpa:basic attribute-type="String" v="true" name="attribute" ft="false" id="_1498055901973505"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AccountPK" abs="false" class="Account" superclassId="_1498055901929467" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901982506">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="typeGL" ft="false" id="_1498055901983507"/>
+            <jpa:basic attribute-type="String" v="true" name="groupingGL" ft="false" id="_1498055901983508"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055901983509"/>
+            <jpa:basic attribute-type="String" v="true" name="description" ft="false" id="_1498055901983510"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901982506" v="true" name="parentAccount" ft="false" id="_1498055901983511"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyType="D" compositePrimaryKeyClass="PartnerPartnerPK" abs="false" class="PartnerPartner" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055901991512">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055901991516"/>
+            <jpa:many-to-one primaryKey="true" connected-entity-id="_1498055901973502" v="true" name="partnerTarget" ft="false" id="_1498055901991513"/>
+            <jpa:many-to-one primaryKey="true" connected-entity-id="_1498055901973502" v="true" name="partnerSource" ft="false" id="_1498055901991514"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_1498055901991515"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RolePK" abs="false" class="Role" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902002517">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055902002518">
+                <jpa:column unique="true" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055902012520" v="true" name="menus" ft="false" id="_1498055902002519"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="MenuPK" abs="false" class="Menu" superclassId="_1498055901949486" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902012520">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="Integer" v="true" name="sortIndex" ft="false" id="_1498055902012521"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055902012522"/>
+            <jpa:basic attribute-type="String" v="true" name="link" ft="false" id="_1498055902012523"/>
+            <jpa:basic attribute-type="String" v="true" name="icon" ft="false" id="_1498055902012524"/>
+            <jpa:basic attribute-type="String" v="true" name="value" ft="false" id="_1498055902013526"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055902012520" v="true" name="menuChilds" ft="false" id="_1498055902012525"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="ProductPK" abs="false" class="Product" superclassId="_1498055901895449" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902021527">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="typeProduct" ft="false" id="_1498055902021528"/>
+            <jpa:basic attribute-type="Double" v="true" name="unit" ft="false" id="_1498055902021529"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055902021530"/>
+            <jpa:basic attribute-type="String" v="true" name="typeUnit" ft="false" id="_1498055902021531"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="manufacturer" ft="false" id="_1498055902021532"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="GenericTypePK" abs="false" class="GenericType" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902027533">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="attribute" ft="false" id="_1498055902027534"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902027535"/>
+            <jpa:basic attribute-type="String" v="true" name="grouping" ft="false" id="_1498055902027536"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PartnerGroupPK" abs="false" class="PartnerGroup" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902037537">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="description" ft="false" id="_1498055902038539"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902038540"/>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055901973502" v="true" name="partners" ft="false" id="_1498055902037538"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AccountTransactionPK" abs="false" class="AccountTransaction" superclassId="_1498055901929467" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902046541">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="creditTotal" ft="false" id="_1498055902046542"/>
+            <jpa:basic attribute-type="String" v="true" name="observation" ft="false" id="_1498055902046543"/>
+            <jpa:basic attribute-type="String" v="true" name="typeOperation" ft="false" id="_1498055902046544"/>
+            <jpa:basic attribute-type="String" v="true" name="memo" ft="false" id="_1498055902046545"/>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="datePrevist" ft="false" id="_1498055902046547"/>
+            <jpa:basic attribute-type="String" v="true" name="dateExecuted" ft="false" id="_1498055902046548"/>
+            <jpa:basic attribute-type="String" v="true" name="typeTransaction" ft="false" id="_1498055902047550"/>
+            <jpa:basic attribute-type="String" v="true" name="typeMethod" ft="false" id="_1498055902047553"/>
+            <jpa:basic attribute-type="String" v="true" name="status" ft="false" id="_1498055902047555"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901926460" v="true" name="financialAccount" ft="false" id="_1498055902046546"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055902047551"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901982506" v="true" name="account" ft="false" id="_1498055902047554"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PhonePK" abs="false" class="Phone" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902054556">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="number" ft="false" id="_1498055902055557"/>
+            <jpa:basic attribute-type="String" v="true" name="observation" ft="false" id="_1498055902056559"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902056560"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055902055558"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PurchaseOrderItemPK" abs="false" class="PurchaseOrderItem" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902064561">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="priceUnit" ft="false" id="_1498055902064562"/>
+            <jpa:basic attribute-type="Double" v="true" name="quantity" ft="false" id="_1498055902064563"/>
+            <jpa:basic attribute-type="String" v="true" name="observation" ft="false" id="_1498055902064564"/>
+            <jpa:basic attribute-type="String" v="true" name="attribute" ft="false" id="_1498055902064566"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902101589" v="true" name="purchaseOrder" ft="false" id="_1498055902064565"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="GenericValuePK" abs="false" class="GenericValue" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902073567">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="stringValue" ft="false" id="_1498055902073568"/>
+            <jpa:basic attribute-type="Integer" v="true" name="intValue" ft="false" id="_1498055902073569"/>
+            <jpa:basic attribute-type="Boolean" v="true" name="booleanValue" ft="false" id="_1498055902073570"/>
+            <jpa:basic attribute-type="String" v="true" name="attribute" ft="false" id="_1498055902073571"/>
+            <jpa:basic attribute-type="Double" v="true" name="doubleValue" ft="false" id="_1498055902074572"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902074573"/>
+            <jpa:basic attribute-type="String" v="true" name="grouping" ft="false" id="_1498055902074574"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="InventoryPK" abs="false" class="Inventory" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902082575">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="localization" ft="false" id="_1498055902082576"/>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_1498055902082577"/>
+            <jpa:basic attribute-type="String" v="true" name="description" ft="false" id="_1498055902082578"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902082579"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="AddressPK" abs="false" class="Address" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902091580">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="zip" ft="false" id="_1498055902091581"/>
+            <jpa:basic attribute-type="String" v="true" name="street" ft="false" id="_1498055902093584"/>
+            <jpa:basic attribute-type="String" v="true" name="district" ft="false" id="_1498055902093585"/>
+            <jpa:basic attribute-type="String" v="true" name="addressLine1" ft="false" id="_1498055902093586"/>
+            <jpa:basic attribute-type="String" v="true" name="addressLine2" ft="false" id="_1498055902093587"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902093588"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055902092582"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1498055901965497" v="true" name="city" ft="false" id="_1498055902093583"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PurchaseOrderPK" abs="false" class="PurchaseOrder" superclassId="_1498055902101598" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902101589">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="java.math.BigDecimal" v="true" name="total" ft="false" id="_1498055902101590"/>
+            <jpa:basic attribute-type="String" v="true" name="statusType" ft="false" id="_1498055902101591"/>
+            <jpa:basic attribute-type="String" v="true" name="observation" ft="false" id="_1498055902101593"/>
+            <jpa:basic attribute-type="String" v="true" name="fiscalCode" ft="false" id="_1498055902101594"/>
+            <jpa:basic attribute-type="java.util.Date" v="true" name="dateOrder" ft="false" id="_1498055902101595"/>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902101596"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055902101592"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055902082575" v="true" name="inventory" ft="false" id="_1498055902101597"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="EmailPK" abs="false" class="Email" superclassId="_1498055901940478" v="true" xre="false" m="false" rootElement="_1498055901841440" id="_1498055902109601">
+        <jpa:inf e="true" n="java.io.Serializable"/>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="type" ft="false" id="_1498055902109603"/>
+            <jpa:basic attribute-type="String" v="true" name="value" ft="false" id="_1498055902109604"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_1498055901973502" v="true" name="partner" ft="false" id="_1498055902109602"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:snp loc="BEFORE_PACKAGE" e="true">/**
+ * This file was generated by the Jeddict
+ */</jpa:snp>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_1498055902152605">
+            <i ref="_1498055901991512" x="311" y="1502"/>
+            <i ref="_1498055902101598" x="1816" y="716"/>
+            <i ref="_1498055901958490" x="1555" y="483"/>
+            <i ref="_1498055902064561" x="2145" y="989"/>
+            <i ref="_1498055901973502" x="663" y="1262"/>
+            <i ref="_1498055902002517" x="929" y="483"/>
+            <i ref="_1498055902082575" x="2145" y="483"/>
+            <i ref="_1498055902091580" x="929" y="989"/>
+            <i ref="_1498055901926460" x="32" y="1262"/>
+            <i ref="_1498055901949481" x="2710" y="1502"/>
+            <i ref="_1498055902027533" x="1816" y="1262"/>
+            <i ref="_1498055901982506" x="32" y="716"/>
+            <i ref="_1498055901889441" x="1816" y="237"/>
+            <i ref="_1498055901929467" x="311" y="989"/>
+            <i ref="_1498055902073567" x="1255" y="1262"/>
+            <i ref="_1498055902012520" x="663" y="716"/>
+            <i ref="_1498055901938471" x="2443" y="1262"/>
+            <i ref="_1498055902101589" x="2443" y="716"/>
+            <i ref="_1498055902021527" x="1255" y="237"/>
+            <i ref="_1498055901965497" x="2145" y="1502"/>
+            <i ref="_1498055901940478" x="1555" y="989"/>
+            <i ref="_1498055901919454" x="663" y="237"/>
+            <i ref="_1498055902054556" x="929" y="1502"/>
+            <i ref="_1498055901949486" x="311" y="483"/>
+            <i ref="_1498055901895449" x="929" y="32"/>
+            <i ref="_1498055902046541" x="1255" y="1707"/>
+            <i ref="_1498055902109601" x="1255" y="716"/>
+            <i ref="_1498055902037537" x="1555" y="1502"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>

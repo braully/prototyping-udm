@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="prototyping-base-udm-up" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/modeling"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="postgres"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="DEFAULT_PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.github.braully.domain.generated.ProductPrice</class>
+    <class>com.github.braully.domain.generated.Budget</class>
+    <class>com.github.braully.domain.generated.FinancialAccount</class>
+    <class>com.github.braully.domain.generated.UserLogin</class>
+    <class>com.github.braully.domain.generated.UserMessage</class>
+    <class>com.github.braully.domain.generated.InventoryItem</class>
+    <class>com.github.braully.domain.generated.City</class>
+    <class>com.github.braully.domain.generated.Partner</class>
+    <class>com.github.braully.domain.generated.Account</class>
+    <class>com.github.braully.domain.generated.PartnerPartner</class>
+    <class>com.github.braully.domain.generated.Role</class>
+    <class>com.github.braully.domain.generated.Menu</class>
+    <class>com.github.braully.domain.generated.Product</class>
+    <class>com.github.braully.domain.generated.GenericType</class>
+    <class>com.github.braully.domain.generated.PartnerGroup</class>
+    <class>com.github.braully.domain.generated.AccountTransaction</class>
+    <class>com.github.braully.domain.generated.Phone</class>
+    <class>com.github.braully.domain.generated.PurchaseOrderItem</class>
+    <class>com.github.braully.domain.generated.GenericValue</class>
+    <class>com.github.braully.domain.generated.Inventory</class>
+    <class>com.github.braully.domain.generated.Address</class>
+    <class>com.github.braully.domain.generated.PurchaseOrder</class>
+    <class>com.github.braully.domain.generated.Email</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>
