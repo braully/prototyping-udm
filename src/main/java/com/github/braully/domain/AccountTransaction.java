@@ -37,8 +37,7 @@ public class AccountTransaction extends AbstractMigrableEntity implements Serial
     @Basic
     private String dateExecuted;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "debit_total_value"))
+    @Basic
     private BigDecimal debitTotal;
 
     @Basic
@@ -47,8 +46,7 @@ public class AccountTransaction extends AbstractMigrableEntity implements Serial
     @ManyToOne(targetEntity = Partner.class)
     private Partner partner;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "actual_balance_value"))
+    @Basic
     private BigDecimal actualBalance;
 
     @Basic

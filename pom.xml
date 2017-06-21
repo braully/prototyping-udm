@@ -27,6 +27,7 @@
         <jsf.version>2.2.13</jsf.version>
         <j2html.version>0.7</j2html.version>
         <thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
+        <groovy.version>2.4.11</groovy.version>
     </properties>
 
     <dependencies>
@@ -38,7 +39,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.5</version>
+            <version>${groovy.version}</version>
         </dependency>        
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -47,11 +48,11 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
+        <!--        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.1.Final</version>
-        </dependency>
+        </dependency>-->
         
         <!--Spring Framework-->
         <dependency>
@@ -68,11 +69,11 @@
         </dependency>
         
         <!--Businness-->
-        <dependency>
+        <!--        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>base-udm-entity</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
         
         <!--Misc-->
         <dependency>
@@ -104,7 +105,7 @@
             <version>${jsf.version}</version>
         </dependency>
        
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>unknown.binary</groupId>
             <artifactId>hibernate-jpamodelgen-4.3.1.Final</artifactId>
             <version>SNAPSHOT</version>
@@ -146,9 +147,23 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Run Standalone -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+        </resources>
         <plugins>     
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
