@@ -37,14 +37,13 @@ public class SpringFaceletView extends AbstractUrlBasedView {
     }
 
     @Override
-    protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void renderMergedOutputModel(Map model, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         FacesContext facesContext = createFacesContext(request, response);
         populateRequestMap(facesContext, model);
 
         SpringFaceletView.notifyBeforeListeners(PhaseId.RESTORE_VIEW, facesLifecycle, facesContext);
-
         ViewHandler viewHandler = facesContext.getApplication().getViewHandler();
-
         viewHandler.initView(facesContext);
 
         UIViewRoot viewRoot = viewHandler.createView(facesContext, getUrl());
@@ -53,11 +52,10 @@ public class SpringFaceletView extends AbstractUrlBasedView {
         viewRoot.setTransient(true);
 
         facesContext.setViewRoot(viewRoot);
-
         SpringFaceletView.notifyAfterListeners(PhaseId.RESTORE_VIEW, facesLifecycle, facesContext);
-
         facesContext.setViewRoot(viewRoot);
         facesContext.renderResponse();
+
         try {
             SpringFaceletView.notifyBeforeListeners(PhaseId.RENDER_RESPONSE, facesLifecycle, facesContext);
             logger.debug("Asking view handler to render view");
@@ -114,5 +112,4 @@ public class SpringFaceletView extends AbstractUrlBasedView {
             }
         }
     }
-
 }

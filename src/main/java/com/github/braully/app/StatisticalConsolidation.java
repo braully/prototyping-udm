@@ -23,6 +23,7 @@ public class StatisticalConsolidation {
 //    enum EntityStatisticalInformation {
 //        CREATE, READ, UPDATE, DELETE, TOTAL
 //    }
+    
     static {
 
     }
@@ -71,7 +72,9 @@ public class StatisticalConsolidation {
 //            }
 //        }
 //        return ret;
-//    }
+//    }    
+    
+    
     public int countEntity(Class classe) {
         int count = 0;
         try {

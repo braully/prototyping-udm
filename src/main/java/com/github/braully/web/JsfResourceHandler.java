@@ -5,6 +5,7 @@
  */
 package com.github.braully.web;
 
+import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;
 import javax.faces.application.ResourceHandlerWrapper;
 import javax.faces.application.ViewResource;
@@ -35,6 +36,26 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
             resource = super.createViewResource(context, resourceName);
         }
         return resource;
+    }
+
+    @Override
+    public Resource createResource(String resourceName, String libraryName) {
+        return super.createResource(resourceName, libraryName);
+    }
+
+    @Override
+    public Resource createResource(String resourceName, String libraryName, String contentType) {
+        return super.createResource(resourceName, libraryName, contentType);
+    }
+
+    @Override
+    public Resource createResourceFromId(String resourceId) {
+        return super.createResourceFromId(resourceId);
+    }
+
+    @Override
+    public Resource createResource(String resourceName) {
+        return super.createResource(resourceName);
     }
 
     @Override

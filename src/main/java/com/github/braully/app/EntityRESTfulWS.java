@@ -3,10 +3,22 @@ package com.github.braully.app;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.braully.web.DescriptorExposedEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.braully.domain.Account;
+import com.github.braully.domain.Address;
+import com.github.braully.domain.Budget;
+import com.github.braully.domain.City;
+import com.github.braully.domain.Email;
+import com.github.braully.domain.FinancialAccount;
+import com.github.braully.domain.GenericType;
+import com.github.braully.domain.GenericValue;
 import com.github.braully.domain.Inventory;
 import java.util.Map;
 import com.github.braully.domain.Partner;
+import com.github.braully.domain.Phone;
+import com.github.braully.domain.Product;
 import com.github.braully.domain.PurchaseOrder;
+import com.github.braully.domain.PurchaseOrderItem;
+import com.github.braully.domain.UserMessage;
 import java.util.HashMap;
 import java.util.List;
 import com.github.braully.sak.persistence.IEntity;
@@ -34,11 +46,26 @@ public class EntityRESTfulWS {
     static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
 
     static {
-        EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
-                .hiddenForm("phoneticName", "attribute")
-                .filterMethod("partnerRepo.searchPartner"));
-        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
+        EXPOSED_ENTITY.put("account", new DescriptorExposedEntity(Account.class));
+        EXPOSED_ENTITY.put("address", new DescriptorExposedEntity(Address.class));
+        EXPOSED_ENTITY.put("budget", new DescriptorExposedEntity(Budget.class));
+        EXPOSED_ENTITY.put("city", new DescriptorExposedEntity(City.class));
+        EXPOSED_ENTITY.put("email", new DescriptorExposedEntity(Email.class));
+        EXPOSED_ENTITY.put("financialAccount", new DescriptorExposedEntity(FinancialAccount.class));
+        EXPOSED_ENTITY.put("genericType", new DescriptorExposedEntity(GenericType.class));
+        EXPOSED_ENTITY.put("genericValue", new DescriptorExposedEntity(GenericValue.class));
         EXPOSED_ENTITY.put("inventory", new DescriptorExposedEntity(Inventory.class));
+
+        EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
+                .hiddenForm("phoneticName", "attribute").filterMethod("partnerRepo.searchPartner"));
+
+        EXPOSED_ENTITY.put("phone", new DescriptorExposedEntity(Phone.class));
+        EXPOSED_ENTITY.put("product", new DescriptorExposedEntity(Product.class));
+
+        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
+        EXPOSED_ENTITY.put("purchaseOrderItem", new DescriptorExposedEntity(PurchaseOrderItem.class));
+
+        EXPOSED_ENTITY.put("userMessage", new DescriptorExposedEntity(UserMessage.class));
     }
 
     @Autowired
