@@ -24,7 +24,7 @@
         <javaee-version>7.0</javaee-version>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <spring.boot.version>1.4.0.RELEASE</spring.boot.version>
-        <jsf.version>2.2.13</jsf.version>
+        <jsf.version>2.2.14</jsf.version>
         <j2html.version>0.7</j2html.version>
         <thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
         <groovy.version>2.4.11</groovy.version>
@@ -113,6 +113,12 @@
             <artifactId>javax.faces</artifactId>
             <version>${jsf.version}</version>
         </dependency>
+        
+        <!--        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-bundle</artifactId>
+            <version>2.2.12</version>
+        </dependency>-->
        
         <!--        <dependency>
             <groupId>unknown.binary</groupId>

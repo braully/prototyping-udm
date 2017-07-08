@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import com.github.braully.sak.persistence.IEntity;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -43,29 +45,32 @@ public class EntityRESTfulWS {
 
     private static final Logger log = Logger.getLogger(EntityRESTfulWS.class);
 
-    static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY = new HashMap<>();
+    public static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY;
 
     static {
-        EXPOSED_ENTITY.put("account", new DescriptorExposedEntity(Account.class));
-        EXPOSED_ENTITY.put("address", new DescriptorExposedEntity(Address.class));
-        EXPOSED_ENTITY.put("budget", new DescriptorExposedEntity(Budget.class));
-        EXPOSED_ENTITY.put("city", new DescriptorExposedEntity(City.class));
-        EXPOSED_ENTITY.put("email", new DescriptorExposedEntity(Email.class));
-        EXPOSED_ENTITY.put("financialAccount", new DescriptorExposedEntity(FinancialAccount.class));
-        EXPOSED_ENTITY.put("genericType", new DescriptorExposedEntity(GenericType.class));
-        EXPOSED_ENTITY.put("genericValue", new DescriptorExposedEntity(GenericValue.class));
-        EXPOSED_ENTITY.put("inventory", new DescriptorExposedEntity(Inventory.class));
+        Map<String, DescriptorExposedEntity> tmp_EXPOSED_ENTITY = new HashMap<>();
+        tmp_EXPOSED_ENTITY.put("account", new DescriptorExposedEntity(Account.class));
+        tmp_EXPOSED_ENTITY.put("address", new DescriptorExposedEntity(Address.class));
+        tmp_EXPOSED_ENTITY.put("budget", new DescriptorExposedEntity(Budget.class));
+        tmp_EXPOSED_ENTITY.put("city", new DescriptorExposedEntity(City.class));
+        tmp_EXPOSED_ENTITY.put("email", new DescriptorExposedEntity(Email.class));
+        tmp_EXPOSED_ENTITY.put("financialAccount", new DescriptorExposedEntity(FinancialAccount.class));
+        tmp_EXPOSED_ENTITY.put("genericType", new DescriptorExposedEntity(GenericType.class));
+        tmp_EXPOSED_ENTITY.put("genericValue", new DescriptorExposedEntity(GenericValue.class));
+        tmp_EXPOSED_ENTITY.put("inventory", new DescriptorExposedEntity(Inventory.class));
 
-        EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
+        tmp_EXPOSED_ENTITY.put("partner", new DescriptorExposedEntity(Partner.class)
                 .hiddenForm("phoneticName", "attribute").filterMethod("partnerRepo.searchPartner"));
 
-        EXPOSED_ENTITY.put("phone", new DescriptorExposedEntity(Phone.class));
-        EXPOSED_ENTITY.put("product", new DescriptorExposedEntity(Product.class));
+        tmp_EXPOSED_ENTITY.put("phone", new DescriptorExposedEntity(Phone.class));
+        tmp_EXPOSED_ENTITY.put("product", new DescriptorExposedEntity(Product.class));
 
-        EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
-        EXPOSED_ENTITY.put("purchaseOrderItem", new DescriptorExposedEntity(PurchaseOrderItem.class));
+        tmp_EXPOSED_ENTITY.put("purchaseOrder", new DescriptorExposedEntity(PurchaseOrder.class));
+        tmp_EXPOSED_ENTITY.put("purchaseOrderItem", new DescriptorExposedEntity(PurchaseOrderItem.class));
 
-        EXPOSED_ENTITY.put("userMessage", new DescriptorExposedEntity(UserMessage.class));
+        tmp_EXPOSED_ENTITY.put("userMessage", new DescriptorExposedEntity(UserMessage.class));
+
+        EXPOSED_ENTITY = Collections.unmodifiableMap(tmp_EXPOSED_ENTITY);
     }
 
     @Autowired

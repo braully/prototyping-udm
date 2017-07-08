@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+//import org.apache.myfaces.webapp.FacesInitializer;
+//import org.apache.myfaces.webapp.FacesInitializerFactory;
 import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -39,10 +41,12 @@ public class SpringWebServletConfig {
             @Override
             public void onStartup(ServletContext servletContext) throws ServletException {
                 FacesInitializer facesInitializer = new FacesInitializer();
-
                 Set<Class<?>> clazz = new HashSet<>();
                 clazz.add(SpringWebConfig.class);
                 facesInitializer.onStartup(clazz, servletContext);
+
+//                FacesInitializer facesInitializer = FacesInitializerFactory.getFacesInitializer(servletContext);
+//                facesInitializer.initFaces(servletContext);
             }
         };
         servletRegistrationBean.setLoadOnStartup(1);
