@@ -47,24 +47,22 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
 
     @Override
     public ViewResource createViewResource(FacesContext context, String resourceName) {
-        ViewResource resource = null;
-        if (!resourceName.startsWith(JSF_DIRECTORY_PREFIX)
+        ViewResource resource = super.createViewResource(context, resourceName);
+        if (resource == null && !resourceName.startsWith(JSF_DIRECTORY_PREFIX)
                 && resourceName.endsWith("html")) {
             resource = super.createViewResource(context, JSF_DIRECTORY_PREFIX + resourceName);
         }
 
-        if (resource == null && resourceName.startsWith(AUTOGEN_PREFIX)
-                && resourceName.endsWith("html")) {
-            String nameEntity = resourceName.substring(0, resourceName.lastIndexOf(".")).replaceAll(AUTOGEN_PREFIX, "");
+        if (resource == null && resourceName.endsWith("html")) {
+//            String resourceTrimed = resourceName.substring(resourceName.lastIndexOf("/") + 1, resourceName.lastIndexOf("."));
+//            String nameEntity = resourceName.substring(0, resourceName.lastIndexOf(".")).replaceAll(AUTOGEN_PREFIX, "");
+            String nameEntity = resourceName.substring(resourceName.lastIndexOf("/") + 1, resourceName.lastIndexOf("."));
             DescriptorExposedEntity descriptorExposedEntity = EntityRESTfulWS.EXPOSED_ENTITY.get(nameEntity);
             if (descriptorExposedEntity != null) {
-                resource = new JsfAutogenResource(resourceName, this.wrapped.createResource(nameEntity));
+                resource = new JsfAutogenResource(resourceName, nameEntity, this.wrapped.createResource(nameEntity));
             }
         }
 
-        if (resource == null) {
-            resource = super.createViewResource(context, resourceName);
-        }
         return resource;
     }
 
@@ -84,7 +82,7 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
                 + "      xmlns:ui=\"http://xmlns.jcp.org/jsf/facelets\">\n"
                 + "\n"
                 + "    <ui:composition template=\"/templates/template-jsf.xhtml\">\n"
-                + "        <ui:define name=\"title-page\">Table</ui:define>\n"
+                + "        <ui:define name=\"title-page\">purchaseOrder</ui:define>\n"
                 + "\n"
                 + "        <ui:define name=\"header-append\">\n"
                 + "            <script src=\"/app/component/js/purchaseOrder.js\"></script>\n"
@@ -103,10 +101,12 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
 
         private String resourceName;
         private Resource wrapped;
+        private String nameEntity;
 
-        public JsfAutogenResource(String resourceName, Resource wrapped) {
+        public JsfAutogenResource(String resourceName, String nameEntity, Resource wrapped) {
             this.resourceName = resourceName;
             this.wrapped = wrapped;
+            this.nameEntity = nameEntity;
         }
 
         @Override
@@ -128,7 +128,7 @@ public class JsfResourceHandler extends ResourceHandlerWrapper {
         public URL getURL() {
             URL url = null;
             try {
-                url = new URL(null, "gen://" + resourceName, new VirtualUrlStreamHandler(pgdefault.replaceAll("purchaseOrder", resourceName).getBytes("UTF-8")));
+                url = new URL(null, "gen://" + resourceName, new VirtualUrlStreamHandler(pgdefault.replaceAll("purchaseOrder", nameEntity).getBytes("UTF-8")));
             } catch (MalformedURLException ex) {
                 Logger.getLogger(JsfResourceHandler.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedEncodingException ex) {

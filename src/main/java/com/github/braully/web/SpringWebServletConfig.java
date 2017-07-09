@@ -49,6 +49,7 @@ public class SpringWebServletConfig {
 //                facesInitializer.initFaces(servletContext);
             }
         };
+//        servletRegistrationBean.addInitParameter("javax.faces.WEBAPP_RESOURCES_DIRECTORY", "/jsf");
         servletRegistrationBean.setLoadOnStartup(1);
         return servletRegistrationBean;
     }
