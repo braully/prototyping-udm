@@ -8,8 +8,7 @@
     </select>
     <span class="input-group-btn">
         <button class="btn btn-default" type="button"
-                ng-init="model.entity.property = model.entity.property || {classe: 'pattern'}"
-                ng-click="modalOpen('pattern', 'model.entity.property', '/app/component/form/pattern')"
+                ng-click="model.entity.property = model.entity.property || {classe: 'pattern'}; modalOpen('pattern', 'model.entity.property', '/app/component/form/pattern');"
                 ng-disabled="!model.selectList.property">
             <i class="fa fa-plus"></i>
         </button>

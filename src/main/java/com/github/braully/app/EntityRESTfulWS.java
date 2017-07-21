@@ -19,11 +19,10 @@ import com.github.braully.domain.Product;
 import com.github.braully.domain.PurchaseOrder;
 import com.github.braully.domain.PurchaseOrderItem;
 import com.github.braully.domain.UserMessage;
+import com.github.braully.sak.persistence.IEntity;
 import java.util.HashMap;
 import java.util.List;
-import com.github.braully.sak.persistence.IEntity;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,12 @@ public class EntityRESTfulWS {
     private static final Logger log = Logger.getLogger(EntityRESTfulWS.class);
 
     public static final Map<String, DescriptorExposedEntity> EXPOSED_ENTITY;
+
+    public ObjectMapper objectMapper = new ObjectMapper();
+
+    {
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     static {
         Map<String, DescriptorExposedEntity> tmp_EXPOSED_ENTITY = new HashMap<>();
@@ -103,9 +108,7 @@ public class EntityRESTfulWS {
         if (exposedEntity != null && jsonEntity != null && !jsonEntity.isEmpty()) {
             try {
                 Class classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                ret = (IEntity) mapper.readValue(jsonEntity, classeMapeada);
+                ret = (IEntity) objectMapper.readValue(jsonEntity, classeMapeada);
                 genericDAO.saveEntity(ret);
             } catch (IOException ex) {
                 log.error("Falha ao obter conteudo do servlete", ex);
@@ -115,7 +118,7 @@ public class EntityRESTfulWS {
     }
 
     @RequestMapping(value = {"/rest/{classe}/{id}"},
-            method = {RequestMethod.PUT})
+            method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
     public IEntity updateEntity(@PathVariable("classe") String classe,
             @PathVariable("id") Integer id,
@@ -127,8 +130,7 @@ public class EntityRESTfulWS {
                 Class classeMapeada = null;
                 if (jsonEntity != null) {
                     classeMapeada = EXPOSED_ENTITY.get(classe).getClassExposed();
-                    ObjectMapper mapper = new ObjectMapper();
-                    entidade = (IEntity) mapper.readValue(jsonEntity, classeMapeada);
+                    entidade = (IEntity) objectMapper.readValue(jsonEntity, classeMapeada);
                 }
             } catch (IOException ex) {
                 log.error("Falha ao obter conteudo do servlete", ex);

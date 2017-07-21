@@ -40,8 +40,7 @@
         </button>
         <button class="btn btn-default" 
                 ng-disabled="model.entity.property.id"
-                ng-init="model.entity.property = model.entity.property || {classe: 'pattern'}"
-                ng-click="modalOpen('pattern', 'model.entity.property', '/app/component/form/pattern')"
+                ng-click="model.entity.property = model.entity.property || {classe: 'pattern'}; modalOpen('pattern', 'model.entity.property', '/app/component/form/pattern');"
                 type="button">
             <i class="fa fa-plus"></i>
         </button>
