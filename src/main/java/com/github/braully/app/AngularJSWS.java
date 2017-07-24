@@ -116,6 +116,18 @@ public class AngularJSWS {
         m.setLink("/full.xhtml");
         ret.add(m);
 
+        long cont = 9;
+
+        for (String key : EntityRESTfulWS.EXPOSED_ENTITY.keySet()) {
+            m = new Menu();
+            m.setId(cont++);
+            m.setName(key);
+            m.setIcon(key);
+            m.setValue(key);
+            m.setLink("/" + key + ".xhtml");
+            ret.add(m);
+        }
+
         return ret;
     }
 
