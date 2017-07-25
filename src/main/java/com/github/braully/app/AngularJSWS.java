@@ -40,7 +40,7 @@ public class AngularJSWS {
 
     static final String DEFAULT_APP_NAME = "baseApp";
 
-    static final String DEFAULT_JS_TXT = "/js/partner.js";
+    static final String DEFAULT_JS_TXT = "META-INF/resources/js/partner.js";
 
     @Autowired
     StatisticalConsolidation statisticalConsolidation;

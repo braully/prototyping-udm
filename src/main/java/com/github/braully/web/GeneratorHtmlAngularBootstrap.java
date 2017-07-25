@@ -9,7 +9,6 @@ import j2html.tags.Tag;
 
 import static j2html.TagCreator.*;
 
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -30,10 +29,10 @@ public class GeneratorHtmlAngularBootstrap {
 
     public static final int THRESHOLD_ENTITY_COUNT_SELECT = 5;
 
-    public static final String FILE_INPUT_SELECT = "/templates/input/input-select.html";
-    public static final String FILE_INPUT_AUTOCOMPLETE = "/templates/input/input-autocomplete.html";
-    public static final String FILE_PAGINATION_TABLE = "/templates/pagination/pagination-table.html";
-    public static final String FILE_EXPORT_TABLE = "/templates/export/export-table-spreadsheet.html";
+    public static final String FILE_INPUT_SELECT = "META-INF/resources/templates/input/input-select.html";
+    public static final String FILE_INPUT_AUTOCOMPLETE = "META-INF/resources/templates/input/input-autocomplete.html";
+    public static final String FILE_PAGINATION_TABLE = "META-INF/resources/templates/pagination/pagination-table.html";
+    public static final String FILE_EXPORT_TABLE = "META-INF/resources/templates/export/export-table-spreadsheet.html";
     /*
      */
     public static final String DEFAULT_TYPE = "div";
