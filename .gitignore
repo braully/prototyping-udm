@@ -1,7 +1,8 @@
-/target/
+/prototyping-base-udm/target/
 /.idea/
-/src/main/webapp/bower_components/
+/prototyping-base-udm/src/main/webapp/bower_components/
 /.dependency
 /nbproject/
 /bkp/.nb-gradle/
 /bkp/build/
+/swiss-army-knife/target/
