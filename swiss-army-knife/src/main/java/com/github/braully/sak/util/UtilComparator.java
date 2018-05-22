@@ -1,6 +1,8 @@
 package com.github.braully.sak.util;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -71,6 +73,13 @@ public class UtilComparator<T> implements Comparator<T> {
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> void sort(List<T> listBrsClasses, String... args) {
+        try {
+            Collections.sort(listBrsClasses, new UtilComparator<T>(args));
+        } catch (Exception e) {
         }
     }
 }
